@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دورة إدارة المطاعم - منصة فاروق للتدريب</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ===== المتغيرات والأساس ===== */
+    :root {
+      --gold: #b8860b; --gold-light: #d4af37; --gold-glow: rgba(184, 134, 11, 0.4);
+      --dark: #0b0d14; --dark-panel: #141821; --card-bg: #1a1f2b;
+      --text-light: #f0f2f5; --text-muted: #a0aec0; --border-gold: rgba(184, 134, 11, 0.2);
+      --shadow-gold: 0 8px 32px rgba(184, 134, 11, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Tajawal', sans-serif; background: #0b0d14; color: var(--text-light); }
+    #app { display: flex; flex-direction: column; height: 100vh; max-height: 100vh; overflow: hidden; }
+    header {
+      flex-shrink: 0; background: linear-gradient(135deg, #0b0d14 0%, #1a1f2b 60%, var(--gold) 100%);
+      padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border-gold); box-shadow: 0 4px 20px rgba(0,0,0,0.6); z-index: 10;
+    }
+    header .brand { display: flex; align-items: center; gap: 12px; }
+    header .brand h1 {
+      font-size: 1.6rem; font-weight: 900; background: linear-gradient(to left, var(--gold-light), #fff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0;
+    }
+    header .brand i { color: var(--gold-light); font-size: 1.8rem; filter: drop-shadow(0 0 8px var(--gold-glow)); }
+    header .sub-title { color: var(--text-muted); font-size: 0.85rem; font-weight: 300; letter-spacing: 1px; }
+    .logout-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); border-radius: 50px;
+      padding: 8px 22px; color: var(--text-light); font-weight: 700; cursor: pointer; transition: 0.3s;
+      display: flex; align-items: center; gap: 10px; font-size: 0.9rem; backdrop-filter: blur(4px);
+    }
+    .logout-btn:hover { background: var(--gold); color: #0b0d14; border-color: var(--gold-light); box-shadow: 0 0 25px var(--gold-glow); transform: translateY(-2px); }
+    .container {
+      flex: 1; display: flex; gap: 20px; padding: 20px 25px; overflow: hidden;
+      max-width: 1600px; margin: 0 auto; width: 100%;
+      background: radial-gradient(circle at 10% 20%, #11161f, #080a10);
+    }
+    .sidebar {
+      flex: 0 0 380px; background: var(--dark-panel); border-radius: 24px;
+      border: 1px solid var(--border-gold); box-shadow: var(--shadow-gold);
+      display: flex; flex-direction: column; overflow: hidden; height: 100%; backdrop-filter: blur(8px);
+    }
+    .sidebar-header {
+      padding: 18px 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); flex-shrink: 0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .sidebar-header h2 { font-size: 1.3rem; font-weight: 900; color: var(--gold-light); display: flex; align-items: center; gap: 10px; margin: 0; }
+    .sidebar-header .lesson-counter { font-size: 0.85rem; color: var(--text-muted); background: rgba(255,255,255,0.06); padding: 4px 14px; border-radius: 30px; border: 1px solid var(--border-gold); white-space: nowrap; }
+    .lesson-counter span { color: var(--gold-light); font-weight: 700; }
+    .progress-section { background: rgba(255,255,255,0.03); padding: 12px 16px; border-radius: 14px; margin: 5px 16px 10px; border: 1px solid rgba(255,255,255,0.04); }
+    .progress-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+    .progress-header .progress-text { color: var(--gold-light); font-weight: 700; }
+    .progress-bar-container { height: 6px; background: #2a2f3a; border-radius: 10px; overflow: hidden; }
+    .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 15px var(--gold-glow); }
+    .scroll-area { flex: 1; overflow-y: auto; padding: 10px 12px 20px; direction: rtl; }
+    .scroll-area::-webkit-scrollbar { width: 4px; }
+    .scroll-area::-webkit-scrollbar-track { background: transparent; }
+    .scroll-area::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+    .topic-header {
+      display: flex; align-items: center; gap: 10px; background: rgba(184,134,11,0.08); padding: 10px 14px;
+      margin: 16px 0 8px; border-radius: 12px; border-right: 3px solid var(--gold); font-weight: 700; font-size: 0.9rem; color: var(--gold-light);
+    }
+    .topic-header i { font-size: 0.9rem; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar ul li {
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px; margin: 4px 0;
+      background: rgba(255,255,255,0.02); border-radius: 12px; cursor: pointer;
+      transition: all 0.25s ease; font-size: 0.9rem; color: var(--text-muted);
+      border: 1px solid transparent; line-height: 1.4;
+    }
+    .sidebar ul li i { font-size: 1rem; color: var(--text-muted); width: 18px; flex-shrink: 0; transition: 0.2s; }
+    .sidebar ul li:hover { background: rgba(184,134,11,0.08); border-color: var(--border-gold); color: #fff; transform: translateX(-3px); }
+    .sidebar ul li.active { background: linear-gradient(135deg, rgba(184,134,11,0.2), rgba(184,134,11,0.05)); border-color: var(--gold); color: #fff; }
+    .sidebar ul li.active i { color: var(--gold-light); }
+    .sidebar ul li.completed i { color: #2ecc71; }
+    .sidebar ul li.completed { opacity: 0.8; }
+    .sidebar ul li .lesson-num { font-size: 0.7rem; background: rgba(255,255,255,0.05); padding: 0 8px; border-radius: 20px; color: var(--text-muted); margin-right: auto; }
+    .download-section { padding: 12px 16px 18px; flex-shrink: 0; border-top: 1px solid rgba(255,255,255,0.04); }
+    .download-all {
+      display: flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #0b0d14; padding: 12px; border-radius: 50px; text-decoration: none; font-weight: 900; transition: 0.3s; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(184,134,11,0.3);
+    }
+    .download-all:hover { background: linear-gradient(135deg, #fff, var(--gold-light)); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184,134,11,0.5); color: #000; }
+
+    /* قسم زر الاختبار في الشريط الجانبي */
+    #examSection {
+      padding: 8px 16px 16px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    #examBtn {
+      width: 100%;
+      background: linear-gradient(135deg, #00b894, #00cec9); /* لون مميز للاختبار */
+      color: #0b0d14;
+      padding: 12px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    #examBtn:hover {
+      background: linear-gradient(135deg, #00cec9, #00b894);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 184, 148, 0.5);
+    }
+
+    .content {
+      flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden;
+      height: 100%; background: var(--dark-panel); border-radius: 24px;
+      border: 1px solid var(--border-gold); box-shadow: var(--shadow-gold); padding: 20px 25px;
+    }
+    .video-container { flex: 1 1 auto; min-height: 480px; position: relative; width: 100%; background: #000; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.05); }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block; }
+    .video-controls { display: flex; gap: 15px; margin-top: 15px; flex-shrink: 0; flex-wrap: wrap; padding: 5px 0; }
+    .fullscreen-btn, .download-resource {
+      display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); backdrop-filter: blur(4px);
+      border: 1px solid var(--border-gold); color: var(--text-light); padding: 10px 24px; border-radius: 50px;
+      font-weight: 700; cursor: pointer; transition: 0.3s; text-decoration: none; font-size: 0.9rem;
+    }
+    .fullscreen-btn:hover, .download-resource:hover { background: var(--gold); color: #0b0d14; border-color: var(--gold-light); box-shadow: 0 0 25px var(--gold-glow); transform: translateY(-2px); }
+    .lesson-description {
+      flex-shrink: 0; max-height: 140px; overflow-y: auto; margin-top: 15px; padding: 14px 18px;
+      background: rgba(255,255,255,0.02); border-radius: 18px; border: 1px solid rgba(255,255,255,0.04);
+    }
+    .lesson-description::-webkit-scrollbar { width: 3px; }
+    .lesson-description::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+    .lesson-description h4 { color: var(--gold-light); font-size: 1rem; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+    .lesson-description p { color: var(--text-muted); line-height: 1.6; font-size: 0.9rem; margin: 0; }
+    .lesson-meta { display: flex; gap: 25px; margin-top: 8px; font-size: 0.8rem; color: #5a6678; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 8px; }
+    .lesson-meta i { color: var(--gold-light); margin-left: 6px; }
+
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+    .login-card { background: var(--dark-panel); border: 1px solid var(--border-gold); border-radius: 30px; padding: 2.5rem 2.8rem; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 30px 80px rgba(0,0,0,0.8); animation: fadeInUp 0.5s ease; }
+    .login-card .logo-icon { font-size: 3rem; color: var(--gold-light); margin-bottom: 10px; filter: drop-shadow(0 0 20px var(--gold-glow)); }
+    .login-card h2 { font-size: 1.8rem; font-weight: 900; color: var(--gold-light); margin-bottom: 6px; }
+    .login-card p { color: var(--text-muted); margin-bottom: 1.8rem; font-size: 0.95rem; }
+    .password-field { width: 100%; padding: 1rem 1.5rem; background: rgba(0,0,0,0.5); border: 1px solid var(--border-gold); border-radius: 60px; font-family: 'Tajawal', sans-serif; font-size: 1rem; text-align: right; margin-bottom: 1rem; color: #fff; outline: none; transition: 0.3s; }
+    .password-field:focus { border-color: var(--gold-light); box-shadow: 0 0 0 4px rgba(184,134,11,0.15); }
+    .login-btn { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border: none; border-radius: 60px; font-family: 'Tajawal', sans-serif; font-size: 1.2rem; font-weight: 900; color: #0b0d14; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .login-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px var(--gold-glow); }
+    .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .whatsapp-link { display: block; margin-top: 18px; color: var(--text-muted); font-size: 0.85rem; text-decoration: none; transition: 0.2s; }
+    .whatsapp-link:hover { color: var(--gold-light); }
+    .error-msg { color: #f87171; margin-top: 14px; font-weight: 600; font-size: 0.9rem; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 992px) {
+      .container { flex-direction: column; padding: 15px; gap: 15px; }
+      .sidebar { flex: none; height: 45%; width: 100%; }
+      .content { height: 55%; padding: 15px; }
+      .video-container { min-height: 300px; }
+    }
+    @media (max-width: 600px) {
+      header { padding: 10px 15px; }
+      .container { padding: 10px; gap: 10px; }
+      .sidebar { height: 40%; }
+      .content { height: 60%; padding: 12px; }
+      .video-container { min-height: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand">
+        <i class="fa-solid fa-utensils"></i>
+        <h1>مجموعة فاروق للتدريب</h1>
+        <span class="sub-title">| إدارة المطاعم والقراءات المالية</span>
+      </div>
+      <button class="logout-btn" id="logoutBtn" style="display: none;">
+        <i class="fas fa-sign-out-alt"></i> تسجيل خروج
+      </button>
+    </header>
+
+    <div class="container" id="mainContent" style="display: none;">
+      <!-- الشريط الجانبي -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2><i class="fa-regular fa-rectangle-list"></i> المحاضرات</h2>
+          <span class="lesson-counter" id="lessonCounterBadge">الدرس <span id="currentLessonNum">1</span> من <span id="totalLessonsNum">80</span></span>
+        </div>
+        <div class="progress-section">
+          <div class="progress-header">
+            <span><i class="fa-regular fa-circle-check"></i> التقدم</span>
+            <span class="progress-text" id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="scroll-area" id="lectureList"></div>
+        <div class="download-section">
+          <a href="#" class="download-all" id="downloadAllBtn">
+            <i class="fa-solid fa-download"></i> تحميل ملفات الدورة
+          </a>
+        </div>
+        <!-- زر الاختبار في الشريط الجانبي -->
+        <div id="examSection" style="display: none;">
+          <button id="examBtn">
+            <i class="fa-solid fa-clipboard-check"></i> الاختبار والحصول على الشهادة
+          </button>
+        </div>
+      </aside>
+
+      <!-- المحتوى الرئيسي -->
+      <main class="content" id="contentPanel">
+        <div class="video-container" id="videoBox">
+          <iframe id="videoPlayer" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="video-controls">
+          <button class="fullscreen-btn" onclick="openFullscreen()"><i class="fa-solid fa-expand"></i> شاشة كاملة</button>
+          <a href="#" class="download-resource" id="downloadResourceBtn" target="_blank" style="display:none;"><i class="fa-solid fa-paperclip"></i> تحميل المرفق</a>
+        </div>
+        <div class="lesson-description" id="lessonDescription">
+          <h4><i class="fa-regular fa-file-lines"></i> وصف الدرس</h4>
+          <p id="descriptionText">سيظهر هنا ملخص الدرس عند اختياره</p>
+          <div class="lesson-meta">
+            <span><i class="fa-regular fa-clock"></i> <span id="duration">00:00</span></span>
+            <span><i class="fa-solid fa-paperclip"></i> <span id="attachments">لا يوجد</span></span>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      <h2>منصة التدريب</h2>
+      <p>دورة إدارة المطاعم والقراءات المالية بإحترافية</p>
+      <input type="email" id="usernameInput" class="password-field" placeholder="البريد الإلكتروني" autocomplete="email">
+      <input type="password" id="passwordInput" class="password-field" placeholder="كلمة المرور" autocomplete="current-password">
+      <button class="login-btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> دخول</button>
+      <a href="https://wa.me/905550196682" target="_blank" class="whatsapp-link"><i class="fa-brands fa-whatsapp"></i> نسيت كلمة المرور؟ تواصل معنا</a>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+  </div>
+
+  <script>
+    // ===== رابط Google Script (استبدله برابط تطبيق الويب الخاص بك) =====
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3vdSTBAWcIIJNAfLzn_U9myyfjnF4E7Gyu3C3AU5wQiayQPhPchShKCopB4tLyVXa/exec";
+
+    // ===== رابط الفيديو المؤقت =====
+    const TEMP_VIDEO_LINK = "https://drive.google.com/file/d/1v4jr83VIs7fQzZ0_ETlLWPbtw7sUDbXS/preview";
+
+    // ===== بيانات الدروس الكاملة (العناوين الصحيحة من الملف) =====
+    const allLessons = [
+      // المحور الأول (4)
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "إدارة المطاعم ليست أكل وخدمة وبس؟", 
+        videoLink: TEMP_VIDEO_LINK, duration: "12:30", description: "مقدمة عن المنظومة المتكاملة للمطعم ولماذا الأرقام أهم من الإحساس.", attachments: "" },
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "المطعم كمشروع تجاري وليس كحرفة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "14:20", description: "تحويل العقلية من طباخ إلى مدير مشروع يربح ويستمر.", attachments: "" },
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "أطراف إدارة المطاعم: الإدارة - الموظف - الزبون", 
+        videoLink: TEMP_VIDEO_LINK, duration: "11:45", description: "كيف تحقق التوازن بين الإدارة والموظف والزبون لاستدامة التشغيل.", attachments: "" },
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "ليش الحدس لحالو ما بكفي بإدارة المطاعم؟", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:10", description: "الاعتماد على الحدس دون أرقام هو أسرع طريق للخسارة.", attachments: "" },
+
+      // المحور الثاني (6)
+      { category: "المهارات الإدارية لمدير المطعم", title: "دور مدير المطعم الحقيقي (المهارات الإدارية الأساسية)", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:00", description: "المهارات الأساسية التي تحول المدير من مشغل متعب إلى قائد.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "التخطيط والتنظيم في إدارة المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "15:30", description: "التخطيط المسبق والتنظيم الداخلي هما أساس الاستقرار التشغيلي.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "اتخاذ القرار الإداري تحت الضغط في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "14:45", description: "كيف تتخذ قرارات صائبة في لحظات الضغط دون أن تدمر التشغيل.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "إدارة الوقت وتعدد المهام في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "13:20", description: "تنظيم الأولويات والتفويض لتحرير وقتك للإدارة الحقيقية.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "المتابعة والرقابة الإدارية في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:10", description: "الرقابة على العمليات وليس الأشخاص لتحسين الأداء دون توتر.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "التواصل الإداري وبناء الفريق في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:40", description: "بناء فريق متماسك من خلال التواصل الواضح والعادل.", attachments: "" },
+
+      // المحور الثالث (7)
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "المدخل إلى الإدارة التشغيلية في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "12:00", description: "ربط الإدارة بالتشغيل لتحويل المواد والجهد إلى ربح.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة المطبخ كنظام تشغيلي متكامل", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "تحويل المطبخ من مكان يعتمد على الأشخاص إلى نظام متكامل.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "الوصفات القياسية ودورها في ضبط الجودة والتكلفة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:15", description: "الوصفة القياسية هي السلاح الحقيقي لضبط التكلفة والجودة.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة المخزون والهدر في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:50", description: "كيف يتحول المخزون من أصل إلى عبء وكيف تكتشف الهدر الخفي.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة المشتريات والتعامل مع الموردين", 
+        videoLink: TEMP_VIDEO_LINK, duration: "15:10", description: "المشتريات كقرار مالي وليس مجرد عملية شراء.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة الصالة وتجربة الزبون", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:30", description: "الصالة هي واجهة المطعم وكيف تديرها لتكون ميزة تنافسية.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "تكامل التشغيل بين المطبخ والصالة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "14:20", description: "بناء جسر بين المطبخ والصالة لإنهاء الفوضى وتحسين الخدمة.", attachments: "" },
+
+      // المحور الرابع (5)
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "عقلية رجل الأعمال في إدارة المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "13:40", description: "الفرق بين مدير مطعم عادي ورجل أعمال يبني قيمة.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "العمل داخل المطعم والعمل على المطعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:20", description: "كيف تخرج نفسك من التفاصيل اليومية لتبني نظاماً قابلاً للاستمرار.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "الرؤية والأهداف في مشاريع المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:30", description: "بناء رؤية واضحة وأهداف قابلة للقياس لتوجيه القرارات.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "اتخاذ القرار الاستثماري وتقييم المخاطر المرتبطة به", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:10", description: "كيف تقيم المخاطر وتتخذ قرارات استثمارية ذكية.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "النمو الصحي مقابل النمو الخاطئ في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "15:45", description: "لماذا بعض المطاعم الناجحة تنهار عند التوسع وكيف تتجنب ذلك.", attachments: "" },
+
+      // المحور الخامس (4)
+      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "الجودة في المطاعم: المفهوم الحقيقي للجودة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "14:00", description: "إعادة تعريف الجودة من اجتهاد فردي إلى نظام ثابت.", attachments: "" },
+      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "تطبيق الجودة كنظام داخل المطعم (المطبخ والصالة)", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:50", description: "كيف تطبق الجودة كنظام مكتوب ومطبق داخل المطبخ والصالة.", attachments: "" },
+      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "قياس الجودة ومؤشرات الأداء في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:20", description: "اختيار المؤشرات الصحيحة لقياس الجودة وتحويلها لقرار.", attachments: "" },
+      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "ربط الجودة بالربحية وتقليل الهدر", 
+        videoLink: TEMP_VIDEO_LINK, duration: "15:10", description: "الجودة ليست تكلفة إضافية بل استثمار مباشر في الربح.", attachments: "" },
+
+      // المحور السادس (5)
+      { category: "تجربة العميل وإدارة الخدمة", title: "تجربة العميل في المطاعم من خدمة عشوائية إلى تجربة مُدارة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:30", description: "تحويل الخدمة العشوائية إلى تجربة متكاملة ومصممة.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "رحلة العميل داخل المطعم: كيف نفهمها، ونسيطر عليها، ونحوّلها لميزة تنافسية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "21:00", description: "فهم رحلة العميل خطوة بخطوة للسيطرة على التجربة.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "تصميم تجربة خدمة ثابتة بدون قتل روح الفريق", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:15", description: "كيف توازن بين النظام والروح البشرية في تقديم الخدمة.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "الشكاوى، الأخطاء، ولحظات الحقيقة: كيف نحول الموقف الحساس لفرصة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "تحويل الشكاوى من أزمة إلى فرصة لتعزيز ولاء العميل.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "قياس تجربة العميل: من إحساس عام إلى مؤشرات قرار", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:50", description: "تحويل انطباعات العملاء إلى أرقام ومؤشرات واضحة.", attachments: "" },
+
+      // المحور السابع (5)
+      { category: "إدارة الموارد البشرية في المطاعم", title: "إدارة الموارد البشرية في المطاعم من توظيف أشخاص إلى بناء نظام إنتاج", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:10", description: "بناء نظام موارد بشرية يحمي المطعم من تقلبات الأفراد.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "الاختيار والتوظيف الذكي في المطاعم: كيف نختار الشخص الصح من البداية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:45", description: "كيف تختار الموظف المناسب قبل أن تدفع ثمن قرار خاطئ.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "التدريب والتأهيل في المطاعم: كيف نبني أداء ثابت من فريق متغيّر", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "التدريب المستمر هو نظام الأمان للحفاظ على الأداء.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "التقييم والمتابعة والمساءلة: كيف نرفع الأداء بدون ما نكسر الفريق", 
+        videoLink: TEMP_VIDEO_LINK, duration: "22:00", description: "التقييم العادل والمساءلة الواضحة لبناء فريق قوي.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "التحفيز والاستقرار وتقليل دوران الموظفين في المطاعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:40", description: "خلق بيئة عادلة ومحفزة لتقليل دوران الموظفين.", attachments: "" },
+
+      // المحور الثامن (5)
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "التخطيط والتنبؤ بالمبيعات في المطاعم: من حدس يومي إلى قرار مبني على أرقام", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:00", description: "تحويل التخطيط من حدس إلى نظام يعتمد على الأرقام.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "التنبؤ بالمبيعات بالأرقام: المعادلات الأساسية اللي أي مدير مطعم لازم يعرفها", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:15", description: "المعادلات الذهبية التي تحول التنبؤ إلى علم.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "تحليل المبيعات عمليًا: كيف نفهم الرقم ونشتغل عليه", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:30", description: "قراءة الأرقام وتحليلها لاتخاذ قرارات تشغيلية فورية.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "ربط التنبؤ بالمبيعات بالجاهزية التشغيلية داخل المطعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:45", description: "كيف تحول التوقعات إلى استعداد فعلي في المطبخ والصالة.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "قياس دقة التنبؤ بالمبيعات وتصحيح الأخطاء التشغيلية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:20", description: "قياس دقة توقعاتك وتصحيح مسارك قبل فوات الأوان.", attachments: "" },
+
+      // المحور التاسع (5)
+      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "إدارة التكاليف الغذائية: كيف يتحول الطبق من وصفة إلى رقم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "تحويل كل طبق في المنيو إلى رقم مالي مفهوم.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "الوصفة القياسية: هي السلاح الحقيقي لضبط تكلفة الطعام", 
+        videoLink: TEMP_VIDEO_LINK, duration: "21:10", description: "الوصفة القياسية كعقد مالي بين الإدارة والمطبخ.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "الهدر والفاقد والسرقة هو العدو الصامت لتكلفة الطعام", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "كشف مصادر الهدر والسرقة الخفية التي تأكل الأرباح.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "كيف نقرأ نسبة Food Cost ونحوّلها لقرار إداري", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:30", description: "قراءة نسبة التكلفة في سياقها الحقيقي لاتخاذ القرارات الصحيحة.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "تحليل الأصناف وتحديد مصادر الخلل في تكلفة الطعام", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:15", description: "تحديد الأصناف التي تدمر التكلفة وكيفية التعامل معها.", attachments: "" },
+
+      // المحور العاشر (5)
+      { category: "إدارة المشروبات (Beverage Control)", title: "إدارة المشروبات: ملف ربحي عالي الحساسية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:20", description: "لماذا تعتبر المشروبات ملفاً حساساً وكيف تديرها باحترافية.", attachments: "" },
+      { category: "إدارة المشروبات (Beverage Control)", title: "حساب تكلفة الكاسة وبناء سعر بيع مبني على الواقع التشغيلي", 
+        videoLink: TEMP_VIDEO_LINK, duration: "22:10", description: "حساب تكلفة الكاسة بدقة وبناء سعر يعكس الواقع.", attachments: "" },
+      { category: "إدارة المشروبات (Beverage Control)", title: "ضبط السكب والتحكم بالكميات داخل التشغيل اليومي", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:00", description: "كيف تضبط كميات السكب لتحول الفروق الصغيرة لأرباح كبيرة.", attachments: "" },
+      { category: "إدارة المشروبات (Beverage Control)", title: "الجرد والتحكم بتكلفة المشروبات المحضّرة يدويًا", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:30", description: "الجرد اليومي للمشروبات المحضرة يدوياً للكشف عن الهدر.", attachments: "" },
+      { category: "إدارة المشروبات (Beverage Control)", title: "قراءة Beverage Cost واتخاذ القرار الإداري", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "تحويل نسبة تكلفة المشروبات إلى قرارات إدارية فاعلة.", attachments: "" },
+
+      // المحور الحادي عشر (6)
+      { category: "إدارة المشتريات والمخازن", title: "المشتريات كقرار مالي وليس عملية شراء", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:10", description: "المشتريات كأداة مالية وليس مجرد عملية روتينية.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "تحديد الكمية الصحيحة للشراء من الاستهلاك إلى القرار", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "كيف تحدد الكمية المناسبة للشراء بناءً على الاستهلاك الفعلي.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "نقطة إعادة الطلب: متى نطلب ومتى نوقف", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:30", description: "تحديد اللحظة المثالية لإعادة الطلب لتجنب النقص أو التكدس.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "الجرد وتحليل الفروقات: من رقم على الورق إلى إشارة خلل", 
+        videoLink: TEMP_VIDEO_LINK, duration: "21:00", description: "استخدام الجرد كأداة تشخيص وليس مجرد إجراء محاسبي.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "ربط المشتريات والمخازن بالتكلفة الفعلية والربحية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:20", description: "ربط كل قرار شراء بالتكلفة الفعلية والأرباح النهائية.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "الأخطاء الشائعة في إدارة المشتريات والمخازن ولماذا تتكرر", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:10", description: "لماذا تقع المطاعم في نفس أخطاء المشتريات وكيف تتجنبها.", attachments: "" },
+
+      // المحور الثاني عشر (5)
+      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "المنيو مو قائمة أكل... المنيو قرار ربحي", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "المنيو كأداة ربحية وليست مجرد قائمة أطعمة.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "هندسة المينيو: كيف نبني منيو ذكية تقلل الهدر وتزيد السيطرة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "22:40", description: "تصميم منيو ذكي يقلل الهدر ويزيد من السيطرة التشغيلية.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "بناء المنيو من المواد الأولية وليس من الأصناف", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "بناء المنيو من المواد الأولية لضمان المرونة والربحية.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "تقليص المنيو بدون خسارة الزبون", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:20", description: "كيف تقلص المنيو بذكاء دون أن تفقد عملاءك.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "ربط المنيو بالمخزن: السيطرة بدل الفوضى", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:10", description: "جعل المخزن مرآة للمنيو لضمان السيطرة الكاملة.", attachments: "" },
+
+      // المحور الثالث عشر (6)
+      { category: "التقارير التشغيلية والمالية في المطاعم", title: "التقارير التشغيلية والمالية في المطاعم: من أرقام صامتة لقرارات ذكية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:00", description: "تحويل الأرقام الصامتة إلى قرارات إدارية ذكية.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية في المطاعم", title: "التقارير التشغيلية اليومية: كيف نقرأ الرقم قبل ما يصير مشكلة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "استخدام التقرير اليومي كإنذار مبكر قبل تفاقم المشكلة.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية في المطاعم", title: "التقارير الأسبوعية: قراءة الاتجاهات مو ملاحقة الأخطاء", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:45", description: "قراءة الاتجاهات الأسبوعية لتجنب ردود الفعل العشوائية.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية في المطاعم", title: "مؤشرات الأداء التشغيلية (KPIs): كيف نعرف إذا المطعم ماشي صح أو بس شكله ماشي", 
+        videoLink: TEMP_VIDEO_LINK, duration: "21:30", description: "اختيار المؤشرات الحقيقية التي تعكس صحة التشغيل.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية في المطاعم", title: "لوحة التحكم التشغيلية: كيف تشوف المطعم كامل بنظرة وحدة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "16:40", description: "تصميم لوحة تحكم بسيطة لرؤية المطعم كاملاً في خمس دقائق.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية في المطاعم", title: "ربط التقارير المالية بتقارير الأداء: من المراقبة إلى القرار التطويري", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:15", description: "دمج التقارير المالية والتشغيلية لاتخاذ قرارات تطويرية.", attachments: "" },
+
+      // المحور الرابع عشر (7)
+      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "قراءة قائمة الأرباح والخسائر: كيف نفهم المطعم بدل ما نحفظ أرقام", 
+        videoLink: TEMP_VIDEO_LINK, duration: "22:00", description: "قراءة قائمة الأرباح والخسائر كخريطة للمطعم وليس كأرقام جامدة.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "نفس قائمة الأرباح والخسائر... ثلاث قراءات مختلفة وثلاث قرارات متناقضة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "24:10", description: "كيف تؤدي نفس الأرقام لقرارات مختلفة حسب طريقة قراءتك لها.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "ليش الربح ظاهر على الورق والكاش عم يختفي؟", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "الفرق بين الربح المحاسبي والسيولة النقدية وكيف تكتشف الخلل.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "قراءة الأرباح والخسائر على أساس الطاقة الإنتاجية ونقطة التعادل", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:40", description: "ربط الأرباح بالطاقة الإنتاجية ونقطة التعادل لاتخاذ قرارات توسعية.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "إسقاط الأرباح والخسائر على المنتج الأساسي للمطعم", 
+        videoLink: TEMP_VIDEO_LINK, duration: "21:50", description: "تحديد المنتج الحقيقي الذي يحمل الربحية في المطعم.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "قرار التوسّع أو التثبيت أو الإيقاف: كيف تحكي الأرباح والخسائر الحقيقة كاملة", 
+        videoLink: TEMP_VIDEO_LINK, duration: "23:20", description: "استخدام الأرباح والخسائر لاتخاذ القرارات المصيرية.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "تحويل الأرباح والخسائر من تقرير محاسبي إلى أداة قيادة تشغيلية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:10", description: "تحويل التقرير المالي إلى أداة قيادة يومية.", attachments: "" },
+
+      // المحور الخامس عشر (5)
+      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "استدامة الربحية التشغيلية", 
+        videoLink: TEMP_VIDEO_LINK, duration: "17:30", description: "بناء ربحية قابلة للاستمرار والتوسع.", attachments: "" },
+      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "الربحية التي تنهار عند التوسع: لماذا ينجح المطعم صغيرًا ويفشل عندما يكبر", 
+        videoLink: TEMP_VIDEO_LINK, duration: "21:10", description: "لماذا ينهار الربح عند التوسع وكيف تبني نموذجاً قابلاً للتكبير.", attachments: "" },
+      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "القرارات اليومية الصغيرة التي تقتل الربحية بدون ما ننتبه", 
+        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "تأثير القرارات الصغيرة التراكمية على تآكل الأرباح.", attachments: "" },
+      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "الرقابة الذكية: كيف نمنع الانحراف بدون ما نخنق التشغيل", 
+        videoLink: TEMP_VIDEO_LINK, duration: "20:15", description: "رقابة ذكية تحمي الأرباح دون أن تثقل كاهل الفريق.", attachments: "" },
+      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "الاستدامة التشغيلية: كيف نحمي المطعم من الرجوع للأخطاء", 
+        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "كيف تجعل الإصلاحات دائمة ولا تعود الأخطاء للظهور مجدداً.", attachments: "" }
+    ];
+
+
+    const TOTAL_LESSONS = allLessons.length; // يجب أن يكون 80
+
+    let completedVideos = []; // الفهارس التي تم النقر عليها (0-79)
+    let currentUserEmail = "";
+
+    const listContainer = document.getElementById('lectureList');
+    const videoPlayer = document.getElementById('videoPlayer');
+    const progressBar = document.getElementById('progressBar');
+    const progressPercent = document.getElementById('progressPercent');
+    const currentLessonNumSpan = document.getElementById('currentLessonNum');
+    const totalLessonsNumSpan = document.getElementById('totalLessonsNum');
+    const descriptionText = document.getElementById('descriptionText');
+    const durationSpan = document.getElementById('duration');
+    const attachmentsSpan = document.getElementById('attachments');
+    const downloadResourceBtn = document.getElementById('downloadResourceBtn');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+    const examSection = document.getElementById('examSection');
+
+    const loginOverlay = document.getElementById('loginOverlay');
+    const mainContent = document.getElementById('mainContent');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const usernameInput = document.getElementById('usernameInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMsg');
+
+    totalLessonsNumSpan.textContent = TOTAL_LESSONS;
+
+    // ===== دوال الخادم (تحفظ رقم الدرس من 1 إلى 80) =====
+    async function saveProgressToServer(lessonIndex0Based) {
+      if (!currentUserEmail) return;
+      try {
+        const lessonNumber = lessonIndex0Based + 1;
+        let formData = new FormData();
+        formData.append('username', currentUserEmail);
+        formData.append('lessonIndex', lessonNumber);
+        formData.append('action', 'saveProgress');
+        let resp = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
+        let result = await resp.json();
+        if (result.status !== 'success') console.warn('فشل حفظ التقدم:', result.message);
+      } catch (e) { console.error(e); }
+    }
+
+    async function loadProgressFromServer(email) {
+      try {
+        let formData = new FormData();
+        formData.append('username', email);
+        formData.append('action', 'getProgress');
+        let resp = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
+        let data = await resp.json();
+        if (data.status === 'success') {
+          return data.completed.map(num => num - 1);
+        }
+      } catch (e) { console.error(e); }
+      return [];
+    }
+
+    // ===== بناء القائمة (بدون إكمال تراكمي) =====
+    function createLectureList() {
+      listContainer.innerHTML = '';
+      const grouped = {};
+      allLessons.forEach((lesson, idx) => {
+        if (!grouped[lesson.category]) grouped[lesson.category] = [];
+        grouped[lesson.category].push({ ...lesson, index: idx });
+      });
+
+      for (const [cat, lessons] of Object.entries(grouped)) {
+        const header = document.createElement('div');
+        header.className = 'topic-header';
+        header.innerHTML = `<i class="fa-regular fa-folder-open"></i> ${cat}`;
+        listContainer.appendChild(header);
+
+        const ul = document.createElement('ul');
+        lessons.forEach((lesson) => {
+          const idx = lesson.index;
+          const li = document.createElement('li');
+          li.className = 'video-item';
+          li.innerHTML = `<i class="fa-regular fa-circle-play"></i><span>${lesson.title}</span><span class="lesson-num">${idx+1}</span>`;
+          li.dataset.video = lesson.videoLink || '';
+          li.dataset.index = idx;
+
+          if (completedVideos.includes(idx)) {
+            li.classList.add('completed');
+            li.querySelector('i').className = 'fa-regular fa-circle-check';
+          }
+
+          li.addEventListener('click', async () => {
+            document.querySelectorAll('.video-item').forEach(v => {
+              v.classList.remove('active');
+              if (!v.classList.contains('completed')) v.querySelector('i').className = 'fa-regular fa-circle-play';
+            });
+            li.classList.add('active');
+            li.querySelector('i').className = 'fa-regular fa-circle-play';
+
+            const videoSrc = li.dataset.video;
+            if (videoSrc && videoSrc.startsWith('http')) videoPlayer.src = videoSrc;
+            else videoPlayer.src = '';
+
+            const lessonData = allLessons[idx];
+            currentLessonNumSpan.textContent = idx + 1;
+            descriptionText.innerText = lessonData.description || 'لا يوجد وصف';
+            durationSpan.innerText = lessonData.duration || '00:00';
+            attachmentsSpan.innerText = lessonData.attachments || 'لا يوجد';
+            downloadResourceBtn.style.display = (lessonData.attachments && lessonData.attachments !== 'لا يوجد') ? 'inline-flex' : 'none';
+
+            if (!completedVideos.includes(idx)) {
+              completedVideos.push(idx);
+              await saveProgressToServer(idx);
+              li.classList.add('completed');
+              li.querySelector('i').className = 'fa-regular fa-circle-check';
+            }
+
+            updateProgress();
+            checkAllCompleted();
+          });
+
+          ul.appendChild(li);
+        });
+        listContainer.appendChild(ul);
+      }
+
+      // تشغيل آخر درس تم النقر عليه، أو الأول
+      if (completedVideos.length > 0) {
+        const lastClickedIndex = completedVideos[completedVideos.length - 1];
+        const targetLi = document.querySelector(`.video-item[data-index="${lastClickedIndex}"]`);
+        if (targetLi) targetLi.click();
+        else {
+          const firstLi = document.querySelector('.video-item');
+          if (firstLi) firstLi.click();
+        }
+      } else {
+        const firstLi = document.querySelector('.video-item');
+        if (firstLi) firstLi.click();
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const completedCount = completedVideos.length;
+      const percent = Math.round((completedCount / TOTAL_LESSONS) * 100);
+      progressBar.style.width = percent + '%';
+      progressPercent.innerText = percent + '%';
+      checkAllCompleted();
+    }
+
+    function checkAllCompleted() {
+      // إظهار أو إخفاء زر الاختبار في الشريط الجانبي
+      if (completedVideos.length >= TOTAL_LESSONS) {
+        examSection.style.display = 'block';
+      } else {
+        examSection.style.display = 'none';
+      }
+    }
+
+    function openFullscreen() {
+      const box = document.getElementById('videoBox');
+      if (box.requestFullscreen) box.requestFullscreen();
+      else if (box.webkitRequestFullscreen) box.webkitRequestFullscreen();
+      else if (box.msRequestFullscreen) box.msRequestFullscreen();
+    }
+
+    // ===== تسجيل الدخول =====
+    function isValidEmail(email) { return /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email); }
+
+    async function attemptLogin() {
+      const user = usernameInput.value.trim();
+      const pass = passwordInput.value.trim();
+      if (!user || !pass) { errorMsg.textContent = '❌ يرجى إدخال البريد الإلكتروني وكلمة المرور'; return; }
+      if (!isValidEmail(user)) { errorMsg.textContent = '❌ البريد الإلكتروني غير صالح'; return; }
+
+      loginBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> جاري التحقق...';
+      loginBtn.disabled = true;
+      errorMsg.textContent = '';
+
+      try {
+        let formData = new FormData();
+        formData.append('username', user);
+        formData.append('password', pass);
+        const response = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          sessionStorage.setItem('portalLoggedIn', 'true');
+          sessionStorage.setItem('portalUserName', result.name || user);
+                  sessionStorage.setItem('portalUserEmail', user);   // أضف هذا السطر
+          currentUserEmail = user;
+                  sessionStorage.setItem('portalUserEmail', user); // تخزين الإيميل الصحيح
+
+          completedVideos = await loadProgressFromServer(user);
+
+          loginOverlay.style.display = 'none';
+          mainContent.style.display = 'flex';
+          logoutBtn.style.display = 'flex';
+          createLectureList();
+        } else {
+          errorMsg.textContent = '❌ ' + (result.message || 'بيانات دخول خاطئة');
+        }
+      } catch (error) {
+        console.error(error);
+        errorMsg.textContent = '❌ حدث خطأ في الاتصال بالخادم';
+      } finally {
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
+        loginBtn.disabled = false;
+      }
+    }
+
+    function checkSession() {
+      if (sessionStorage.getItem('portalLoggedIn') === 'true') {
+        loginOverlay.style.display = 'none';
+        mainContent.style.display = 'flex';
+        logoutBtn.style.display = 'flex';
+        currentUserEmail = sessionStorage.getItem('portalUserEmail') || ''; 
+        loadProgressFromServer(currentUserEmail).then(arr => {
+          completedVideos = arr;
+          createLectureList();
+        });
+      } else {
+        loginOverlay.style.display = 'flex';
+        mainContent.style.display = 'none';
+        logoutBtn.style.display = 'none';
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('portalLoggedIn');
+      sessionStorage.removeItem('portalUserName');
+           sessionStorage.removeItem('portalUserEmail'); 
+      loginOverlay.style.display = 'flex';
+      mainContent.style.display = 'none';
+      logoutBtn.style.display = 'none';
+      usernameInput.value = '';
+      passwordInput.value = '';
+      errorMsg.textContent = '';
+      videoPlayer.src = '';
+      completedVideos = [];
+      currentUserEmail = '';
+      examSection.style.display = 'none';
+      currentLessonNumSpan.textContent = '1';
+      descriptionText.innerText = 'سيظهر هنا ملخص الدرس عند اختياره';
+      durationSpan.innerText = '00:00';
+      attachmentsSpan.innerText = 'لا يوجد';
+    }
+
+    // ===== أحداث =====
+    loginBtn.addEventListener('click', attemptLogin);
+    passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
+    usernameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
+    logoutBtn.addEventListener('click', logout);
+    downloadAllBtn.addEventListener('click', (e) => { e.preventDefault(); alert('📁 سيتم تجميع جميع ملفات الدورة للتحميل (وظيفة قيد التطوير)'); });
+
+    document.getElementById('examBtn')?.addEventListener('click', () => {
+  window.location.href = 'examSection.html'; // اسم الملف الذي تريده
+});
+
+    window.addEventListener('load', checkSession);
+  </script>
+</body>
+</html>

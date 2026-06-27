@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - الصفحة غير موجودة | دورة إدارة المطاعم والقراءات المالية بإحترافية</title>
+  <meta name="description" content="الصفحة التي تبحث عنها غير موجودة. عد إلى الدورة.">
+  <meta name="robots" content="noindex, follow">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #b8860b;
+      --gold-light: #d4af37;
+      --gold-soft: rgba(184, 134, 11, 0.08);
+      --dark: #0b0d14;
+      --dark-light: #1a1f2b;
+      --grey: #333;
+      --light: #f5f5f5;
+      --white: #ffffff;
+      --text-muted: #a0aec0;
+      --border-gold: rgba(184, 134, 11, 0.2);
+      --shadow-gold: 0 8px 32px rgba(184, 134, 11, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: radial-gradient(circle at 70% 30%, #1a1f2b, #0b0d14);
+      color: #f0f2f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* خلفية زخرفية متحركة */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px;
+      right: -120px;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(184, 134, 11, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatGlow 8s ease-in-out infinite;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 177, 90, 0.05) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatGlow 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatGlow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -25px) scale(1.08); }
+      66% { transform: translate(-20px, 20px) scale(0.94); }
+    }
+
+    /* شريط علوي مع اللوقو */
+    .mini-nav {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-nav .logo-sm {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--gold-light);
+      font-family: 'Alexandria', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      background: rgba(18, 24, 36, 0.75);
+      backdrop-filter: blur(12px);
+      padding: 8px 16px;
+      border-radius: 50px;
+      border: 1px solid rgba(184, 134, 11, 0.25);
+      transition: all 0.35s ease;
+    }
+
+    .mini-nav .logo-sm i {
+      font-size: 1.2rem;
+      color: var(--gold-light);
+    }
+
+    .mini-nav .logo-sm:hover {
+      background: rgba(184, 134, 11, 0.2);
+      border-color: var(--gold);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(184, 134, 11, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* الحاوية الرئيسية */
+    .error-container {
+      text-align: center;
+      max-width: 580px;
+      width: 90%;
+      padding: 3rem 2.5rem;
+      background: rgba(15, 20, 30, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 30px;
+      border: 1px solid rgba(184, 134, 11, 0.22);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(184, 134, 11, 0.08) inset;
+      position: relative;
+      z-index: 2;
+      transition: all 0.4s ease;
+    }
+
+    .error-container:hover {
+      border-color: rgba(184, 134, 11, 0.45);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 40px rgba(184, 134, 11, 0.06), 0 0 0 1px rgba(184, 134, 11, 0.12) inset;
+    }
+
+    .error-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 30px;
+      right: 30px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      border-radius: 0 0 3px 3px;
+      opacity: 0.8;
+    }
+
+    /* أيقونة */
+    .icon-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 1.2rem;
+      background: rgba(184, 134, 11, 0.1);
+      border: 2px solid rgba(184, 134, 11, 0.35);
+      border-radius: 50%;
+      position: relative;
+      animation: pulseIcon 2.5s ease-in-out infinite;
+    }
+
+    .icon-wrapper i {
+      font-size: 2.6rem;
+      color: var(--gold-light);
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .icon-wrapper:hover i {
+      transform: scale(1.15) rotate(-5deg);
+    }
+
+    @keyframes pulseIcon {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(184, 134, 11, 0.25); }
+      50% { box-shadow: 0 0 0 20px rgba(184, 134, 11, 0); }
+    }
+
+    /* العنوان */
+    .error-code {
+      font-family: 'Cairo', 'Alexandria', sans-serif;
+      font-size: 5.5rem;
+      font-weight: 900;
+      background: linear-gradient(180deg, var(--gold-light) 20%, var(--gold) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      letter-spacing: -2px;
+      filter: drop-shadow(0 4px 8px rgba(184, 134, 11, 0.3));
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { filter: drop-shadow(0 4px 8px rgba(184, 134, 11, 0.3)); }
+      50% { filter: drop-shadow(0 6px 16px rgba(212, 177, 90, 0.5)); }
+    }
+
+    .error-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+
+    .error-desc {
+      font-size: 1.1rem;
+      color: #bcc4d0;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 1.8rem;
+      border-radius: 2px;
+    }
+
+    /* أزرار */
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.35s ease;
+      cursor: pointer;
+      font-family: 'Tajawal', sans-serif;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #111;
+      border: none;
+      box-shadow: 0 6px 20px rgba(184, 134, 11, 0.45);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #111, #1f1f1f);
+      color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(184, 134, 11, 0.6);
+      border: 1px solid var(--gold);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(184, 134, 11, 0.4);
+      color: var(--gold-light);
+    }
+
+    .btn-outline:hover {
+      background: rgba(184, 134, 11, 0.12);
+      border-color: var(--gold);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 22px rgba(184, 134, 11, 0.25);
+    }
+
+    /* روابط سريعة */
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      color: #8895a7;
+    }
+
+    .quick-links a {
+      color: #cfa776;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+      border-bottom: 1px dashed transparent;
+    }
+
+    .quick-links a:hover {
+      color: #fff;
+      border-bottom-color: var(--gold-light);
+    }
+
+    /* الفوتر المصغر */
+    .mini-footer {
+      position: absolute;
+      bottom: 20px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #667080;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .mini-footer span {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .error-container { padding: 2.2rem 1.4rem; border-radius: 24px; }
+      .error-code { font-size: 4rem; }
+      .error-title { font-size: 1.4rem; }
+      .error-desc { font-size: 0.95rem; }
+      .btn { padding: 11px 20px; font-size: 0.85rem; }
+      .icon-wrapper { width: 70px; height: 70px; }
+      .icon-wrapper i { font-size: 2rem; }
+      .mini-nav { top: 10px; right: 10px; gap: 8px; }
+      .mini-nav .logo-sm { font-size: 0.8rem; padding: 6px 12px; }
+      .btn-group { gap: 10px; }
+      .quick-links { font-size: 0.78rem; gap: 6px; }
+    }
+
+    @media (max-width: 380px) {
+      .error-code { font-size: 3.2rem; }
+      .btn { padding: 10px 16px; font-size: 0.8rem; }
+      .error-container { padding: 1.6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شريط علوي مع اللوقو -->
+  <div class="mini-nav" data-aos="fade-down" data-aos-duration="700">
+    <a href="/training" class="logo-sm">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <span>مجموعة فاروق للتدريب</span>
+    </a>
+  </div>
+
+  <!-- حاوية الخطأ -->
+  <div class="error-container" data-aos="zoom-in-up" data-aos-duration="800" data-aos-delay="150">
+    <!-- أيقونة -->
+    <div class="icon-wrapper">
+      <i class="fas fa-map-signs"></i>
+    </div>
+
+    <!-- كود 404 -->
+    <div class="error-code">404</div>
+
+    <!-- عنوان -->
+    <h1 class="error-title">عذراً، الصفحة غير موجودة</h1>
+
+    <!-- وصف -->
+    <p class="error-desc">
+      يبدو أن الرابط الذي اتبعته معطل أو تمت إزالته أو أن الصفحة لم تعد متاحة.
+      ربما أخطأت في كتابة العنوان، أو تم نقل المحتوى إلى مكان آخر.
+    </p>
+
+    <!-- فاصل -->
+    <div class="divider"></div>
+
+    <!-- أزرار -->
+    <div class="btn-group">
+      <a href="/training" class="btn btn-primary">
+        <i class="fas fa-home"></i> العودة إلى المنصة
+      </a>
+      <a href="https://wa.me/905550196682" class="btn btn-outline" target="_blank">
+        <i class="fab fa-whatsapp"></i> تواصل مع الدعم
+      </a>
+    </div>
+
+  <!-- فوتير مصغر -->
+  <div class="mini-footer">
+    جميع الحقوق محفوظة © 2026 <span>FAROUK GRUP</span> &mdash; إسطنبول، تركيا
+  </div>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 700,
+      once: true,
+      offset: 50
+    });
+  </script>
+</body>
+</html>

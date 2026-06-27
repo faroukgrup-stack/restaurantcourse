@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>اختبار الدورة + الشهادة | فاروق للتدريب</title>
+  <!-- الخطوط -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- QRCode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+  <style>
+    /* ===== الأساسيات ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: #0b0d14;
+      color: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+    }
+    .container {
+      background: #141821;
+      border: 1px solid rgba(184, 134, 11, 0.2);
+      border-radius: 24px;
+      padding: 30px;
+      max-width: 950px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(184, 134, 11, 0.15);
+      margin: 20px auto;
+    }
+    .hidden { display: none !important; }
+
+    /* ===== رأس الصفحة ===== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+    .header h1 {
+      color: #d4af37;
+      font-weight: 900;
+      font-size: 1.7rem;
+    }
+    .header h1 i { margin-left: 10px; }
+    .header .badge {
+      background: rgba(184, 134, 11, 0.2);
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: #d4af37;
+      border: 1px solid rgba(184, 134, 11, 0.3);
+    }
+
+    /* ===== منطقة الاختبار ===== */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .quiz-header .progress-text {
+      color: #a0aec0;
+      font-weight: 700;
+    }
+    .progress-bar-container {
+      height: 6px;
+      background: #2a2f3a;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #b8860b, #d4af37);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    .option {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 14px 20px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .option:hover { background: rgba(184, 134, 11, 0.1); border-color: #b8860b; }
+    .option.selected { background: rgba(184, 134, 11, 0.2); border-color: #d4af37; }
+    .option input[type="radio"] { accent-color: #d4af37; width: 18px; height: 18px; cursor: pointer; }
+    .option label { flex: 1; cursor: pointer; font-size: 1rem; }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    .btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #b8860b, #d4af37);
+      color: #0b0d14;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184, 134, 11, 0.4); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      color: #f0f2f5;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+    .btn-success {
+      background: #2ecc71;
+      color: #0b0d14;
+    }
+    .btn-success:hover { background: #27ae60; transform: translateY(-2px); }
+    .btn-warning {
+      background: #e67e22;
+      color: #fff;
+    }
+    .btn-warning:hover { background: #d35400; }
+
+    /* ===== نتيجة الاختبار ===== */
+    .result-box {
+      text-align: center;
+      padding: 30px 0;
+    }
+    .result-box .score {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #d4af37;
+    }
+    .result-box .message {
+      font-size: 1.2rem;
+      margin: 15px 0;
+    }
+    .result-box .pass { color: #2ecc71; }
+    .result-box .fail { color: #e74c3c; }
+
+    /* ===== نافذة إدخال الاسم (Modal) ===== */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .modal-content {
+      background: #1a1f2b;
+      border: 1px solid rgba(184, 134, 11, 0.3);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+    .modal-content h2 {
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+    .modal-content p {
+      color: #a0aec0;
+      margin-bottom: 20px;
+    }
+    .modal-content input {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      font-size: 1.1rem;
+      text-align: center;
+      font-family: 'Tajawal', sans-serif;
+      margin-bottom: 15px;
+      direction: ltr;
+    }
+    .modal-content input:focus {
+      outline: none;
+      border-color: #d4af37;
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.2);
+    }
+    .modal-content .btn {
+      width: 100%;
+    }
+    .modal-content .error-msg {
+      color: #e74c3c;
+      margin-top: 10px;
+      font-weight: 700;
+    }
+
+    /* ================================================================ */
+    /* ===== الشهادة (نفس تصميم الكود المنفصل) ===== */
+    /* ================================================================ */
+    .certificate-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .certificate {
+      width: 210mm;
+      height: 297mm;
+      background-color: #fffef5;
+      background-image: 
+        linear-gradient(135deg, rgba(255,250,240,0.9) 0%, rgba(253,245,228,0.95) 100%),
+        url("data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='watermark' patternUnits='userSpaceOnUse' width='250' height='250' patternTransform='rotate(45)'%3E%3Ctext x='0' y='80' font-size='28' fill='%23c5a358' fill-opacity='0.12' font-weight='bold' font-family='Georgia, serif'%3EFAROUK GRUP%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='300' height='300' fill='url(%23watermark)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: auto;
+      border: 6px double #c5a358;
+      outline: 2px solid #c5a358;
+      outline-offset: -12px;
+      padding: 18mm 20mm 30mm;
+      position: relative;
+      font-family: 'Playfair Display', serif;
+      color: #3b2f2f;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .logo-container { text-align: center; margin-bottom: 8mm; }
+    .logo { width: 180px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+    .logo-fallback { display: none; font-size: 32px; color: #b8860b; font-weight: bold; font-family: 'Playfair Display', serif; letter-spacing: 2px; }
+
+    .cert-title { font-size: 40px; color: #b8860b; letter-spacing: 4px; margin: 6px 0 5px; text-transform: uppercase; font-weight: 700; text-align: center; }
+    .sub-title { font-size: 21px; color: #5a4a42; margin-bottom: 18mm; text-align: center; border-bottom: 2px solid #c5a358; display: inline-block; padding-bottom: 4px; margin-left: auto; margin-right: auto; }
+
+    .trainee-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 36px; color: #8b0000; margin: 12px 0 8px; line-height: 1.3; word-break: break-word; text-align: center; }
+
+    .description { font-size: 19px; color: #4a3c31; margin: 8px 0; text-align: center; }
+    .course-name { font-weight: 700; color: #b8860b; font-size: 24px; margin: 10px 0 5px; text-align: center; }
+    .course-sub { font-size: 17px; color: #6b5b4f; font-style: italic; text-align: center; }
+
+    .footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20mm; border-top: 1px solid #d1b784; padding-top: 8mm; position: relative; }
+    .signature { text-align: left; font-size: 16px; }
+    .sig-line { font-family: 'Great Vibes', cursive; font-size: 34px; color: #3b2f2f; border-bottom: 1px solid #3b2f2f; display: inline-block; padding-bottom: 4px; margin-bottom: 4px; min-width: 170px; }
+    .signature p { margin: 2px 0; color: #4a3c31; }
+
+    .details { text-align: right; font-size: 15px; color: #4a3c31; }
+    .details p { margin: 4px 0; }
+    .qr-code { width: 70px; margin-top: 6px; border: 2px solid #e0c88e; padding: 2px; background: white; display: block; margin-left: auto; }
+
+    .stamp { position: absolute; bottom: 25mm; left: 32mm; width: 110px; height: 110px; border: 5px solid #b22222; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-18deg); color: #b22222; font-weight: bold; opacity: 0.8; z-index: 2; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(1px); pointer-events: none; }
+    .stamp-inner { text-align: center; line-height: 1.2; width: 100%; padding: 0 5px; }
+    .stamp-group { font-size: 14px; letter-spacing: 0.5px; }
+    .stamp-certified { font-size: 15px; letter-spacing: 1px; margin-top: 2px; }
+    .stamp::after { content: ""; position: absolute; width: 88px; height: 88px; border: 2px dashed #b22222; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+    /* ===== أزرار الطباعة ===== */
+    .print-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 20px 0 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ================================================================ */
+    /* ===== إصلاح الطباعة - صفحة واحدة (نسخة محسّنة) ===== */
+    /* ================================================================ */
+    @media print {
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        overflow: hidden;
+      }
+      .no-print,
+      #quizArea,
+      #resultArea,
+      .header,
+      .print-actions,
+      .modal,
+      .container,
+      #appContainer {
+        display: none !important;
+      }
+      #certificateArea {
+        display: block !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: white;
+      }
+      .certificate-wrapper {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .certificate {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 auto;
+        padding: 18mm 20mm 30mm;
+        box-sizing: border-box;
+        border: 6px double #c5a358;
+        outline: 2px solid #c5a358;
+        outline-offset: -12px;
+        box-shadow: none;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+        overflow: hidden;
+        background-color: #fffef5;
+        background-image: 
+          linear-gradient(135deg, rgba(255,250,240,0.9) 0%, rgba(253,245,228,0.95) 100%),
+          url("data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='watermark' patternUnits='userSpaceOnUse' width='250' height='250' patternTransform='rotate(45)'%3E%3Ctext x='0' y='80' font-size='28' fill='%23c5a358' fill-opacity='0.12' font-weight='bold' font-family='Georgia, serif'%3EFAROUK GRUP%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='300' height='300' fill='url(%23watermark)'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: auto;
+      }
+    }
+
+    /* ===== استجابة للشاشات الصغيرة ===== */
+    @media (max-width: 700px) {
+      .container { padding: 15px; }
+      .certificate { width: 100%; height: auto; min-height: 297mm; padding: 15mm; }
+      .cert-title { font-size: 28px; }
+      .trainee-name { font-size: 26px; }
+      .stamp { width: 80px; height: 80px; left: 20mm; bottom: 20mm; }
+      .stamp-group { font-size: 11px; }
+      .stamp-certified { font-size: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+<!-- ===== الشهادة توضع خارج الحاوية لتظهر في الطباعة بشكل صحيح ===== -->
+<div id="certificateArea" class="hidden">
+  <div class="certificate-wrapper" id="certificateWrapper">
+    <div id="certificateContainer"></div>
+  </div>
+</div>
+
+<div class="container" id="appContainer">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header no-print">
+    <h1><i class="fa-solid fa-graduation-cap"></i> اختبار دورة إدارة المطاعم والقراءات المالية بإحترافية</h1>
+    <span class="badge"><i class="fa-regular fa-clock"></i> اختبار التقييم</span>
+  </div>
+
+  <!-- ===== 1. منطقة الاختبار ===== -->
+  <div id="quizArea">
+    <div class="quiz-header">
+      <span class="progress-text" id="progressLabel">1 / 30</span>
+      <span style="color:#a0aec0;font-size:0.9rem;">اختر الإجابة الصحيحة</span>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="questionArea">
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="nav-buttons">
+        <button class="btn btn-secondary" id="prevBtn" disabled>السابق</button>
+        <button class="btn btn-primary" id="nextBtn">التالي</button>
+      </div>
+    </div>
+
+    <!-- نتيجة الاختبار -->
+    <div id="resultArea" class="result-box hidden">
+      <div class="score" id="scoreDisplay">0%</div>
+      <div class="message" id="resultMessage"></div>
+      <div id="resultActions" class="no-print"></div>
+    </div>
+  </div>
+
+  <!-- ===== 2. أزرار الشهادة (تظهر بعد النجاح) ===== -->
+  <div id="certificateActions" class="hidden no-print">
+    <div class="print-actions">
+      <button class="btn btn-primary" id="printBtn"><i class="fa-solid fa-print"></i> طباعة / حفظ PDF</button>
+<button class="btn btn-secondary" onclick="location.href='rest-index.html'">
+    <i class="fa-solid fa-arrow-left"></i> العودة للصفحة الرئيسية
+</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3. نافذة إدخال الاسم (Modal) ===== -->
+<div id="nameModal" class="modal no-print hidden">
+  <div class="modal-content">
+    <h2><i class="fa-regular fa-pen-to-square"></i> أدخل اسمك للشهادة</h2>
+    <p>الاسم سيظهر على الشهادة كما تكتبه (بالإنجليزية).</p>
+    <input type="text" id="traineeNameInput" placeholder="مثال: Ahmed Mohamed" dir="ltr" />
+    <button class="btn btn-success" id="generateCertBtn">توليد الشهادة <i class="fa-solid fa-certificate"></i></button>
+    <div class="error-msg" id="nameError"></div>
+  </div>
+</div>
+
+<script>
+  // =============================================================
+  // 1. بنك الأسئلة (30 سؤالاً)
+  // =============================================================
+  const questions = [
+    // المحور الأول
+    { q: 'لماذا يعتبر الاعتماد على الحدس فقط في إدارة المطاعم خطراً؟', options: ['لأن الحدس غير مفيد في اتخاذ أي قرار', 'لأن الحدس يعطي شعوراً بالمشكلة لكنه لا يحدد حجمها أو سببها الحقيقي', 'لأن الحدس يعتمد على الخبرة فقط', 'لأن الحدس يبطئ عملية اتخاذ القرار'], correct: 1 },
+    { q: 'ما هي الأطراف الثلاثة الرئيسية التي تقوم عليها إدارة المطاعم حسب الدورة؟', options: ['المالك، الشيف، والزبون', 'الإدارة، الموظف، والزبون', 'المطبخ، الصالة، والمخزن', 'المورد، الموظف، والمدير'], correct: 1 },
+    // المحور الثاني
+    { q: 'ما هو الدور الحقيقي لمدير المطعم حسب الدورة؟', options: ['حل جميع المشاكل اليومية بنفسه', 'العمل في المطبخ لتخفيف الضغط عن الشيف', 'التخطيط، التنظيم، والرقابة لضمان سير العمل بنظام', 'مراقبة الموظفين وتسجيل المخالفات'], correct: 2 },
+    { q: 'لماذا يعتبر التخطيط والتنظيم أساسيين في المطاعم؟', options: ['لأن المطاعم بيئة متوقعة ولا تحتاج لتخطيط', 'لأن التخطيط يمنع الفوضى ويحول التشغيل من رد فعل إلى نظام مسبق', 'لأن التنظيم يزيد من ساعات العمل', 'لأن التخطيط يقلل من الحاجة للموظفين'], correct: 1 },
+    { q: 'ما هي الخطوات الأساسية لاتخاذ قرار إداري تحت الضغط في المطعم؟', options: ['التسرع في الحل لتجنب خسارة الزبون', 'التوقف القصير، تحديد المشكلة بدقة، واختيار أقل قرار ضرراً', 'استشارة جميع الموظفين قبل أي قرار', 'تجاهل المشكلة حتى تهدأ الأوضاع'], correct: 1 },
+    // المحور الثالث
+    { q: 'ما هو الهدف الرئيسي من الوصفات القياسية في المطاعم؟', options: ['توحيد طريقة الطبخ فقط', 'ضبط الجودة والتكلفة وضمان ثبات المنتج', 'إرضاء الشيف وإعطائه صلاحية كاملة', 'تسهيل عملية الشراء من الموردين'], correct: 1 },
+    { q: 'ما هي إدارة المخزون الصحيحة حسب الدورة؟', options: ['تخزين أكبر كمية ممكنة لتجنب النقص', 'معرفة الكمية المتوفرة، الاستهلاك، ومعدل الهدر لضبط الشراء', 'شراء المواد بأقل سعر بغض النظر عن الكمية', 'ترك مسؤولية المخزون للموردين'], correct: 1 },
+    { q: 'ما هو مفهوم تكامل التشغيل بين المطبخ والصالة؟', options: ['أن يكون المطبخ أسرع من الصالة دائماً', 'بناء نظام مشترك يضمن وضوح الطلب، سرعة الخدمة، وتقليل الأخطاء', 'أن تكون الصالة مسؤولة عن جميع الشكاوى', 'فصل العمل بين المطبخ والصالة بشكل كامل'], correct: 1 },
+    // المحور الرابع
+    { q: 'ما الفرق بين "العمل داخل المطعم" و"العمل على المطعم"؟', options: ['الأول يعني العمل في المطبخ، والثاني يعني العمل في الإدارة', 'الأول يعني الانخراط في التفاصيل اليومية، والثاني يعني بناء نظام يشتغل بدون تدخل مباشر', 'الأول يعني العمل ساعات أطول، والثاني يعني العمل ساعات أقل', 'الأول يعني تواجد المدير، والثاني يعني غيابه'], correct: 1 },
+    { q: 'لماذا تعتبر الرؤية والأهداف مهمة في مشاريع المطاعم؟', options: ['لأنها شعارات تحفيزية للموظفين', 'لأنها مرجع للقرارات وتمنع التخبط وتساعد في تحديد الاتجاه', 'لأنها مطلوبة من قبل المستثمرين فقط', 'لأنها تزيد من المبيعات مباشرة'], correct: 1 },
+    // المحور الخامس
+    { q: 'كيف تعرّف الدورة الجودة الحقيقية في المطاعم؟', options: ['تقديم أكل لذيذ من وقت لآخر', 'قدرة المطعم على تقديم نفس المنتج ونفس التجربة في كل وقت', 'الاعتماد على شيف ماهر لضمان الجودة', 'استخدام أغلى المكونات'], correct: 1 },
+    { q: 'ما هي مؤشرات قياس الجودة في المطاعم حسب الدورة؟', options: ['عدد الشكاوى فقط', 'ثبات المنتج، نسبة الهدر، سرعة الخدمة، وتكرار الزيارة', 'عدد المتابعين على وسائل التواصل', 'رأي المدير الشخصي'], correct: 1 },
+    // المحور السادس
+    { q: 'ما هي رحلة العميل داخل المطعم حسب الدورة؟', options: ['مجرد عملية طلب وتناول الطعام', 'سلسلة من نقاط التماس تبدأ قبل الدخول وتنتهي بعد الخروج', 'تقييم الطعم فقط', 'التفاعل مع الجرسون فقط'], correct: 1 },
+    { q: 'كيف يجب التعامل مع الشكاوى حسب الدورة؟', options: ['تجاهلها لتجنب الإحراج', 'تقديم خصم فوري لإسكات العميل', 'الاستماع، الاعتذار، التصرف، والشكر، وتحويلها لفرصة لتحسين التجربة', 'إحالة العميل للمدير مباشرة'], correct: 2 },
+    // المحور السابع
+    { q: 'ما هو مبدأ التوظيف الذكي في المطاعم؟', options: ['تعيين أي شخص يسد الفراغ بسرعة', 'التركيز فقط على الخبرة السابقة', 'اختيار الشخص المناسب بناءً على سلوكه تحت الضغط وقابليته للتعلم', 'الاعتماد على المقابلة السريعة فقط'], correct: 2 },
+    { q: 'كيف يتم التقييم الفعال للموظفين في المطاعم؟', options: ['بناءً على المزاج الشخصي للمدير', 'باستخدام مؤشرات أداء واضحة ومتابعة مستمرة، مع التركيز على السلوك وليس الشخص', 'مرة واحدة في السنة فقط', 'من خلال استبيانات رضا العملاء فقط'], correct: 1 },
+    // المحور الثامن
+    { q: 'ما هي المعادلة الأساسية لحساب المبيعات اليومية؟', options: ['عدد الموظفين × متوسط ساعة العمل', 'عدد الزبائن × متوسط إنفاق الزبون', 'إجمالي المشتريات × هامش الربح', 'عدد الطاولات × عدد الوجبات'], correct: 1 },
+    { q: 'ما هو التنبؤ بالمبيعات وأهميته؟', options: ['تخمين عشوائي لحركة المطعم', 'استخدام البيانات السابقة وتحليل الأنماط لتوقع المبيعات واتخاذ قرارات تشغيلية مسبقة', 'تحديد سقف المبيعات القصوى', 'عملية محاسبية بحتة'], correct: 1 },
+    // المحور التاسع
+    { q: 'كيف تحسب التكلفة الفعلية للطعام في المطعم؟', options: ['مجموع فواتير الشراء خلال الشهر', '(مخزون أول الفترة + المشتريات - مخزون آخر الفترة)', 'سعر البيع - هامش الربح', 'عدد الأطباق × سعر المكونات الأساسية'], correct: 1 },
+    { q: 'كيف تحلل الأصناف لتحديد مصادر الخلل في Food Cost؟', options: ['بمقارنة كل صنف مع متوسط السوق', 'بحساب نسبة تكلفة كل صنف إلى مبيعاته وتحديد الأصناف ذات التكلفة المرتفعة', 'بإلغاء الأصناف الأقل مبيعاً', 'بزيادة سعر جميع الأصناف'], correct: 1 },
+    // المحور العاشر
+    { q: 'ما هي طريقة حساب تكلفة الكاسة الواحدة لمشروب؟', options: ['سعر العبوة مقسوم على عدد الكاسات النظرية + تكلفة الإضافات', 'سعر البيع - هامش الربح المطلوب', 'سعر العبوة × عدد الكاسات', 'متوسط أسعار المنافسين'], correct: 0 },
+    { q: 'لماذا يعتبر الجرد اليومي مهماً في المشروبات المحضّرة يدوياً؟', options: ['للتأكد من نظافة المعدات', 'لمقارنة الاستهلاك الفعلي بالاستهلاك النظري واكتشاف الفروقات والهدر', 'لحساب الرواتب', 'لتحديد الكميات المطلوبة للشراء الأسبوعي'], correct: 1 },
+    // المحور الحادي عشر
+    { q: 'ما هي نقطة إعادة الطلب (Reorder Point)؟', options: ['الوقت الذي ينتهي فيه المخزون بالكامل', 'المستوى الذي عنده يجب طلب المواد الجديدة لتغطية الاستهلاك خلال فترة التوريد', 'الحد الأقصى للمخزون المسموح به', 'الوقت الذي يقدم فيه المورد عرضاً جديداً'], correct: 1 },
+    { q: 'ما هو الهدف من تحليل فروقات الجرد؟', options: ['إثبات أن جميع الأرقام دقيقة', 'اكتشاف مصادر الهدر أو السرقة أو سوء الاستخدام قبل أن تتحول لخسارة كبيرة', 'تقليل عدد مرات الجرد', 'إلقاء اللوم على الموظفين'], correct: 1 },
+    // المحور الثاني عشر
+    { q: 'ما هو مبدأ "بناء المنيو من المواد الأولية"؟', options: ['اختيار الأصناف الأكثر طلباً في السوق', 'تصميم الأصناف بناءً على مواد أولية محدودة ومشتركة لتقليل الهدر وزيادة السيطرة', 'إضافة أكبر عدد ممكن من الأصناف لإرضاء جميع الأذواق', 'الاعتماد على وصفات الشيف التقليدية'], correct: 1 },
+    { q: 'كيف يمكن تقليص المنيو بدون خسارة الزبون؟', options: ['بإلغاء الأصناف الأقل مبيعاً بشكل مفاجئ', 'بتحليل الأصناف من حيث الربحية والتشغيل، وإعادة تصميم أو حذف الأصناف غير الفعالة تدريجياً', 'بتقليل الكميات لجميع الأصناف', 'بزيادة الأسعار للأصناف المتبقية'], correct: 1 },
+    // المحور الثالث عشر
+    { q: 'ما هي مؤشرات الأداء الرئيسية (KPIs) التي يجب مراقبتها في المطعم؟', options: ['فقط المبيعات اليومية', 'متوسط المبيعات، متوسط الفاتورة، نسبة الهدر، إنتاجية الفريق، وزمن الخدمة', 'عدد الموظفين والإيجار', 'تقييمات مواقع التواصل فقط'], correct: 1 },
+    { q: 'لماذا يجب ربط التقارير المالية بالتقارير التشغيلية؟', options: ['لأن التقارير المالية وحدها لا تفسر أسباب الأرقام، بينما التشغيلية تكشف مصدر الخلل', 'لزيادة عدد التقارير', 'لإرضاء المحاسب', 'للامتثال للمعايير الدولية'], correct: 0 },
+    // المحور الرابع عشر
+    { q: 'ما هو الفرق بين الربح المحاسبي والسيولة النقدية في المطعم؟', options: ['الربح المحاسبي هو نفسه السيولة دائماً', 'الربح المحاسبي قد يكون موجوداً على الورق لكن السيولة قد تكون منخفضة بسبب تأخر التحصيل أو التزامات تشغيلية', 'السيولة هي الربح بعد خصم الضرائب', 'الربح المحاسبي لا يشمل التكاليف'], correct: 1 },
+    { q: 'كيف تقرأ قائمة الأرباح والخسائر لاتخاذ قرار التوسع أو التثبيت؟', options: ['بالنظر إلى صافي الربح فقط', 'بتحليل الربحية مع الطاقة الإنتاجية ونقطة التعادل، ودراسة قابلية الربح للتكرار عند زيادة الحجم', 'بمقارنة الأرباح مع المنافسين', 'بمراجعة المبيعات فقط'], correct: 1 },
+    // المحور الخامس عشر
+    { q: 'لماذا قد تنهار ربحية المطعم عند التوسع رغم نجاحه صغيراً؟', options: ['لأن السوق يتغير دائماً', 'لأن الربحية الأصلية كانت مبنية على جهد فردي وليس على نظام قابل للتكبير', 'لأن العملاء يفضلون المطاعم الصغيرة', 'لأن التكاليف الثابتة تزيد دائماً'], correct: 1 },
+    { q: 'ما هي الرقابة الذكية في المطاعم حسب الدورة؟', options: ['مراقبة كل موظف بشكل دائم', 'تشديد العقوبات على الأخطاء', 'استخدام مؤشرات أداء لرصد الانحرافات قبل أن تتحول لخسائر، دون خنق التشغيل', 'إلغاء الصلاحيات عن الفريق'], correct: 2 }
+  ];
+
+  // =============================================================
+  // 2. منطق الاختبار
+  // =============================================================
+  let currentIndex = 0;
+  let userAnswers = new Array(questions.length).fill(null);
+  let quizScore = 0; // <-- متغير لحفظ الدرجة
+
+  const questionText = document.getElementById('questionText');
+  const optionsContainer = document.getElementById('optionsContainer');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const progressLabel = document.getElementById('progressLabel');
+  const progressBar = document.getElementById('progressBar');
+  const questionArea = document.getElementById('questionArea');
+  const resultArea = document.getElementById('resultArea');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const resultMessage = document.getElementById('resultMessage');
+  const resultActions = document.getElementById('resultActions');
+
+  function renderQuestion(index) {
+    const q = questions[index];
+    questionText.textContent = `${index+1}. ${q.q}`;
+    optionsContainer.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const div = document.createElement('div');
+      div.className = 'option';
+      if (userAnswers[index] === i) div.classList.add('selected');
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'question';
+      radio.value = i;
+      if (userAnswers[index] === i) radio.checked = true;
+      radio.addEventListener('change', () => { selectOption(index, i); });
+      const label = document.createElement('label');
+      label.textContent = opt;
+      div.appendChild(radio);
+      div.appendChild(label);
+      optionsContainer.appendChild(div);
+    });
+    prevBtn.disabled = index === 0;
+    if (index === questions.length - 1) {
+      nextBtn.textContent = 'إنهاء الاختبار';
+      nextBtn.className = 'btn btn-primary';
+    } else {
+      nextBtn.textContent = 'التالي';
+      nextBtn.className = 'btn btn-primary';
+    }
+    progressLabel.textContent = `${index+1} / ${questions.length}`;
+    progressBar.style.width = `${((index+1) / questions.length) * 100}%`;
+  }
+
+  function selectOption(index, value) {
+    userAnswers[index] = value;
+    renderQuestion(currentIndex);
+  }
+
+  function goToNext() {
+    if (currentIndex === questions.length - 1) {
+      finishQuiz();
+      return;
+    }
+    if (userAnswers[currentIndex] === null) {
+      alert('الرجاء اختيار إجابة قبل المتابعة.');
+      return;
+    }
+    currentIndex++;
+    renderQuestion(currentIndex);
+  }
+
+  function goToPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderQuestion(currentIndex);
+    }
+  }
+
+  function finishQuiz() {
+    if (userAnswers.some(ans => ans === null)) {
+      alert('لا يزال هناك أسئلة لم تجب عليها. يرجى إكمال جميع الأسئلة.');
+      return;
+    }
+    let correct = 0;
+    questions.forEach((q, idx) => { if (userAnswers[idx] === q.correct) correct++; });
+    const percent = Math.round((correct / questions.length) * 100);
+    quizScore = percent; // حفظ الدرجة
+
+    const passed = percent >= 70;
+
+    questionArea.classList.add('hidden');
+    resultArea.classList.remove('hidden');
+    scoreDisplay.textContent = `${percent}% (${correct}/${questions.length})`;
+    resultMessage.innerHTML = passed
+      ? `<span class="pass">✅ تهانينا! لقد اجتزت الاختبار بنجاح.</span>`
+      : `<span class="fail">❌ لم تجتز الاختبار. النسبة المطلوبة 70% فأكثر.</span>`;
+
+    resultActions.innerHTML = '';
+    if (passed) {
+      const certBtn = document.createElement('button');
+      certBtn.className = 'btn btn-success';
+      certBtn.innerHTML = '<i class="fa-solid fa-certificate"></i> طلب الشهادة';
+      certBtn.onclick = () => document.getElementById('nameModal').classList.remove('hidden');
+      resultActions.appendChild(certBtn);
+    } else {
+      const retryBtn = document.createElement('button');
+      retryBtn.className = 'btn btn-warning';
+      retryBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> إعادة الاختبار';
+      retryBtn.onclick = () => location.reload();
+      resultActions.appendChild(retryBtn);
+    }
+  }
+
+  prevBtn.addEventListener('click', goToPrev);
+  nextBtn.addEventListener('click', goToNext);
+
+  // =============================================================
+  // 3. توليد الشهادة وحفظها في Google Sheets (مع الدرجة)
+  // =============================================================
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzp6zJTVVejAiBFSrpydWgR8FHnNKOlHsUMmmeU2OU_Hj6oWgxjH4XTGI1Qs6X4UWwr/exec';
+
+  // دالة الحفظ المعدلة لتقبل score
+  async function saveToSheet(code, name, date, score) {
+    const url = API_URL + '?action=save&code=' + encodeURIComponent(code) +
+                '&name=' + encodeURIComponent(name) +
+                '&date=' + encodeURIComponent(date) +
+                '&score=' + encodeURIComponent(score);
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.status === 'saved') {
+        return true;
+      } else {
+        console.warn('فشل الحفظ:', data);
+        return false;
+      }
+    } catch (error) {
+      console.error('خطأ في الاتصال:', error);
+      return false;
+    }
+  }
+
+  document.getElementById('generateCertBtn').addEventListener('click', async function() {
+    const nameInput = document.getElementById('traineeNameInput');
+    const name = nameInput.value.trim();
+    const errorDiv = document.getElementById('nameError');
+
+    if (!name) {
+      errorDiv.textContent = '❌ الرجاء إدخال الاسم باللغة الإنجليزية.';
+      return;
+    }
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+      errorDiv.textContent = '❌ الاسم يجب أن يكون بالحروف الإنجليزية فقط.';
+      return;
+    }
+    errorDiv.textContent = '';
+
+    // توليد رمز فريد
+    const certCode = 'PS-RM-' + new Date().getFullYear() + '-' + crypto.randomUUID().split('-')[0];
+    const today = new Date().toISOString().slice(0,10);
+
+    // حفظ البيانات في Google Sheets (مع الدرجة)
+    try {
+      this.disabled = true;
+      this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+      const saved = await saveToSheet(certCode, name, today, quizScore);
+      if (!saved) {
+        alert('⚠️ فشل حفظ البيانات. حاول مرة أخرى.');
+        this.disabled = false;
+        this.innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
+        return;
+      }
+    } catch (e) {
+      alert('⚠️ خطأ في الاتصال بالخادم.');
+      this.disabled = false;
+      this.innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
+      return;
+    }
+
+    // إخفاء المودال
+    document.getElementById('nameModal').classList.add('hidden');
+
+    // إنشاء QR Code
+    const qrData = `https://training.farouk-grup.com/verify?code=${certCode}`;
+    QRCode.toDataURL(qrData, function(err, qrUrl) {
+      if (err) { console.error(err); qrUrl = ''; }
+
+      // عرض الشهادة
+      const container = document.getElementById('certificateContainer');
+      container.innerHTML = `
+        <div class="certificate">
+          <div class="logo-container">
+            <img src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" class="logo" alt="Farouk Grup Logo"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="logo-fallback">FAROUK GRUP</div>
+          </div>
+          <h1 class="cert-title">Certificate of Training</h1>
+          <div style="text-align:center;"><span class="sub-title">This is to certify that</span></div>
+          <h2 class="trainee-name">${name}</h2>
+          <p class="description">has successfully completed the</p>
+          <p class="course-name">Professional Restaurant Management and Financial Analysis Course</p>
+          <p class="course-sub">Part of ProServe Food & Beverage Program</p>
+          <p class="description" style="margin-top: 6px;">Professional Training</p>
+          <div class="footer">
+            <div class="signature"><div class="sig-line">Farouk Azem</div><p>Training Director</p></div>
+            <div class="details">
+              <p><strong>Date of Issue:</strong> ${today}</p>
+              <p><strong>Certificate Code:</strong> ${certCode}</p>
+              ${qrUrl ? `<img src="${qrUrl}" class="qr-code" alt="QR Verification">` : ''}
+            </div>
+          </div>
+          <div class="stamp"><div class="stamp-inner"><div class="stamp-group">FAROUK GRUP</div><div class="stamp-certified">★ CERTIFIED ★</div></div></div>
+        </div>
+      `;
+
+      // إظهار منطقة الشهادة وأزرار الطباعة
+      document.getElementById('certificateArea').classList.remove('hidden');
+      document.getElementById('certificateActions').classList.remove('hidden');
+      document.getElementById('quizArea').classList.add('hidden');
+      document.getElementById('resultArea').classList.add('hidden');
+
+      // إعادة تمكين الزر
+      document.getElementById('generateCertBtn').disabled = false;
+      document.getElementById('generateCertBtn').innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
+    });
+  });
+
+  // عند الضغط على Enter في حقل الاسم
+  document.getElementById('traineeNameInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') document.getElementById('generateCertBtn').click();
+  });
+
+  // =============================================================
+  // 4. زر الطباعة
+  // =============================================================
+  document.getElementById('printBtn').addEventListener('click', function() {
+    window.print();
+  });
+
+  // =============================================================
+  // 5. بدء الاختبار
+  // =============================================================
+  renderQuestion(0);
+</script>
+</body>
+</html>

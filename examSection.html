@@ -633,7 +633,25 @@
       const certBtn = document.createElement('button');
       certBtn.className = 'btn btn-success';
       certBtn.innerHTML = '<i class="fa-solid fa-certificate"></i> طلب الشهادة';
-      certBtn.onclick = () => document.getElementById('nameModal').classList.remove('hidden');
+      certBtn.onclick = async function() {
+        const userEmail = sessionStorage.getItem('portalUserEmail');
+        if (!userEmail) {
+          alert('يرجى تسجيل الدخول من المنصة أولاً.');
+          return;
+        }
+        // التحقق السريع مرة أخرى قبل الإصدار
+        try {
+          const checkResp = await fetch(`${API_URL}?action=checkEmail&email=${encodeURIComponent(userEmail)}`);
+          const checkData = await checkResp.json();
+          if (checkData.status === 'existing') {
+            alert('لديك شهادة سابقة بالفعل. سيتم عرضها.');
+            showPreviousCertificate(checkData.certificate);
+            return;
+          }
+        } catch (e) {}
+        // فتح نافذة الاسم
+        document.getElementById('nameModal').classList.remove('hidden');
+      };
       resultActions.appendChild(certBtn);
     } else {
       const retryBtn = document.createElement('button');
@@ -648,81 +666,33 @@
   nextBtn.addEventListener('click', goToNext);
 
   // =============================================================
-  // 3. توليد الشهادة وحفظها
+  // 3. دوال الشهادة والحفظ
   // =============================================================
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzp6zJTVVejAiBFSrpydWgR8FHnNKOlHsUMmmeU2OU_Hj6oWgxjH4XTGI1Qs6X4UWwr/exec';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzy4m10wkx7IeqX_8XlCfJzTjSNtXhlk-MhvkwXjk14zXFHpJ_nbLyDcXhcqbDXdr98/exec';
 
-  async function saveToSheet(code, name, date, score) {
-    const url = API_URL + '?action=save&code=' + encodeURIComponent(code) +
-                '&name=' + encodeURIComponent(name) +
-                '&date=' + encodeURIComponent(date) +
-                '&score=' + encodeURIComponent(score);
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.status === 'saved') {
-        return true;
-      } else {
-        console.warn('فشل الحفظ:', data);
-        return false;
-      }
-    } catch (error) {
-      console.error('خطأ في الاتصال:', error);
-      return false;
-    }
+  // دالة عرض شهادة سابقة
+  function showPreviousCertificate(cert) {
+    if (!cert || !cert.code) return;
+    generateCertificateOnPage(cert.name, cert.code, cert.date, cert.pdfLink);
+    // إخفاء نافذة الاسم والاختبار
+    document.getElementById('nameModal').classList.add('hidden');
+    document.getElementById('quizArea').classList.add('hidden');
+    document.getElementById('resultArea').classList.add('hidden');
   }
 
-  document.getElementById('generateCertBtn').addEventListener('click', async function() {
-    const nameInput = document.getElementById('traineeNameInput');
-    const name = nameInput.value.trim();
-    const errorDiv = document.getElementById('nameError');
-
-    if (!name) {
-      errorDiv.textContent = '❌ الرجاء إدخال الاسم باللغة الإنجليزية.';
-      return;
-    }
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-      errorDiv.textContent = '❌ الاسم يجب أن يكون بالحروف الإنجليزية فقط.';
-      return;
-    }
-    errorDiv.textContent = '';
-
-    const certCode = 'PS-RM-' + new Date().getFullYear() + '-' + crypto.randomUUID().split('-')[0];
-    const today = new Date().toISOString().slice(0,10);
-
-    try {
-      this.disabled = true;
-      this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
-      const saved = await saveToSheet(certCode, name, today, quizScore);
-      if (!saved) {
-        alert('⚠️ فشل حفظ البيانات. حاول مرة أخرى.');
-        this.disabled = false;
-        this.innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
-        return;
-      }
-    } catch (e) {
-      alert('⚠️ خطأ في الاتصال بالخادم.');
-      this.disabled = false;
-      this.innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
-      return;
-    }
-
-    document.getElementById('nameModal').classList.add('hidden');
-
+  // دالة توليد الشهادة على الصفحة
+  function generateCertificateOnPage(name, certCode, today, pdfLink = '') {
     const qrData = `https://training.farouk-grup.com/verify?code=${certCode}`;
     QRCode.toDataURL(qrData, function(err, qrUrl) {
       if (err) { console.error(err); qrUrl = ''; }
 
-      // ** تم إصلاح تخطيط LTR والختم الاحتياطي هنا **
       const container = document.getElementById('certificateContainer');
       container.innerHTML = `
         <div class="certificate" dir="ltr">
-          
           <div class="corner corner-top-left"></div>
           <div class="corner corner-top-right"></div>
           <div class="corner corner-bottom-left"></div>
           <div class="corner corner-bottom-right"></div>
-
           <div class="logo-container">
             <img src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" class="logo" alt="Farouk Grup Logo"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -737,10 +707,8 @@
           <p class="description" style="margin-top: 6px;">Professional Training</p>
           
           <div class="stamp-container">
-            <!-- صورة الختم -->
             <img src="https://lh3.googleusercontent.com/d/1pLlZmF5a6n3YVWfu4uPP19cgMbR9P_St" class="stamp-img" alt="Stamp"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <!-- الختم الاحتياطي (يظهر تلقائياً إذا فشلت الصورة) -->
             <div class="stamp-fallback">
               <div class="stamp-fallback-inner">
                 <div class="stamp-fallback-group">FAROUK GRUP</div>
@@ -755,6 +723,7 @@
               <p><strong>Date of Issue:</strong> ${today}</p>
               <p><strong>Certificate Code:</strong> ${certCode}</p>
               ${qrUrl ? `<img src="${qrUrl}" class="qr-code" alt="QR Verification">` : ''}
+              ${pdfLink ? `<p><a href="${pdfLink}" target="_blank" style="color:#b8860b;">📄 تحميل نسخة PDF</a></p>` : ''}
             </div>
           </div>
         </div>
@@ -762,12 +731,58 @@
 
       document.getElementById('certificateArea').classList.remove('hidden');
       document.getElementById('certificateActions').classList.remove('hidden');
-      document.getElementById('quizArea').classList.add('hidden');
-      document.getElementById('resultArea').classList.add('hidden');
-
-      document.getElementById('generateCertBtn').disabled = false;
-      document.getElementById('generateCertBtn').innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
     });
+  }
+
+  document.getElementById('generateCertBtn').addEventListener('click', async function() {
+    const nameInput = document.getElementById('traineeNameInput');
+    const name = nameInput.value.trim();
+    const errorDiv = document.getElementById('nameError');
+    const userEmail = sessionStorage.getItem('portalUserEmail');
+
+    if (!name) {
+      errorDiv.textContent = '❌ الرجاء إدخال الاسم باللغة الإنجليزية.';
+      return;
+    }
+    if (!/^[a-zA-Z\s]+$/.test(name)) {
+      errorDiv.textContent = '❌ الاسم يجب أن يكون بالحروف الإنجليزية فقط.';
+      return;
+    }
+    if (!userEmail) {
+      errorDiv.textContent = '❌ انتهت الجلسة. يرجى العودة وتسجيل الدخول.';
+      return;
+    }
+    errorDiv.textContent = '';
+
+    const certCode = 'PS-RM-' + new Date().getFullYear() + '-' + crypto.randomUUID().split('-')[0];
+    const today = new Date().toISOString().slice(0,10);
+
+    this.disabled = true;
+    this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+
+    try {
+      const url = `${API_URL}?action=save&code=${encodeURIComponent(certCode)}&name=${encodeURIComponent(name)}&date=${encodeURIComponent(today)}&score=${encodeURIComponent(quizScore)}&email=${encodeURIComponent(userEmail)}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.status === 'saved') {
+        // نجاح – توليد QR وعرض الشهادة
+        generateCertificateOnPage(name, certCode, today, data.pdfLink);
+        document.getElementById('quizArea').classList.add('hidden');
+        document.getElementById('resultArea').classList.add('hidden');
+        document.getElementById('nameModal').classList.add('hidden');
+      } else if (data.status === 'duplicate') {
+        alert('هذا البريد الإلكتروني لديه شهادة سابقة. سيتم عرضها.');
+        showPreviousCertificate(data.certificate);
+      } else {
+        throw new Error(data.message || 'فشل الحفظ');
+      }
+    } catch (err) {
+      alert('⚠️ حدث خطأ: ' + err.message);
+    } finally {
+      this.disabled = false;
+      this.innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
+    }
   });
 
   document.getElementById('traineeNameInput').addEventListener('keypress', function(e) {
@@ -782,9 +797,58 @@
   });
 
   // =============================================================
-  // 5. بدء الاختبار
+  // 5. فحص الجلسة والإيميل ومنع التكرار
   // =============================================================
-  renderQuestion(0);
+  (function initSession() {
+    const userEmail = sessionStorage.getItem('portalUserEmail');
+    if (!userEmail) {
+      // لا يوجد جلسة، إخفاء كل شيء وعرض رسالة
+      document.getElementById('quizArea').classList.add('hidden');
+      const container = document.querySelector('.container');
+      if (container) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:40px; color:#d4af37;">
+            <i class="fa-solid fa-lock" style="font-size:3rem;"></i>
+            <h2 style="margin-top:20px;">يجب تسجيل الدخول من منصة التدريب أولاً</h2>
+            <p style="color:#a0aec0;">يرجى الذهاب إلى <a href="index.html" style="color:#d4af37;">صفحة الدورة</a> وتسجيل الدخول.</p>
+          </div>`;
+      }
+      return;
+    }
+
+    // التحقق مما إذا كان هذا الإيميل قد حصل على شهادة سابقة
+    fetch(`${API_URL}?action=checkEmail&email=${encodeURIComponent(userEmail)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'existing') {
+          // لديه شهادة سابقة -> منع الاختبار وعرض زر لعرض الشهادة
+          document.getElementById('quizArea').classList.add('hidden');
+          document.getElementById('certificateActions').classList.remove('hidden');
+          const container = document.querySelector('.container');
+          if (container) {
+            const msgDiv = document.createElement('div');
+            msgDiv.style.textAlign = 'center';
+            msgDiv.style.padding = '20px';
+            msgDiv.innerHTML = `
+              <h3 style="color:#d4af37;">لقد حصلت مسبقاً على شهادة</h3>
+              <button class="btn btn-primary" id="showPreviousCertBtn">
+                <i class="fa-solid fa-certificate"></i> عرض الشهادة السابقة
+              </button>`;
+            container.appendChild(msgDiv);
+            document.getElementById('showPreviousCertBtn').addEventListener('click', function() {
+              showPreviousCertificate(data.certificate);
+            });
+          }
+        } else {
+          // لم يصدر شهادة بعد، يمكنه إجراء الاختبار
+          renderQuestion(0);
+        }
+      })
+      .catch(err => {
+        console.error('فشل التحقق:', err);
+        renderQuestion(0); // السماح بالاختبار في حالة الخطأ
+      });
+  })();
 </script>
 </body>
 </html>

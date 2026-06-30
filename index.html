@@ -123,6 +123,16 @@
     }
     .video-container { flex: 1 1 auto; min-height: 480px; position: relative; width: 100%; background: #000; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.05); }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block; }
+    .video-blocker {
+      position: absolute;
+      top: 0;
+      right: 0;        /* الأيقونة تظهر في الزاوية اليمنى العليا لأن الصفحة RTL */
+      width: 60px;
+      height: 60px;
+      background: transparent;
+      z-index: 5;
+      pointer-events: auto;   /* يمنع النقر خلفه */
+    }
     .video-controls { display: flex; gap: 15px; margin-top: 15px; flex-shrink: 0; flex-wrap: wrap; padding: 5px 0; }
     .fullscreen-btn, .download-resource {
       display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); backdrop-filter: blur(4px);
@@ -216,7 +226,9 @@
       <!-- المحتوى الرئيسي -->
       <main class="content" id="contentPanel">
         <div class="video-container" id="videoBox">
-          <iframe id="videoPlayer" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
+          <iframe id="videoPlayer" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen
+                  sandbox="allow-scripts allow-same-origin"></iframe>
+          <div class="video-blocker"></div>
         </div>
         <div class="video-controls">
           <button class="fullscreen-btn" onclick="openFullscreen()"><i class="fa-solid fa-expand"></i> شاشة كاملة</button>
@@ -447,10 +459,9 @@
         videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "كيف تجعل الإصلاحات دائمة ولا تعود الأخطاء للظهور مجدداً.", attachments: "" }
     ];
 
+    const TOTAL_LESSONS = allLessons.length;
 
-    const TOTAL_LESSONS = allLessons.length; // يجب أن يكون 80
-
-    let completedVideos = []; // الفهارس التي تم النقر عليها (0-79)
+    let completedVideos = [];
     let currentUserEmail = "";
 
     const listContainer = document.getElementById('lectureList');
@@ -476,7 +487,7 @@
 
     totalLessonsNumSpan.textContent = TOTAL_LESSONS;
 
-    // ===== دوال الخادم (تحفظ رقم الدرس من 1 إلى 80) =====
+    // ===== دوال الخادم =====
     async function saveProgressToServer(lessonIndex0Based) {
       if (!currentUserEmail) return;
       try {
@@ -505,7 +516,7 @@
       return [];
     }
 
-    // ===== بناء القائمة (بدون إكمال تراكمي) =====
+    // ===== بناء القائمة =====
     function createLectureList() {
       listContainer.innerHTML = '';
       const grouped = {};
@@ -594,7 +605,6 @@
     }
 
     function checkAllCompleted() {
-      // إظهار أو إخفاء زر الاختبار في الشريط الجانبي
       if (completedVideos.length >= TOTAL_LESSONS) {
         examSection.style.display = 'block';
       } else {
@@ -632,9 +642,8 @@
         if (result.status === 'success') {
           sessionStorage.setItem('portalLoggedIn', 'true');
           sessionStorage.setItem('portalUserName', result.name || user);
-                  sessionStorage.setItem('portalUserEmail', user);   // أضف هذا السطر
+          sessionStorage.setItem('portalUserEmail', user);
           currentUserEmail = user;
-                  sessionStorage.setItem('portalUserEmail', user); // تخزين الإيميل الصحيح
 
           completedVideos = await loadProgressFromServer(user);
 
@@ -674,7 +683,7 @@
     function logout() {
       sessionStorage.removeItem('portalLoggedIn');
       sessionStorage.removeItem('portalUserName');
-           sessionStorage.removeItem('portalUserEmail'); 
+      sessionStorage.removeItem('portalUserEmail'); 
       loginOverlay.style.display = 'flex';
       mainContent.style.display = 'none';
       logoutBtn.style.display = 'none';
@@ -699,8 +708,8 @@
     downloadAllBtn.addEventListener('click', (e) => { e.preventDefault(); alert('📁 سيتم تجميع جميع ملفات الدورة للتحميل (وظيفة قيد التطوير)'); });
 
     document.getElementById('examBtn')?.addEventListener('click', () => {
-  window.location.href = 'examSection.html'; // اسم الملف الذي تريده
-});
+      window.location.href = 'examSection.html';
+    });
 
     window.addEventListener('load', checkSession);
   </script>

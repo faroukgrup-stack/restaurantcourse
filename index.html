@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>دورة إدارة المطاعم - منصة فاروق للتدريب</title>
+  <!-- ... (نفس تنسيقات CSS السابقة بدون تغيير) ... -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ===== المتغيرات والأساس ===== */
     :root {
       --gold: #b8860b; --gold-light: #d4af37; --gold-glow: rgba(184, 134, 11, 0.4);
       --dark: #0b0d14; --dark-panel: #141821; --card-bg: #1a1f2b;
@@ -87,34 +87,14 @@
     }
     .download-all:hover { background: linear-gradient(135deg, #fff, var(--gold-light)); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184,134,11,0.5); color: #000; }
 
-    /* قسم زر الاختبار في الشريط الجانبي */
-    #examSection {
-      padding: 8px 16px 16px;
-      flex-shrink: 0;
-      text-align: center;
-    }
+    #examSection { padding: 8px 16px 16px; flex-shrink: 0; text-align: center; }
     #examBtn {
-      width: 100%;
-      background: linear-gradient(135deg, #00b894, #00cec9); /* لون مميز للاختبار */
-      color: #0b0d14;
-      padding: 12px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 0.9rem;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-      box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      width: 100%; background: linear-gradient(135deg, #00b894, #00cec9);
+      color: #0b0d14; padding: 12px; border-radius: 50px; font-weight: 900; font-size: 0.9rem;
+      border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,184,148,0.3);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
     }
-    #examBtn:hover {
-      background: linear-gradient(135deg, #00cec9, #00b894);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 184, 148, 0.5);
-    }
+    #examBtn:hover { background: linear-gradient(135deg, #00cec9, #00b894); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,184,148,0.5); }
 
     .content {
       flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden;
@@ -122,16 +102,12 @@
       border: 1px solid var(--border-gold); box-shadow: var(--shadow-gold); padding: 20px 25px;
     }
     .video-container { flex: 1 1 auto; min-height: 480px; position: relative; width: 100%; background: #000; border-radius: 18px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.05); }
-    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block; }
+    .video-container iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block;
+    }
     .video-blocker {
-      position: absolute;
-      top: 0;
-      right: 0;        /* الأيقونة تظهر في الزاوية اليمنى العليا لأن الصفحة RTL */
-      width: 60px;
-      height: 60px;
-      background: transparent;
-      z-index: 5;
-      pointer-events: auto;   /* يمنع النقر خلفه */
+      position: absolute; top: 0; right: 0; width: 60px; height: 60px;
+      background: transparent; z-index: 5; pointer-events: auto;
     }
     .video-controls { display: flex; gap: 15px; margin-top: 15px; flex-shrink: 0; flex-wrap: wrap; padding: 5px 0; }
     .fullscreen-btn, .download-resource {
@@ -182,6 +158,7 @@
 </head>
 <body>
   <div id="app">
+    <!-- نفس عناصر header و login overlay السابقة -->
     <header>
       <div class="brand">
         <i class="fa-solid fa-utensils"></i>
@@ -194,11 +171,10 @@
     </header>
 
     <div class="container" id="mainContent" style="display: none;">
-      <!-- الشريط الجانبي -->
       <aside class="sidebar">
         <div class="sidebar-header">
           <h2><i class="fa-regular fa-rectangle-list"></i> المحاضرات</h2>
-          <span class="lesson-counter" id="lessonCounterBadge">الدرس <span id="currentLessonNum">1</span> من <span id="totalLessonsNum">80</span></span>
+          <span class="lesson-counter" id="lessonCounterBadge">الدرس <span id="currentLessonNum">1</span> من <span id="totalLessonsNum">81</span></span>
         </div>
         <div class="progress-section">
           <div class="progress-header">
@@ -211,11 +187,10 @@
         </div>
         <div class="scroll-area" id="lectureList"></div>
         <div class="download-section">
-          <a href="#" class="download-all" id="downloadAllBtn">
+          <a href="https://drive.google.com/uc?export=download&id=1hZb4dsJHTNSn_5LVLnLIGxd98lpdh3Q-" class="download-all" id="downloadAllBtn">
             <i class="fa-solid fa-download"></i> تحميل ملفات الدورة
           </a>
         </div>
-        <!-- زر الاختبار في الشريط الجانبي -->
         <div id="examSection" style="display: none;">
           <button id="examBtn">
             <i class="fa-solid fa-clipboard-check"></i> الاختبار والحصول على الشهادة
@@ -223,11 +198,9 @@
         </div>
       </aside>
 
-      <!-- المحتوى الرئيسي -->
       <main class="content" id="contentPanel">
         <div class="video-container" id="videoBox">
-          <iframe id="videoPlayer" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen
-                  sandbox="allow-scripts allow-same-origin"></iframe>
+          <iframe id="videoPlayer" src="" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
           <div class="video-blocker"></div>
         </div>
         <div class="video-controls">
@@ -260,210 +233,213 @@
   </div>
 
   <script>
-    // ===== رابط Google Script (استبدله برابط تطبيق الويب الخاص بك) =====
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5ViuotozbYOqrPboWEuKLWFMZEpnuBO2BR_B1ss0CIII-7EErgFmBWbITTtFMhvLJ/exec";
 
-    // ===== رابط الفيديو المؤقت =====
-    const TEMP_VIDEO_LINK = "https://drive.google.com/file/d/1v4jr83VIs7fQzZ0_ETlLWPbtw7sUDbXS/preview";
+    // ⚠️ هذا هو رابط الفيديو الأول (Google Drive) - يمكنك تغييره لاحقًا
+    const VIDEO_1_LINK = "https://drive.google.com/file/d/1WivdHzOoB0IFC5r3cCXk3p5xfqsaqWGJ/preview";
 
-    // ===== بيانات الدروس الكاملة (العناوين الصحيحة من الملف) =====
+    // 📋 المصفوفة الكاملة للدروس (81 درسًا تشمل الخاتمة)
     const allLessons = [
-      // المحور الأول (4)
-      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "إدارة المطاعم ليست أكل وخدمة وبس؟", 
-        videoLink: "https://1drv.ms/v/c/27327876f70a1a1b/IQSb9faZHD57R5StxZDsxLeOAXzd0q3yyZ51ecUIlPelB44?width=1920&height=1080", duration: "12:30", description: "مقدمة عن المنظومة المتكاملة للمطعم ولماذا الأرقام أهم من الإحساس.", attachments: "" },
-      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "المطعم كمشروع تجاري وليس كحرفة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "14:20", description: "تحويل العقلية من طباخ إلى مدير مشروع يربح ويستمر.", attachments: "" },
-      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "أطراف إدارة المطاعم: الإدارة - الموظف - الزبون", 
-        videoLink: TEMP_VIDEO_LINK, duration: "11:45", description: "كيف تحقق التوازن بين الإدارة والموظف والزبون لاستدامة التشغيل.", attachments: "" },
-      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "ليش الحدس لحالو ما بكفي بإدارة المطاعم؟", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:10", description: "الاعتماد على الحدس دون أرقام هو أسرع طريق للخسارة.", attachments: "" },
+      // ========== المحور الأول (4 دروس) ==========
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "1- إدارة المطاعم ليست أكل وخدمة وبس؟", 
+        videoLink: VIDEO_1_LINK, duration: "03:03", description: "مقدمة عن المنظومة المتكاملة للمطعم.", attachments: "" },
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "2- المطعم كمشروع تجاري وليس كحرفة", 
+        videoLink: "https://drive.google.com/file/d/1dB9LEqk2cTvsUuQvj1D2bHy2lOydnadW/preview", duration: "03:45", description: "تحويل العقلية من طباخ إلى مدير مشروع.", attachments: "" },
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "3- أطراف إدارة المطاعم: الإدارة - الموظف - الزبون", 
+        videoLink: "https://drive.google.com/file/d/1I20I-IzGbZlZHtB81uLuWIGkumBeN6Jh/preview", duration: "03:16", description: "التوازن بين الأطراف الثلاثة.", attachments: "" },
+      { category: "مدخل إلى إدارة المطاعم كمنظومة تشغيلية ومالية", title: "4- ليش الحدس لحالو ما بكفي بإدارة المطاعم؟", 
+        videoLink: "https://drive.google.com/file/d/1z9ehzUT8vta6hhc_rv7ofV00AvqCvAk2/preview", duration: "04:01", description: "الاعتماد على الحدس دون أرقام.", attachments: "" },
 
-      // المحور الثاني (6)
-      { category: "المهارات الإدارية لمدير المطعم", title: "دور مدير المطعم الحقيقي (المهارات الإدارية الأساسية)", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:00", description: "المهارات الأساسية التي تحول المدير من مشغل متعب إلى قائد.", attachments: "" },
-      { category: "المهارات الإدارية لمدير المطعم", title: "التخطيط والتنظيم في إدارة المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "15:30", description: "التخطيط المسبق والتنظيم الداخلي هما أساس الاستقرار التشغيلي.", attachments: "" },
-      { category: "المهارات الإدارية لمدير المطعم", title: "اتخاذ القرار الإداري تحت الضغط في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "14:45", description: "كيف تتخذ قرارات صائبة في لحظات الضغط دون أن تدمر التشغيل.", attachments: "" },
-      { category: "المهارات الإدارية لمدير المطعم", title: "إدارة الوقت وتعدد المهام في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "13:20", description: "تنظيم الأولويات والتفويض لتحرير وقتك للإدارة الحقيقية.", attachments: "" },
-      { category: "المهارات الإدارية لمدير المطعم", title: "المتابعة والرقابة الإدارية في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:10", description: "الرقابة على العمليات وليس الأشخاص لتحسين الأداء دون توتر.", attachments: "" },
-      { category: "المهارات الإدارية لمدير المطعم", title: "التواصل الإداري وبناء الفريق في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:40", description: "بناء فريق متماسك من خلال التواصل الواضح والعادل.", attachments: "" },
+      // ========== المحور الثاني (6 دروس) ==========
+      { category: "المهارات الإدارية لمدير المطعم", title: "5- دور مدير المطعم الحقيقي", 
+        videoLink: "https://drive.google.com/file/d/1pZI0zL52FGaCVVbR5z744L1H-4AJsFLu/preview", duration: "05:47", description: "المهارات الأساسية.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "6- التخطيط والتنظيم في إدارة المطاعم", 
+        videoLink: "https://drive.google.com/file/d/1MEzTe8FTyA_zChSOJbWZgZyX5i-pgSCj/preview", duration: "04:29", description: "التخطيط المسبق.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "7- اتخاذ القرار الإداري تحت الضغط", 
+        videoLink: "https://drive.google.com/file/d/11pTJxG2EqcZbmn6I8InfIDf2fuT4vlEe/preview", duration: "04:41", description: "قرارات صائبة في لحظات الضغط.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "8- إدارة الوقت وتعدد المهام", 
+        videoLink: "https://drive.google.com/file/d/1dM6D_240QWneer-Hicw5oHYW5-4PZXGU/preview", duration: "03:51", description: "تنظيم الأولويات والتفويض.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "9- المتابعة والرقابة الإدارية", 
+        videoLink: "https://drive.google.com/file/d/14Sn6w1FUx6BpD76y9mJaNbKHJG4LQnqz/preview", duration: "04:31", description: "الرقابة على العمليات.", attachments: "" },
+      { category: "المهارات الإدارية لمدير المطعم", title: "10- التواصل الإداري وبناء الفريق", 
+        videoLink: "https://drive.google.com/file/d/1Wvoh-SX1zELR0XP-ehrASgRHNfgVb99Y/preview", duration: "04:59", description: "بناء فريق متماسك.", attachments: "" },
 
-      // المحور الثالث (7)
-      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "المدخل إلى الإدارة التشغيلية في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "12:00", description: "ربط الإدارة بالتشغيل لتحويل المواد والجهد إلى ربح.", attachments: "" },
-      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة المطبخ كنظام تشغيلي متكامل", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "تحويل المطبخ من مكان يعتمد على الأشخاص إلى نظام متكامل.", attachments: "" },
-      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "الوصفات القياسية ودورها في ضبط الجودة والتكلفة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:15", description: "الوصفة القياسية هي السلاح الحقيقي لضبط التكلفة والجودة.", attachments: "" },
-      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة المخزون والهدر في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:50", description: "كيف يتحول المخزون من أصل إلى عبء وكيف تكتشف الهدر الخفي.", attachments: "" },
-      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة المشتريات والتعامل مع الموردين", 
-        videoLink: TEMP_VIDEO_LINK, duration: "15:10", description: "المشتريات كقرار مالي وليس مجرد عملية شراء.", attachments: "" },
-      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "إدارة الصالة وتجربة الزبون", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:30", description: "الصالة هي واجهة المطعم وكيف تديرها لتكون ميزة تنافسية.", attachments: "" },
-      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "تكامل التشغيل بين المطبخ والصالة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "14:20", description: "بناء جسر بين المطبخ والصالة لإنهاء الفوضى وتحسين الخدمة.", attachments: "" },
+      // ========== المحور الثالث (7 دروس) ==========
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "11- المدخل إلى الإدارة التشغيلية", 
+        videoLink: "https://drive.google.com/file/d/1NNAUZmiRDh98up07I0VFDBXS6Wfg0QAc/preview", duration: "03:46", description: "ربط الإدارة بالتشغيل.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "12- إدارة المطبخ كنظام تشغيلي", 
+        videoLink: "https://drive.google.com/file/d/1AEEUwa55PSiwf-nw_kgjuxFcY7zjLCzg/preview", duration: "04:35", description: "تحويل المطبخ إلى نظام.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "13- الوصفات القياسية ودورها", 
+        videoLink: "https://drive.google.com/file/d/1ZIIhGFfB8uxyyQ-1bOV56i0a7k49uA6F/preview", duration: "06:06", description: "الوصفة القياسية لضبط الجودة.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "14- إدارة المخزون والهدر", 
+        videoLink: "https://drive.google.com/file/d/1uFRvD3X_4p_0ZofBxcvDTsoC4tIXN1Tf/preview", duration: "04:44", description: "الهدر الخفي.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "15- إدارة المشتريات والتعامل مع الموردين", 
+        videoLink: "https://drive.google.com/file/d/1cCVpY_Z3Pe9EIgKUNDpYbb4polxK6V8E/preview", duration: "05:15", description: "المشتريات كقرار مالي.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "16- إدارة الصالة وتجربة الزبون", 
+        videoLink: "https://drive.google.com/file/d/1k0H632liS6fbSW79atvzPkwrD1hc0BJx/preview", duration: "03:39", description: "الصالة كواجهة للمطعم.", attachments: "" },
+      { category: "المهارات الفنية والتشغيلية في المطاعم", title: "17- تكامل التشغيل بين المطبخ والصالة", 
+        videoLink: "https://drive.google.com/file/d/13dLhNaSXSZ0VJg5o1Ui6heAlL6sNfmQ4/preview", duration: "04:52", description: "بناء جسر بين المطبخ والصالة.", attachments: "" },
 
-      // المحور الرابع (5)
-      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "عقلية رجل الأعمال في إدارة المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "13:40", description: "الفرق بين مدير مطعم عادي ورجل أعمال يبني قيمة.", attachments: "" },
-      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "العمل داخل المطعم والعمل على المطعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:20", description: "كيف تخرج نفسك من التفاصيل اليومية لتبني نظاماً قابلاً للاستمرار.", attachments: "" },
-      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "الرؤية والأهداف في مشاريع المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:30", description: "بناء رؤية واضحة وأهداف قابلة للقياس لتوجيه القرارات.", attachments: "" },
-      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "اتخاذ القرار الاستثماري وتقييم المخاطر المرتبطة به", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:10", description: "كيف تقيم المخاطر وتتخذ قرارات استثمارية ذكية.", attachments: "" },
-      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "النمو الصحي مقابل النمو الخاطئ في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "15:45", description: "لماذا بعض المطاعم الناجحة تنهار عند التوسع وكيف تتجنب ذلك.", attachments: "" },
+      // ========== المحور الرابع (5 دروس) ==========
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "18- عقلية رجل الأعمال", 
+        videoLink: "https://drive.google.com/file/d/1V-AOCLeFCcZlIumtTlasXCTZ2rMe4ar3/preview", duration: "04:45", description: "الفرق بين مدير ورجل أعمال.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "19- العمل داخل المطعم والعمل على المطعم", 
+        videoLink: "https://drive.google.com/file/d/16rgK9rbJSko9Iog7GbR1YBIyhzc8PmwG/preview", duration: "05:14", description: "الخروج من التفاصيل اليومية.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "20- الرؤية والأهداف في مشاريع المطاعم", 
+        videoLink: "https://drive.google.com/file/d/14TVgCxou9eu0T_ZiH5mx9l2MifSr3jHv/preview", duration: "07:20", description: "بناء رؤية واضحة.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "21- اتخاذ القرار الاستثماري", 
+        videoLink: "https://drive.google.com/file/d/163sKcd913NtMaCsluQtQs9kqonA2kAPO/preview", duration: "03:53", description: "تقييم المخاطر.", attachments: "" },
+      { category: "عقلية رجل الأعمال في إدارة المطاعم", title: "22- النمو الصحي مقابل النمو الخاطئ", 
+        videoLink: "https://drive.google.com/file/d/1CWk5l5NKSWfUhiKXrZEpzLs1SZ8kmTM0/preview", duration: "03:11", description: "لماذا تفشل المطاعم عند التوسع.", attachments: "" },
 
-      // المحور الخامس (4)
-      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "الجودة في المطاعم: المفهوم الحقيقي للجودة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "14:00", description: "إعادة تعريف الجودة من اجتهاد فردي إلى نظام ثابت.", attachments: "" },
-      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "تطبيق الجودة كنظام داخل المطعم (المطبخ والصالة)", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:50", description: "كيف تطبق الجودة كنظام مكتوب ومطبق داخل المطبخ والصالة.", attachments: "" },
-      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "قياس الجودة ومؤشرات الأداء في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:20", description: "اختيار المؤشرات الصحيحة لقياس الجودة وتحويلها لقرار.", attachments: "" },
-      { category: "الجودة في المطاعم (المفهوم - التطبيق - القياس)", title: "ربط الجودة بالربحية وتقليل الهدر", 
-        videoLink: TEMP_VIDEO_LINK, duration: "15:10", description: "الجودة ليست تكلفة إضافية بل استثمار مباشر في الربح.", attachments: "" },
+      // ========== المحور الخامس (4 دروس) ==========
+      { category: "الجودة في المطاعم", title: "23- المفهوم الحقيقي للجودة", 
+        videoLink: "https://drive.google.com/file/d/1cjOWX4Bv5YiRORuuNxCR8KkNgOaiGRrK/preview", duration: "04:25", description: "من اجتهاد فردي إلى نظام.", attachments: "" },
+      { category: "الجودة في المطاعم", title: "24- تطبيق الجودة كنظام", 
+        videoLink: "https://drive.google.com/file/d/1JWdWgwGQXXyGsmsKRA8VTagm73kzlJOp/preview", duration: "04:53", description: "تطبيق الجودة في المطبخ والصالة.", attachments: "" },
+      { category: "الجودة في المطاعم", title: "25- قياس الجودة ومؤشرات الأداء", 
+        videoLink: "https://drive.google.com/file/d/1MX5OZP4CFPOORMZrFV4PjYxEAxUc4Iy-/preview", duration: "03:39", description: "مؤشرات قياس الجودة.", attachments: "" },
+      { category: "الجودة في المطاعم", title: "26- ربط الجودة بالربحية", 
+        videoLink: "https://drive.google.com/file/d/1nHRU43HQevtLibv3Z0SYy5EK3XadH8Qv/preview", duration: "02:43", description: "الجودة ليست تكلفة إضافية.", attachments: "" },
 
-      // المحور السادس (5)
-      { category: "تجربة العميل وإدارة الخدمة", title: "تجربة العميل في المطاعم من خدمة عشوائية إلى تجربة مُدارة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:30", description: "تحويل الخدمة العشوائية إلى تجربة متكاملة ومصممة.", attachments: "" },
-      { category: "تجربة العميل وإدارة الخدمة", title: "رحلة العميل داخل المطعم: كيف نفهمها، ونسيطر عليها، ونحوّلها لميزة تنافسية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "21:00", description: "فهم رحلة العميل خطوة بخطوة للسيطرة على التجربة.", attachments: "" },
-      { category: "تجربة العميل وإدارة الخدمة", title: "تصميم تجربة خدمة ثابتة بدون قتل روح الفريق", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:15", description: "كيف توازن بين النظام والروح البشرية في تقديم الخدمة.", attachments: "" },
-      { category: "تجربة العميل وإدارة الخدمة", title: "الشكاوى، الأخطاء، ولحظات الحقيقة: كيف نحول الموقف الحساس لفرصة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "تحويل الشكاوى من أزمة إلى فرصة لتعزيز ولاء العميل.", attachments: "" },
-      { category: "تجربة العميل وإدارة الخدمة", title: "قياس تجربة العميل: من إحساس عام إلى مؤشرات قرار", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:50", description: "تحويل انطباعات العملاء إلى أرقام ومؤشرات واضحة.", attachments: "" },
+      // ========== المحور السادس (5 دروس) ==========
+      { category: "تجربة العميل وإدارة الخدمة", title: "27- من خدمة عشوائية إلى تجربة مُدارة", 
+        videoLink: "https://drive.google.com/file/d/12LxT1a2uqwcPUEifiV7Atrt1gO76kykm/preview", duration: "03:40", description: "تحويل الخدمة.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "28- رحلة العميل داخل المطعم", 
+        videoLink: "https://drive.google.com/file/d/1edhOmSpjjutjJJ-SYi4Ica71Z31WCdS6/preview", duration: "05:08", description: "فهم رحلة العميل.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "29- تصميم تجربة خدمة ثابتة", 
+        videoLink: "https://drive.google.com/file/d/1qd46Wwpxt0qaL0-0PZ9p-RvusmMuQmRd/preview", duration: "03:49", description: "التوازن بين النظام والروح.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "30- الشكاوى والأخطاء ولحظات الحقيقة", 
+        videoLink: "https://drive.google.com/file/d/1W7RE79qBXg5K8QZv22IWNj7QWvkdjbLK/preview", duration: "04:17", description: "تحويل الشكاوى لفرص.", attachments: "" },
+      { category: "تجربة العميل وإدارة الخدمة", title: "31- قياس تجربة العميل", 
+        videoLink: "https://drive.google.com/file/d/1XMlvv6d9ir55-BTORYfQ_qrfmBHtDpok/preview", duration: "02:55", description: "من انطباعات إلى مؤشرات.", attachments: "" },
 
-      // المحور السابع (5)
-      { category: "إدارة الموارد البشرية في المطاعم", title: "إدارة الموارد البشرية في المطاعم من توظيف أشخاص إلى بناء نظام إنتاج", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:10", description: "بناء نظام موارد بشرية يحمي المطعم من تقلبات الأفراد.", attachments: "" },
-      { category: "إدارة الموارد البشرية في المطاعم", title: "الاختيار والتوظيف الذكي في المطاعم: كيف نختار الشخص الصح من البداية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:45", description: "كيف تختار الموظف المناسب قبل أن تدفع ثمن قرار خاطئ.", attachments: "" },
-      { category: "إدارة الموارد البشرية في المطاعم", title: "التدريب والتأهيل في المطاعم: كيف نبني أداء ثابت من فريق متغيّر", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "التدريب المستمر هو نظام الأمان للحفاظ على الأداء.", attachments: "" },
-      { category: "إدارة الموارد البشرية في المطاعم", title: "التقييم والمتابعة والمساءلة: كيف نرفع الأداء بدون ما نكسر الفريق", 
-        videoLink: TEMP_VIDEO_LINK, duration: "22:00", description: "التقييم العادل والمساءلة الواضحة لبناء فريق قوي.", attachments: "" },
-      { category: "إدارة الموارد البشرية في المطاعم", title: "التحفيز والاستقرار وتقليل دوران الموظفين في المطاعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:40", description: "خلق بيئة عادلة ومحفزة لتقليل دوران الموظفين.", attachments: "" },
+      // ========== المحور السابع (5 دروس) ==========
+      { category: "إدارة الموارد البشرية في المطاعم", title: "32- من توظيف أشخاص إلى نظام إنتاج", 
+        videoLink: "https://drive.google.com/file/d/1T1Y9yJHJMQaEayuB3GeL3feYFrqwj3s4/preview", duration: "03:18", description: "نظام موارد بشرية.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "33- الاختيار والتوظيف الذكي", 
+        videoLink: "https://drive.google.com/file/d/19EmvpezaqqQdFindLb34lzdaj8iRCOXP/preview", duration: "03:18", description: "اختيار الشخص المناسب.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "34- التدريب والتأهيل", 
+        videoLink: "https://drive.google.com/file/d/1nkpihbcqv6k6h2DUC_HAfZp530ZWlVzl/preview", duration: "03:37", description: "بناء أداء ثابت.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "35- التقييم والمتابعة والمساءلة", 
+        videoLink: "https://drive.google.com/file/d/1BvGBPbeHmgfozZZQbqFix7ocF1na0N1n/preview", duration: "02:56", description: "رفع الأداء بدون كسر الفريق.", attachments: "" },
+      { category: "إدارة الموارد البشرية في المطاعم", title: "36- التحفيز والاستقرار", 
+        videoLink: "https://drive.google.com/file/d/1KKYDrODRF50uBRUsJPM_v-2yPtMEepmh/preview", duration: "02:26", description: "تقليل دوران الموظفين.", attachments: "" },
 
-      // المحور الثامن (5)
-      { category: "التخطيط والتنبؤ بالمبيعات", title: "التخطيط والتنبؤ بالمبيعات في المطاعم: من حدس يومي إلى قرار مبني على أرقام", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:00", description: "تحويل التخطيط من حدس إلى نظام يعتمد على الأرقام.", attachments: "" },
-      { category: "التخطيط والتنبؤ بالمبيعات", title: "التنبؤ بالمبيعات بالأرقام: المعادلات الأساسية اللي أي مدير مطعم لازم يعرفها", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:15", description: "المعادلات الذهبية التي تحول التنبؤ إلى علم.", attachments: "" },
-      { category: "التخطيط والتنبؤ بالمبيعات", title: "تحليل المبيعات عمليًا: كيف نفهم الرقم ونشتغل عليه", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:30", description: "قراءة الأرقام وتحليلها لاتخاذ قرارات تشغيلية فورية.", attachments: "" },
-      { category: "التخطيط والتنبؤ بالمبيعات", title: "ربط التنبؤ بالمبيعات بالجاهزية التشغيلية داخل المطعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:45", description: "كيف تحول التوقعات إلى استعداد فعلي في المطبخ والصالة.", attachments: "" },
-      { category: "التخطيط والتنبؤ بالمبيعات", title: "قياس دقة التنبؤ بالمبيعات وتصحيح الأخطاء التشغيلية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:20", description: "قياس دقة توقعاتك وتصحيح مسارك قبل فوات الأوان.", attachments: "" },
+      // ========== المحور الثامن (5 دروس) ==========
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "37- من حدس يومي إلى قرار مبني على أرقام", 
+        videoLink: "https://drive.google.com/file/d/1v1SVrymJWKfVY3y78m1MXqreHO8EYhFj/preview", duration: "02:55", description: "تحويل التخطيط.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "38- المعادلات الأساسية للتنبؤ", 
+        videoLink: "https://drive.google.com/file/d/1oR44t_3iOgi09p-2KslZFMw7S9yQIr-p/preview", duration: "04:09", description: "معادلات ذهبية.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "39- تحليل المبيعات عمليًا", 
+        videoLink: "https://drive.google.com/file/d/1ZDIBcRV9-Qwa0S7-CwJLAkVf9hLpmxCp/preview", duration: "03:26", description: "قراءة الأرقام.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "40- ربط التنبؤ بالجاهزية التشغيلية", 
+        videoLink: "https://drive.google.com/file/d/1qWIlwM35zyrRcufcyIPNgLnN9MOCLW-L/preview", duration: "03:10", description: "توقعات تتحول لاستعداد.", attachments: "" },
+      { category: "التخطيط والتنبؤ بالمبيعات", title: "41- قياس دقة التنبؤ", 
+        videoLink: "https://drive.google.com/file/d/1T5YaB1l7JMPceA6vnwHwj1MmXQCH_eU0/preview", duration: "03:22", description: "تصحيح الأخطاء.", attachments: "" },
 
-      // المحور التاسع (5)
-      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "إدارة التكاليف الغذائية: كيف يتحول الطبق من وصفة إلى رقم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "تحويل كل طبق في المنيو إلى رقم مالي مفهوم.", attachments: "" },
-      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "الوصفة القياسية: هي السلاح الحقيقي لضبط تكلفة الطعام", 
-        videoLink: TEMP_VIDEO_LINK, duration: "21:10", description: "الوصفة القياسية كعقد مالي بين الإدارة والمطبخ.", attachments: "" },
-      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "الهدر والفاقد والسرقة هو العدو الصامت لتكلفة الطعام", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "كشف مصادر الهدر والسرقة الخفية التي تأكل الأرباح.", attachments: "" },
-      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "كيف نقرأ نسبة Food Cost ونحوّلها لقرار إداري", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:30", description: "قراءة نسبة التكلفة في سياقها الحقيقي لاتخاذ القرارات الصحيحة.", attachments: "" },
-      { category: "إدارة التكاليف الغذائية (Food Cost)", title: "تحليل الأصناف وتحديد مصادر الخلل في تكلفة الطعام", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:15", description: "تحديد الأصناف التي تدمر التكلفة وكيفية التعامل معها.", attachments: "" },
+      // ========== المحور التاسع (5 دروس) ==========
+      { category: "إدارة التكاليف الغذائية", title: "42- كيف يتحول الطبق من وصفة إلى رقم", 
+        videoLink: "https://drive.google.com/file/d/1KMtcgksnzhFOrquMIVia8NPLkNzZYTFw/preview", duration: "03:47", description: "تحويل الطبق لرقم مالي.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية", title: "43- الوصفة القياسية سلاح ضبط التكلفة", 
+        videoLink: "https://drive.google.com/file/d/1HsJGyHb9XlC233DtrWYBQIni0Bk5TNx_/preview", duration: "04:09", description: "عقد مالي بين الإدارة والمطبخ.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية", title: "44- الهدر والفاقد والسرقة", 
+        videoLink: "https://drive.google.com/file/d/1UB6_b8bMxMUsVFZcwa8s4iBTBUgHe4Ez/preview", duration: "03:25", description: "العدو الصامت.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية", title: "45- قراءة نسبة Food Cost", 
+        videoLink: "https://drive.google.com/file/d/18KagihA0_ja_U4GHhMSn5XUZkgBzWI4-/preview", duration: "03:57", description: "تحويل النسبة لقرار.", attachments: "" },
+      { category: "إدارة التكاليف الغذائية", title: "46- تحليل الأصناف", 
+        videoLink: "https://drive.google.com/file/d/1kmmrPyCYVj8IkDRv1RiU-6bQgNGQTP05/preview", duration: "03:40", description: "تحديد مصادر الخلل.", attachments: "" },
 
-      // المحور العاشر (5)
-      { category: "إدارة المشروبات (Beverage Control)", title: "إدارة المشروبات: ملف ربحي عالي الحساسية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:20", description: "لماذا تعتبر المشروبات ملفاً حساساً وكيف تديرها باحترافية.", attachments: "" },
-      { category: "إدارة المشروبات (Beverage Control)", title: "حساب تكلفة الكاسة وبناء سعر بيع مبني على الواقع التشغيلي", 
-        videoLink: TEMP_VIDEO_LINK, duration: "22:10", description: "حساب تكلفة الكاسة بدقة وبناء سعر يعكس الواقع.", attachments: "" },
-      { category: "إدارة المشروبات (Beverage Control)", title: "ضبط السكب والتحكم بالكميات داخل التشغيل اليومي", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:00", description: "كيف تضبط كميات السكب لتحول الفروق الصغيرة لأرباح كبيرة.", attachments: "" },
-      { category: "إدارة المشروبات (Beverage Control)", title: "الجرد والتحكم بتكلفة المشروبات المحضّرة يدويًا", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:30", description: "الجرد اليومي للمشروبات المحضرة يدوياً للكشف عن الهدر.", attachments: "" },
-      { category: "إدارة المشروبات (Beverage Control)", title: "قراءة Beverage Cost واتخاذ القرار الإداري", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "تحويل نسبة تكلفة المشروبات إلى قرارات إدارية فاعلة.", attachments: "" },
+      // ========== المحور العاشر (5 دروس) ==========
+      { category: "إدارة المشروبات", title: "47- ملف ربحي عالي الحساسية", 
+        videoLink: "https://drive.google.com/file/d/1MyoiJeQyT9K84hTFUK1mn5vFq4Lrgmzv/preview", duration: "03:29", description: "إدارة المشروبات باحترافية.", attachments: "" },
+      { category: "إدارة المشروبات", title: "48- حساب تكلفة الكاسة", 
+        videoLink: "https://drive.google.com/file/d/1BFFEcJxQiITPocOu98t0fhs07m2KybzF/preview", duration: "03:18", description: "بناء سعر بيع.", attachments: "" },
+      { category: "إدارة المشروبات", title: "49- ضبط السكب والكميات", 
+        videoLink: "https://drive.google.com/file/d/16yIzj0GGaeuydxioMNX3Rmb4oQIqVkho/preview", duration: "02:15", description: "فروق صغيرة أرباح كبيرة.", attachments: "" },
+      { category: "إدارة المشروبات", title: "50- الجرد والتحكم بالتكلفة", 
+        videoLink: "https://drive.google.com/file/d/1fPTH4mQ0q_uYLwdqYRK9TPWTSKWqtVYb/preview", duration: "02:49", description: "المشروبات المحضّرة يدويًا.", attachments: "" },
+      { category: "إدارة المشروبات", title: "51- قراءة Beverage Cost", 
+        videoLink: "https://drive.google.com/file/d/1RBpdZhVR-LUm0Cauw66zW7D_No9yVM0v/preview", duration: "04:08", description: "قرارات إدارية.", attachments: "" },
 
-      // المحور الحادي عشر (6)
-      { category: "إدارة المشتريات والمخازن", title: "المشتريات كقرار مالي وليس عملية شراء", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:10", description: "المشتريات كأداة مالية وليس مجرد عملية روتينية.", attachments: "" },
-      { category: "إدارة المشتريات والمخازن", title: "تحديد الكمية الصحيحة للشراء من الاستهلاك إلى القرار", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "كيف تحدد الكمية المناسبة للشراء بناءً على الاستهلاك الفعلي.", attachments: "" },
-      { category: "إدارة المشتريات والمخازن", title: "نقطة إعادة الطلب: متى نطلب ومتى نوقف", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:30", description: "تحديد اللحظة المثالية لإعادة الطلب لتجنب النقص أو التكدس.", attachments: "" },
-      { category: "إدارة المشتريات والمخازن", title: "الجرد وتحليل الفروقات: من رقم على الورق إلى إشارة خلل", 
-        videoLink: TEMP_VIDEO_LINK, duration: "21:00", description: "استخدام الجرد كأداة تشخيص وليس مجرد إجراء محاسبي.", attachments: "" },
-      { category: "إدارة المشتريات والمخازن", title: "ربط المشتريات والمخازن بالتكلفة الفعلية والربحية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:20", description: "ربط كل قرار شراء بالتكلفة الفعلية والأرباح النهائية.", attachments: "" },
-      { category: "إدارة المشتريات والمخازن", title: "الأخطاء الشائعة في إدارة المشتريات والمخازن ولماذا تتكرر", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:10", description: "لماذا تقع المطاعم في نفس أخطاء المشتريات وكيف تتجنبها.", attachments: "" },
+      // ========== المحور الحادي عشر (6 دروس) ==========
+      { category: "إدارة المشتريات والمخازن", title: "52- المشتريات كقرار مالي", 
+        videoLink: "https://drive.google.com/file/d/1QmEM28ILYNo-adlUOWY5rZYGXh7FzcYD/preview", duration: "04:17", description: "ليس مجرد عملية شراء.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "53- تحديد الكمية الصحيحة للشراء", 
+        videoLink: "https://drive.google.com/file/d/1vFn1TiJnAt345epSEVK6s76KVl_c5KBn/preview", duration: "03:24", description: "من الاستهلاك للقرار.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "54- نقطة إعادة الطلب", 
+        videoLink: "https://drive.google.com/file/d/1i6Ig78r8Wp5UjyMiNh3UTZRzNUeyyu9z/preview", duration: "03:31", description: "متى نطلب ومتى نوقف.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "55- الجرد وتحليل الفروقات", 
+        videoLink: "https://drive.google.com/file/d/1iWVweAqrnFoeOAN-3GkFEIS2pewe7XF2/preview", duration: "03:22", description: "من رقم إلى إشارة خلل.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "56- ربط المشتريات بالتكلفة والربحية", 
+        videoLink: "https://drive.google.com/file/d/1l1OMU7-owADAsOctsbCC7s3VZWfYU3yz/preview", duration: "03:15", description: "قرار الشراء والتكلفة.", attachments: "" },
+      { category: "إدارة المشتريات والمخازن", title: "57- الأخطاء الشائعة في المشتريات", 
+        videoLink: "https://drive.google.com/file/d/1coZ7ogOO-Po-uaDOLaPD-z5cfJYSrerv/preview", duration: "03:15", description: "لماذا تتكرر الأخطاء.", attachments: "" },
 
-      // المحور الثاني عشر (5)
-      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "المنيو مو قائمة أكل... المنيو قرار ربحي", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "المنيو كأداة ربحية وليست مجرد قائمة أطعمة.", attachments: "" },
-      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "هندسة المينيو: كيف نبني منيو ذكية تقلل الهدر وتزيد السيطرة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "22:40", description: "تصميم منيو ذكي يقلل الهدر ويزيد من السيطرة التشغيلية.", attachments: "" },
-      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "بناء المنيو من المواد الأولية وليس من الأصناف", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "بناء المنيو من المواد الأولية لضمان المرونة والربحية.", attachments: "" },
-      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "تقليص المنيو بدون خسارة الزبون", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:20", description: "كيف تقلص المنيو بذكاء دون أن تفقد عملاءك.", attachments: "" },
-      { category: "القوائم، التسعير، والهندسة الربحية للمنيو", title: "ربط المنيو بالمخزن: السيطرة بدل الفوضى", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:10", description: "جعل المخزن مرآة للمنيو لضمان السيطرة الكاملة.", attachments: "" },
+      // ========== المحور الثاني عشر (5 دروس) ==========
+      { category: "القوائم، التسعير، والهندسة الربحية", title: "58- المنيو قرار ربحي", 
+        videoLink: "https://drive.google.com/file/d/18GAvRB8pbPfBGDcOrZ-QzdrlTZL5pbn6/preview", duration: "03:15", description: "ليس قائمة أكل.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية", title: "59- هندسة المينيو الذكية", 
+        videoLink: "https://drive.google.com/file/d/1xhB9ijKiGVvtM47ATRzCJsnnpHwyLgiQ/preview", duration: "03:54", description: "تقليل الهدر وزيادة السيطرة.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية", title: "60- بناء المنيو من المواد الأولية", 
+        videoLink: "https://drive.google.com/file/d/1mFnK69oKBYd9Elyk_ba-XhR_j2cR8hLS/preview", duration: "03:25", description: "مرونة وربحية.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية", title: "61- تقليص المنيو بدون خسارة الزبون", 
+        videoLink: "https://drive.google.com/file/d/1DoQiPBVnC7pfOhZ29YILbE-5jNyXowX2/preview", duration: "02:30", description: "تقليص ذكي.", attachments: "" },
+      { category: "القوائم، التسعير، والهندسة الربحية", title: "62- ربط المنيو بالمخزن", 
+        videoLink: "https://drive.google.com/file/d/1LfjwdD7P_2iDbvPY7McaE0oy2J1kngX8/preview", duration: "02:07", description: "السيطرة بدل الفوضى.", attachments: "" },
 
-      // المحور الثالث عشر (6)
-      { category: "التقارير التشغيلية والمالية في المطاعم", title: "التقارير التشغيلية والمالية في المطاعم: من أرقام صامتة لقرارات ذكية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:00", description: "تحويل الأرقام الصامتة إلى قرارات إدارية ذكية.", attachments: "" },
-      { category: "التقارير التشغيلية والمالية في المطاعم", title: "التقارير التشغيلية اليومية: كيف نقرأ الرقم قبل ما يصير مشكلة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "استخدام التقرير اليومي كإنذار مبكر قبل تفاقم المشكلة.", attachments: "" },
-      { category: "التقارير التشغيلية والمالية في المطاعم", title: "التقارير الأسبوعية: قراءة الاتجاهات مو ملاحقة الأخطاء", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:45", description: "قراءة الاتجاهات الأسبوعية لتجنب ردود الفعل العشوائية.", attachments: "" },
-      { category: "التقارير التشغيلية والمالية في المطاعم", title: "مؤشرات الأداء التشغيلية (KPIs): كيف نعرف إذا المطعم ماشي صح أو بس شكله ماشي", 
-        videoLink: TEMP_VIDEO_LINK, duration: "21:30", description: "اختيار المؤشرات الحقيقية التي تعكس صحة التشغيل.", attachments: "" },
-      { category: "التقارير التشغيلية والمالية في المطاعم", title: "لوحة التحكم التشغيلية: كيف تشوف المطعم كامل بنظرة وحدة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "16:40", description: "تصميم لوحة تحكم بسيطة لرؤية المطعم كاملاً في خمس دقائق.", attachments: "" },
-      { category: "التقارير التشغيلية والمالية في المطاعم", title: "ربط التقارير المالية بتقارير الأداء: من المراقبة إلى القرار التطويري", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:15", description: "دمج التقارير المالية والتشغيلية لاتخاذ قرارات تطويرية.", attachments: "" },
+      // ========== المحور الثالث عشر (6 دروس) ==========
+      { category: "التقارير التشغيلية والمالية", title: "63- من أرقام صامتة لقرارات ذكية", 
+        videoLink: "https://drive.google.com/file/d/1NQvD7_dR1sovQHLUskQjP3lQ7TXf_kSi/preview", duration: "02:45", description: "تحويل الأرقام.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية", title: "64- التقارير التشغيلية اليومية", 
+        videoLink: "https://drive.google.com/file/d/1ytTsBDG7cjlaaHTgajtDAD_74w03CMoe/preview", duration: "02:32", description: "إنذار مبكر.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية", title: "65- التقارير الأسبوعية", 
+        videoLink: "https://drive.google.com/file/d/1p2WxK9aXPW7RDJILDJBhPA6qcEBY58F0/preview", duration: "02:32", description: "قراءة الاتجاهات.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية", title: "66- مؤشرات الأداء KPIs", 
+        videoLink: "https://drive.google.com/file/d/1QXsBm6hpp29Z9dsdvld921ImODxJw0I9/preview", duration: "03:24", description: "هل المطعم ماشي صح؟", attachments: "" },
+      { category: "التقارير التشغيلية والمالية", title: "67- لوحة التحكم التشغيلية", 
+        videoLink: "https://drive.google.com/file/d/1G6gKUIRoL2BkkTYvXjwTyzkBr3lSeS8F/preview", duration: "03:37", description: "رؤية المطعم بنظرة واحدة.", attachments: "" },
+      { category: "التقارير التشغيلية والمالية", title: "68- ربط التقارير المالية بالأداء", 
+        videoLink: "https://drive.google.com/file/d/19at1I56EOnXP7a8K2TWQOzoKCZ-0NM04/preview", duration: "02:30", description: "من المراقبة للتطوير.", attachments: "" },
 
-      // المحور الرابع عشر (7)
-      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "قراءة قائمة الأرباح والخسائر: كيف نفهم المطعم بدل ما نحفظ أرقام", 
-        videoLink: TEMP_VIDEO_LINK, duration: "22:00", description: "قراءة قائمة الأرباح والخسائر كخريطة للمطعم وليس كأرقام جامدة.", attachments: "" },
-      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "نفس قائمة الأرباح والخسائر... ثلاث قراءات مختلفة وثلاث قرارات متناقضة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "24:10", description: "كيف تؤدي نفس الأرقام لقرارات مختلفة حسب طريقة قراءتك لها.", attachments: "" },
-      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "ليش الربح ظاهر على الورق والكاش عم يختفي؟", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:30", description: "الفرق بين الربح المحاسبي والسيولة النقدية وكيف تكتشف الخلل.", attachments: "" },
-      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "قراءة الأرباح والخسائر على أساس الطاقة الإنتاجية ونقطة التعادل", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:40", description: "ربط الأرباح بالطاقة الإنتاجية ونقطة التعادل لاتخاذ قرارات توسعية.", attachments: "" },
-      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "إسقاط الأرباح والخسائر على المنتج الأساسي للمطعم", 
-        videoLink: TEMP_VIDEO_LINK, duration: "21:50", description: "تحديد المنتج الحقيقي الذي يحمل الربحية في المطعم.", attachments: "" },
-      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "قرار التوسّع أو التثبيت أو الإيقاف: كيف تحكي الأرباح والخسائر الحقيقة كاملة", 
-        videoLink: TEMP_VIDEO_LINK, duration: "23:20", description: "استخدام الأرباح والخسائر لاتخاذ القرارات المصيرية.", attachments: "" },
-      { category: "قراءة الأرباح والخسائر واتخاذ القرار", title: "تحويل الأرباح والخسائر من تقرير محاسبي إلى أداة قيادة تشغيلية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:10", description: "تحويل التقرير المالي إلى أداة قيادة يومية.", attachments: "" },
+      // ========== المحور الرابع عشر (7 دروس) ==========
+      { category: "قراءة الأرباح والخسائر", title: "69- فهم قائمة الأرباح والخسائر", 
+        videoLink: "https://drive.google.com/file/d/1Zo-xrlKdgmM19vf62vx186XyJB81oRUo/preview", duration: "03:51", description: "خريطة المطعم.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر", title: "70- ثلاث قراءات مختلفة", 
+        videoLink: "https://drive.google.com/file/d/132aFIoZDTPRS_TClptVhh_7FCLDbzf_F/preview", duration: "04:44", description: "قرارات متناقضة.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر", title: "71- ليش الربح ظاهر والكاش مختفي", 
+        videoLink: "https://drive.google.com/file/d/1MqlzrsRiyfkGNZ1PJ8rI2RjghlAQ_Beb/preview", duration: "03:02", description: "الربح المحاسبي والسيولة.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر", title: "72- قراءة الأرباح على أساس الطاقة", 
+        videoLink: "https://drive.google.com/file/d/1gdwPk4ceF3G6GY16hHJGtP2GFyIyvrkE/preview", duration: "02:53", description: "نقطة التعادل.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر", title: "73- إسقاط الأرباح على المنتج الأساسي", 
+        videoLink: "https://drive.google.com/file/d/1AmJVM-5lGj10y6Xrry1RdrxUuoR-AevD/preview", duration: "02:22", description: "المنتج الحقيقي.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر", title: "74- قرار التوسع أو التثبيت", 
+        videoLink: "https://drive.google.com/file/d/1sk79J2gHjcxhGMLWzriXPenIgEAK7F-k/preview", duration: "03:05", description: "القرارات المصيرية.", attachments: "" },
+      { category: "قراءة الأرباح والخسائر", title: "75- من تقرير محاسبي لأداة قيادة", 
+        videoLink: "https://drive.google.com/file/d/1ptpxKpqOc5EFSkz2MqAIPXrpMmk1YA3M/preview", duration: "02:52", description: "أداة قيادة يومية.", attachments: "" },
 
-      // المحور الخامس عشر (5)
-      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "استدامة الربحية التشغيلية", 
-        videoLink: TEMP_VIDEO_LINK, duration: "17:30", description: "بناء ربحية قابلة للاستمرار والتوسع.", attachments: "" },
-      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "الربحية التي تنهار عند التوسع: لماذا ينجح المطعم صغيرًا ويفشل عندما يكبر", 
-        videoLink: TEMP_VIDEO_LINK, duration: "21:10", description: "لماذا ينهار الربح عند التوسع وكيف تبني نموذجاً قابلاً للتكبير.", attachments: "" },
-      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "القرارات اليومية الصغيرة التي تقتل الربحية بدون ما ننتبه", 
-        videoLink: TEMP_VIDEO_LINK, duration: "19:40", description: "تأثير القرارات الصغيرة التراكمية على تآكل الأرباح.", attachments: "" },
-      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "الرقابة الذكية: كيف نمنع الانحراف بدون ما نخنق التشغيل", 
-        videoLink: TEMP_VIDEO_LINK, duration: "20:15", description: "رقابة ذكية تحمي الأرباح دون أن تثقل كاهل الفريق.", attachments: "" },
-      { category: "الأخطاء الشائعة، الرقابة، والاستدامة التشغيلية", title: "الاستدامة التشغيلية: كيف نحمي المطعم من الرجوع للأخطاء", 
-        videoLink: TEMP_VIDEO_LINK, duration: "18:50", description: "كيف تجعل الإصلاحات دائمة ولا تعود الأخطاء للظهور مجدداً.", attachments: "" }
+      // ========== المحور الخامس عشر (5 دروس) ==========
+      { category: "الأخطاء الشائعة والاستدامة", title: "76- استدامة الربحية التشغيلية", 
+        videoLink: "https://drive.google.com/file/d/1yC1vtEckPwseY6QWkBdA6vnHw107TeAw/preview", duration: "01:20", description: "ربحية قابلة للاستمرار.", attachments: "" },
+      { category: "الأخطاء الشائعة والاستدامة", title: "77- لماذا ينجح المطعم صغيرًا ويفشل عندما يكبر", 
+        videoLink: "https://drive.google.com/file/d/11rSc1lZMtDwVo78HjMC5iuMWt5LUPpjv/preview", duration: "03:33", description: "الربحية التي تنهار.", attachments: "" },
+      { category: "الأخطاء الشائعة والاستدامة", title: "78- القرارات اليومية الصغيرة", 
+        videoLink: "https://drive.google.com/file/d/1cemwRX441s7AsXevBEPFaUVqYDRt9scP/preview", duration: "02:43", description: "تأثيرها على تآكل الأرباح.", attachments: "" },
+      { category: "الأخطاء الشائعة والاستدامة", title: "79- الرقابة الذكية", 
+        videoLink: "https://drive.google.com/file/d/18FnfTcCk7UNS_fsKRKO1BCP-ui6FdhLf/preview", duration: "02:00", description: "حماية الأرباح دون خنق.", attachments: "" },
+      { category: "الأخطاء الشائعة والاستدامة", title: "80- الاستدامة التشغيلية", 
+        videoLink: "https://drive.google.com/file/d/1MxmtR1lH47a4eA9BNbdeeF1z3HtZCqJG/preview", duration: "01:47", description: "حماية المطعم من الرجوع للأخطاء.", attachments: "" },
+
+      // ========== الخاتمة (1 درس) ==========
+      { category: "الخاتمة", title: "81- الخاتمة", 
+        videoLink: "https://drive.google.com/file/d/1NWC6x_Y68WAORFNyetqbkPx04mWtqmwD/preview", duration: "01:57", description: "خلاصة الدورة وتوصيات نهائية لإدارة المطاعم بإحترافية.", attachments: "" }
     ];
 
     const TOTAL_LESSONS = allLessons.length;
-
     let completedVideos = [];
     let currentUserEmail = "";
 
+    // ... (باقي أكواد JavaScript كما هي تمامًا بدون تغيير) ...
     const listContainer = document.getElementById('lectureList');
     const videoPlayer = document.getElementById('videoPlayer');
     const progressBar = document.getElementById('progressBar');
@@ -487,7 +463,6 @@
 
     totalLessonsNumSpan.textContent = TOTAL_LESSONS;
 
-    // ===== دوال الخادم =====
     async function saveProgressToServer(lessonIndex0Based) {
       if (!currentUserEmail) return;
       try {
@@ -516,7 +491,20 @@
       return [];
     }
 
-    // ===== بناء القائمة =====
+    function setVideoSource(url) {
+      if (!url) {
+        videoPlayer.src = '';
+        return;
+      }
+      if (url.includes('drive.google.com') && !url.includes('/preview')) {
+        const match = url.match(/\/d\/([^/]+)/);
+        if (match) {
+          url = `https://drive.google.com/file/d/${match[1]}/preview`;
+        }
+      }
+      videoPlayer.src = url;
+    }
+
     function createLectureList() {
       listContainer.innerHTML = '';
       const grouped = {};
@@ -553,9 +541,7 @@
             li.classList.add('active');
             li.querySelector('i').className = 'fa-regular fa-circle-play';
 
-            const videoSrc = li.dataset.video;
-            if (videoSrc && videoSrc.startsWith('http')) videoPlayer.src = videoSrc;
-            else videoPlayer.src = '';
+            setVideoSource(li.dataset.video);
 
             const lessonData = allLessons[idx];
             currentLessonNumSpan.textContent = idx + 1;
@@ -580,7 +566,6 @@
         listContainer.appendChild(ul);
       }
 
-      // تشغيل آخر درس تم النقر عليه، أو الأول
       if (completedVideos.length > 0) {
         const lastClickedIndex = completedVideos[completedVideos.length - 1];
         const targetLi = document.querySelector(`.video-item[data-index="${lastClickedIndex}"]`);
@@ -605,11 +590,7 @@
     }
 
     function checkAllCompleted() {
-      if (completedVideos.length >= TOTAL_LESSONS) {
-        examSection.style.display = 'block';
-      } else {
-        examSection.style.display = 'none';
-      }
+      examSection.style.display = (completedVideos.length >= TOTAL_LESSONS) ? 'block' : 'none';
     }
 
     function openFullscreen() {
@@ -619,7 +600,6 @@
       else if (box.msRequestFullscreen) box.msRequestFullscreen();
     }
 
-    // ===== تسجيل الدخول =====
     function isValidEmail(email) { return /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email); }
 
     async function attemptLogin() {
@@ -644,7 +624,6 @@
           sessionStorage.setItem('portalUserName', result.name || user);
           sessionStorage.setItem('portalUserEmail', user);
           currentUserEmail = user;
-
           completedVideos = await loadProgressFromServer(user);
 
           loginOverlay.style.display = 'none';
@@ -668,7 +647,7 @@
         loginOverlay.style.display = 'none';
         mainContent.style.display = 'flex';
         logoutBtn.style.display = 'flex';
-        currentUserEmail = sessionStorage.getItem('portalUserEmail') || ''; 
+        currentUserEmail = sessionStorage.getItem('portalUserEmail') || '';
         loadProgressFromServer(currentUserEmail).then(arr => {
           completedVideos = arr;
           createLectureList();
@@ -683,14 +662,14 @@
     function logout() {
       sessionStorage.removeItem('portalLoggedIn');
       sessionStorage.removeItem('portalUserName');
-      sessionStorage.removeItem('portalUserEmail'); 
+      sessionStorage.removeItem('portalUserEmail');
       loginOverlay.style.display = 'flex';
       mainContent.style.display = 'none';
       logoutBtn.style.display = 'none';
       usernameInput.value = '';
       passwordInput.value = '';
       errorMsg.textContent = '';
-      videoPlayer.src = '';
+      setVideoSource('');
       completedVideos = [];
       currentUserEmail = '';
       examSection.style.display = 'none';
@@ -700,12 +679,16 @@
       attachmentsSpan.innerText = 'لا يوجد';
     }
 
-    // ===== أحداث =====
     loginBtn.addEventListener('click', attemptLogin);
     passwordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
     usernameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
     logoutBtn.addEventListener('click', logout);
-    downloadAllBtn.addEventListener('click', (e) => { e.preventDefault(); alert('📁 سيتم تجميع جميع ملفات الدورة للتحميل (وظيفة قيد التطوير)'); });
+    downloadAllBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  const downloadUrl = 'https://drive.google.com/uc?export=download&id=1hZb4dsJHTNSn_5LVLnLIGxd98lpdh3Q-';
+  // فتح الرابط في نافذة جديدة أو تحميل مباشر
+  window.open(downloadUrl, '_blank');
+});
 
     document.getElementById('examBtn')?.addEventListener('click', () => {
       window.location.href = 'examSection.html';

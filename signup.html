@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>تفعيل اشتراك دورة المطاعم | مجموعة فاروق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(145deg, #0a0c14 0%, #141b2b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, rgba(184,134,11,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .register-wrapper { 
+            max-width: 550px; 
+            width: 100%; 
+            position: relative; 
+            z-index: 2;
+        }
+        .reg-card {
+            background: rgba(18, 24, 36, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 2.2rem 2rem 2.8rem;
+            border: 1px solid rgba(184, 134, 11, 0.4);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(184, 134, 11, 0.15);
+            text-align: center;
+            width: 100%;
+            overflow: visible;
+        }
+        .icon-circle {
+            width: 80px; height: 80px;
+            background: linear-gradient(145deg, rgba(184,134,11,0.2), rgba(184,134,11,0.05));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            border: 1px solid rgba(184,134,11,0.5);
+        }
+        .icon-circle i { font-size: 2.5rem; color: #d4af37; filter: drop-shadow(0 0 6px rgba(212,175,55,0.5)); }
+        h2 {
+            font-size: 1.8rem; font-weight: 800;
+            background: linear-gradient(135deg, #f5e6b0, #e0c879);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .sub {
+            color: #b9c7d9;
+            font-size: 0.9rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px dashed rgba(184,134,11,0.3);
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+        .input-group { margin-bottom: 1rem; text-align: right; }
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e6d5a8;
+            margin-bottom: 0.4rem;
+        }
+        .input-group label i { margin-left: 6px; color: #d4af37; }
+        input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(184, 134, 11, 0.4);
+            border-radius: 60px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            color: #f0f3fa;
+            transition: all 0.25s;
+            outline: none;
+        }
+        input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background: rgba(10, 14, 22, 0.7);
+        }
+        input::placeholder { color: #7c88a2; font-size: 0.9rem; }
+        .info-note {
+            background: rgba(212,175,55,0.1);
+            border-radius: 40px;
+            padding: 0.6rem 1rem;
+            margin: 1rem 0 1.2rem;
+            font-size: 0.8rem;
+            color: #d6c48a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(95deg, #d4af37, #b48c2a);
+            border: none;
+            border-radius: 60px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #0b0e17;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+        button:hover {
+            background: linear-gradient(95deg, #e6c456, #c79c2e);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+        }
+        button:disabled { opacity: 0.7; transform: none; cursor: not-allowed; }
+        .success-msg {
+            background: rgba(75, 181, 67, 0.15);
+            border: 1px solid #4bb543;
+            border-radius: 40px;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            color: #b9f5b0;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-direction: column;
+        }
+        .manual-link {
+            color: #d4af37;
+            text-decoration: underline;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .manual-link:hover { color: #f5e6b0; }
+        .error-msg {
+            background: rgba(220, 53, 69, 0.15);
+            border: 1px solid #dc3545;
+            border-radius: 40px;
+            padding: 0.7rem;
+            margin-top: 1rem;
+            color: #ffb3b3;
+            font-size: 0.85rem;
+            display: none;
+        }
+        footer {
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #7a86a3;
+        }
+        @media (max-width: 500px) {
+            .reg-card { padding: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="register-wrapper">
+    <div class="reg-card">
+        <div class="icon-circle">
+            <i class="fas fa-utensils"></i>
+        </div>
+        <h2>تفعيل الحساب</h2>
+        <div class="sub">دورة إدارة المطاعم والقراءات المالية بإحترافية</div>
+
+        <form id="registerForm">
+            <div class="input-group">
+                <label><i class="fas fa-envelope"></i> البريد الإلكتروني الذي تم تسجيله ببوابة الدفع (سيكون اسم المستخدم)</label>
+                <input type="email" id="email" name="email" placeholder="example@domain.com" required>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-user"></i> الاسم الكامل</label>
+                <input type="text" id="fullName" name="fullName" placeholder="أدخل اسمك" required>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> كلمة المرور</label>
+                <input type="password" id="password" name="password" placeholder="أدخل كلمة مرور" required autocomplete="new-password">
+            </div>
+            <div class="info-note">
+                <i class="fas fa-gem"></i> الرجاء حفظ صفحة الدورة في المفضلة
+            </div>
+            <button type="submit" id="submitBtn">
+                <i class="fas fa-check-circle"></i> تفعيل الاشتراك
+            </button>
+        </form>
+
+        <div id="successMessage" class="success-msg">
+            <i class="fas fa-check-circle"></i> تم تفعيل حسابك بنجاح!
+            <div style="font-size: 0.85rem; margin-top: 5px;">سيتم فتح بوابة الدورة في نافذة جديدة خلال ثانيتين...</div>
+            <span id="manualRedirect" class="manual-link" style="display: none;">إذا لم يتم الفتح تلقائياً، اضغط هنا لفتح الدورة</span>
+        </div>
+        <div id="errorMessage" class="error-msg">
+            <i class="fas fa-exclamation-triangle"></i> حدث خطأ، يرجى المحاولة لاحقاً أو التأكد من البيانات.
+        </div>
+        <footer>
+            <i class="fas fa-shield-alt"></i> بياناتك محفوظة بسرية تامة © مجموعة فاروق
+        </footer>
+    </div>
+</div>
+
+<script>
+    const REGISTER_API = "https://script.google.com/macros/s/AKfycbz5ViuotozbYOqrPboWEuKLWFMZEpnuBO2BR_B1ss0CIII-7EErgFmBWbITTtFMhvLJ/exec";
+    const REDIRECT_URL = "https://restaurantcourse.farouk-grup.com/Restaurant";
+
+    const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successDiv = document.getElementById('successMessage');
+    const errorDiv = document.getElementById('errorMessage');
+    const manualLinkSpan = document.getElementById('manualRedirect');
+
+    function resetMessages() {
+        successDiv.style.display = 'none';
+        errorDiv.style.display = 'none';
+        manualLinkSpan.style.display = 'none';
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        resetMessages();
+
+        const email = document.getElementById('email').value.trim();
+        const fullName = document.getElementById('fullName').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        const emailPattern = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            errorDiv.style.display = 'flex';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> البريد الإلكتروني غير صالح.';
+            return;
+        }
+
+        if (!fullName || !password) {
+            errorDiv.style.display = 'flex';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> جميع الحقول مطلوبة.';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('action', 'register');
+        formData.append('username', email);
+        formData.append('password', password);
+        formData.append('fullName', fullName);
+        formData.append('duration', '60');
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> جاري التفعيل...';
+
+        try {
+            const response = await fetch(REGISTER_API, {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                headers: { 'Accept': 'application/json' },
+                body: formData
+            });
+
+            let result;
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                result = await response.json();
+            } else {
+                const text = await response.text();
+                if (text.includes('success') || text.includes('تم')) {
+                    result = { status: 'success' };
+                } else {
+                    throw new Error(text || 'خطأ غير معروف');
+                }
+            }
+
+            if (result.status === 'success') {
+                successDiv.style.display = 'flex';
+                form.style.opacity = '0.6';
+                submitBtn.disabled = true;
+
+                setTimeout(() => {
+                    manualLinkSpan.style.display = 'inline-block';
+                    manualLinkSpan.onclick = () => {
+                        window.open(REDIRECT_URL, '_blank');
+                    };
+                }, 3000);
+
+                setTimeout(() => {
+                    window.open(REDIRECT_URL, '_blank');
+                }, 2000);
+            } else {
+                let errMsg = result.message || 'حدث خطأ أثناء التسجيل.';
+                errorDiv.style.display = 'flex';
+                errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${errMsg}`;
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> تفعيل الاشتراك';
+            }
+        } catch (err) {
+            console.error('Register error:', err);
+            errorDiv.style.display = 'flex';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> تعذر الاتصال بالخادم. حاول مرة أخرى.';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> تفعيل الاشتراك';
+        }
+    });
+</script>
+</body>
+</html>

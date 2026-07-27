@@ -73,7 +73,10 @@
             display: inline-block;
             padding-bottom: 0.3rem;
         }
-        .input-group { margin-bottom: 1rem; text-align: right; }
+        .input-group { 
+            margin-bottom: 1rem; 
+            text-align: right; 
+        }
         .input-group label {
             display: block;
             font-size: 0.85rem;
@@ -82,6 +85,8 @@
             margin-bottom: 0.4rem;
         }
         .input-group label i { margin-left: 6px; color: #d4af37; }
+        
+        /* ---- تنسيق الحقول العامة ---- */
         input {
             width: 100%;
             padding: 0.9rem 1rem;
@@ -100,6 +105,43 @@
             background: rgba(10, 14, 22, 0.7);
         }
         input::placeholder { color: #7c88a2; font-size: 0.9rem; }
+
+        /* ---- مجموعة كلمة المرور ---- */
+        .password-group {
+            position: relative;
+            width: 100%;
+        }
+        /* حقل كلمة المرور: نضيف مساحة كافية لليسار لعدم تغطية النص */
+        .password-group input {
+            padding-left: 50px;
+        }
+        /* زر العين - صغير الحجم ولا يعيق النقر على الحقل */
+        .toggle-password {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #8a93a7;
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: color 0.2s, background-color 0.2s;
+            z-index: 3;
+            padding: 0;
+            outline: none;
+        }
+        .toggle-password:hover {
+            color: #d4af37;
+            background-color: rgba(184, 134, 11, 0.1);
+        }
+
         .info-note {
             background: rgba(212,175,55,0.1);
             border-radius: 40px;
@@ -179,6 +221,15 @@
         @media (max-width: 500px) {
             .reg-card { padding: 1.8rem; }
             h2 { font-size: 1.5rem; }
+            .toggle-password {
+                left: 10px;
+                width: 28px;
+                height: 28px;
+                font-size: 1rem;
+            }
+            .password-group input {
+                padding-left: 44px;
+            }
         }
     </style>
 </head>
@@ -200,9 +251,15 @@
                 <label><i class="fas fa-user"></i> الاسم الكامل</label>
                 <input type="text" id="fullName" name="fullName" placeholder="أدخل اسمك" required>
             </div>
+            <!-- حقل كلمة المرور مع أيقونة العين -->
             <div class="input-group">
                 <label><i class="fas fa-lock"></i> كلمة المرور</label>
-                <input type="password" id="password" name="password" placeholder="أدخل كلمة مرور" required autocomplete="new-password">
+                <div class="password-group">
+                    <input type="password" id="password" name="password" placeholder="أدخل كلمة مرور" required autocomplete="new-password">
+                    <button type="button" class="toggle-password" id="togglePasswordBtn" tabindex="-1" aria-label="إظهار كلمة المرور">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
             </div>
             <div class="info-note">
                 <i class="fas fa-gem"></i> الرجاء حفظ صفحة الدورة في المفضلة
@@ -227,7 +284,20 @@
 </div>
 
 <script>
-    const REGISTER_API = "https://script.google.com/macros/s/AKfycbwiOxXUhVS7iK70X8rB4yHp2kOl5mC5xrDJP8EzVF6ITB5QGaaaStcZgjtY-Bgkhbz4/exec";
+    // ---- تفعيل زر العين ----
+    const passwordField = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePasswordBtn');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    toggleBtn.addEventListener('click', () => {
+        const isPass = passwordField.type === 'password';
+        passwordField.type = isPass ? 'text' : 'password';
+        eyeIcon.className = isPass ? 'fas fa-eye-slash' : 'fas fa-eye';
+        toggleBtn.setAttribute('aria-label', isPass ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور');
+    });
+
+    // ---- بقية منطق التسجيل ----
+    const REGISTER_API = "https://script.google.com/macros/s/AKfycbz5ViuotozbYOqrPboWEuKLWFMZEpnuBO2BR_B1ss0CIII-7EErgFmBWbITTtFMhvLJ/exec";
     const REDIRECT_URL = "index.html";
 
     const form = document.getElementById('registerForm');
@@ -248,7 +318,7 @@
 
         const email = document.getElementById('email').value.trim();
         const fullName = document.getElementById('fullName').value.trim();
-        const password = document.getElementById('password').value.trim();
+        const pass = passwordField.value.trim();
 
         const emailPattern = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
         if (!emailPattern.test(email)) {
@@ -257,7 +327,7 @@
             return;
         }
 
-        if (!fullName || !password) {
+        if (!fullName || !pass) {
             errorDiv.style.display = 'flex';
             errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> جميع الحقول مطلوبة.';
             return;
@@ -266,7 +336,7 @@
         const formData = new FormData();
         formData.append('action', 'register');
         formData.append('username', email);
-        formData.append('password', password);
+        formData.append('password', pass);
         formData.append('fullName', fullName);
         formData.append('duration', '60');
 

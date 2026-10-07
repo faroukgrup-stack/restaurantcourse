@@ -4,11 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>اختبار الدورة + الشهادة | فاروق للتدريب</title>
-  <!-- الخطوط -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
-  <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,600&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <!-- QRCode.js -->
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
   <style>
@@ -67,16 +64,10 @@
       align-items: center;
       margin-bottom: 15px;
     }
-    .quiz-header .progress-text {
-      color: #a0aec0;
-      font-weight: 700;
-    }
+    .quiz-header .progress-text { color: #a0aec0; font-weight: 700; }
     .progress-bar-container {
-      height: 6px;
-      background: #2a2f3a;
-      border-radius: 10px;
-      margin-bottom: 25px;
-      overflow: hidden;
+      height: 6px; background: #2a2f3a;
+      border-radius: 10px; margin-bottom: 25px; overflow: hidden;
     }
     .progress-bar {
       height: 100%;
@@ -85,18 +76,8 @@
       transition: width 0.4s ease;
       width: 0%;
     }
-    .question-text {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      line-height: 1.7;
-    }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 25px;
-    }
+    .question-text { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; line-height: 1.7; }
+    .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
     .option {
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.08);
@@ -104,19 +85,13 @@
       padding: 14px 20px;
       cursor: pointer;
       transition: 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 12px;
     }
     .option:hover { background: rgba(184, 134, 11, 0.1); border-color: #b8860b; }
     .option.selected { background: rgba(184, 134, 11, 0.2); border-color: #d4af37; }
     .option input[type="radio"] { accent-color: #d4af37; width: 18px; height: 18px; cursor: pointer; }
     .option label { flex: 1; cursor: pointer; font-size: 1rem; }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
+    .nav-buttons { display: flex; justify-content: space-between; gap: 15px; }
     .btn {
       padding: 12px 28px;
       border: none;
@@ -127,77 +102,40 @@
       cursor: pointer;
       transition: 0.3s;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, #b8860b, #d4af37);
-      color: #0b0d14;
-    }
+    .btn-primary { background: linear-gradient(135deg, #b8860b, #d4af37); color: #0b0d14; }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184, 134, 11, 0.4); }
-    .btn-secondary {
-      background: rgba(255,255,255,0.05);
-      color: #f0f2f5;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
+    .btn-secondary { background: rgba(255,255,255,0.05); color: #f0f2f5; border: 1px solid rgba(255,255,255,0.1); }
     .btn-secondary:hover { background: rgba(255,255,255,0.1); }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-    .btn-success {
-      background: #2ecc71;
-      color: #0b0d14;
-    }
+    .btn-success { background: #2ecc71; color: #0b0d14; }
     .btn-success:hover { background: #27ae60; transform: translateY(-2px); }
-    .btn-warning {
-      background: #e67e22;
-      color: #fff;
-    }
+    .btn-warning { background: #e67e22; color: #fff; }
     .btn-warning:hover { background: #d35400; }
 
     /* ===== نتيجة الاختبار ===== */
-    .result-box {
-      text-align: center;
-      padding: 30px 0;
-    }
-    .result-box .score {
-      font-size: 3rem;
-      font-weight: 900;
-      color: #d4af37;
-    }
-    .result-box .message {
-      font-size: 1.2rem;
-      margin: 15px 0;
-    }
+    .result-box { text-align: center; padding: 30px 0; }
+    .result-box .score { font-size: 3rem; font-weight: 900; color: #d4af37; }
+    .result-box .message { font-size: 1.2rem; margin: 15px 0; }
     .result-box .pass { color: #2ecc71; }
     .result-box .fail { color: #e74c3c; }
 
-    /* ===== نافذة إدخال الاسم (Modal) ===== */
+    /* ===== نافذة إدخال الأسماء (Modal) ===== */
     .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      display: flex; justify-content: center; align-items: center; z-index: 9999;
     }
     .modal-content {
       background: #1a1f2b;
       border: 1px solid rgba(184, 134, 11, 0.3);
       border-radius: 24px;
       padding: 40px;
-      max-width: 500px;
+      max-width: 540px;
       width: 90%;
       text-align: center;
     }
-    .modal-content h2 {
-      color: #d4af37;
-      margin-bottom: 10px;
-    }
-    .modal-content p {
-      color: #a0aec0;
-      margin-bottom: 20px;
-    }
+    .modal-content h2 { color: #d4af37; margin-bottom: 10px; }
+    .modal-content p { color: #a0aec0; margin-bottom: 20px; }
     .modal-content input {
       width: 100%;
       padding: 14px 20px;
@@ -205,217 +143,201 @@
       border: 1px solid rgba(255,255,255,0.1);
       background: rgba(0,0,0,0.4);
       color: #fff;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       text-align: center;
       font-family: 'Tajawal', sans-serif;
-      margin-bottom: 15px;
-      direction: ltr;
+      margin-bottom: 12px;
     }
-    .modal-content input:focus {
-      outline: none;
-      border-color: #d4af37;
-      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.2);
-    }
-    .modal-content .btn {
-      width: 100%;
-    }
-    .modal-content .error-msg {
-      color: #e74c3c;
-      margin-top: 10px;
-      font-weight: 700;
-    }
+    .modal-content input:focus { outline: none; border-color: #d4af37; box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.2); }
+    .modal-content .btn { width: 100%; margin-top: 8px; }
+    .modal-content .error-msg { color: #e74c3c; margin-top: 10px; font-weight: 700; }
+    .name-lbl { display: block; text-align: right; color: #d4af37; font-size: .9rem; margin: 4px 12px; font-weight: 700; }
 
     /* ================================================================ */
-    /* ===== الشهادة (نسخة مُصلحة بإتجاه LTR وختم دائم الظهور) ===== */
+    /* ============ الشهادة الجديدة (A4 Landscape) ============ */
     /* ================================================================ */
+    #certificateArea { display: flex; flex-direction: column; align-items: center; }
     .certificate-wrapper {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 40px; width: 100%;
     }
-
-    .certificate {
-      width: 210mm;
-      height: 297mm;
-      background-color: #fffef5;
-      background-image: 
-        linear-gradient(135deg, rgba(255,250,240,0.9) 0%, rgba(253,245,228,0.95) 100%),
-        url("data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='watermark' patternUnits='userSpaceOnUse' width='250' height='250' patternTransform='rotate(45)'%3E%3Ctext x='0' y='80' font-size='28' fill='%23c5a358' fill-opacity='0.12' font-weight='bold' font-family='Georgia, serif'%3EFAROUK GRUP%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='300' height='300' fill='url(%23watermark)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: auto;
-      
-      border: 8px double #d4af37;
-      outline: 4px solid #d4af37;
-      outline-offset: -20px;
-      
-      padding: 18mm 20mm 30mm;
-      position: relative;
-      font-family: 'Playfair Display', serif;
-      color: #3b2f2f;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      margin: 0 auto;
-      overflow: hidden;
-      /* إجبار اتجاه الشهادة على اليسار لليمين لتصحيح التخطيط */
-      direction: ltr;
+    .lang-label {
+      font-family: 'Cinzel', serif; font-size: 12px;
+      color: #d4af37; letter-spacing: 3px; text-align: center;
+      margin-bottom: -22px;
     }
-
-    .corner {
-      position: absolute;
-      width: 0;
-      height: 0;
-      z-index: 2;
+    .cert {
+      width: 297mm; height: 210mm;
+      position: relative; overflow: hidden; flex-shrink: 0;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      color: #1a1410;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(212,175,55,.10), transparent 38%),
+        radial-gradient(circle at 88% 88%, rgba(212,175,55,.10), transparent 38%),
+        radial-gradient(circle at 88% 12%, rgba(201,162,39,.06), transparent 40%),
+        radial-gradient(circle at 12% 88%, rgba(201,162,39,.06), transparent 40%),
+        linear-gradient(135deg,#fdf7e9 0%,#fbf1da 45%,#f8ecd0 100%);
     }
-    .corner-top-left { top: 10px; left: 10px; border-top: 40px solid #d4af37; border-right: 40px solid transparent; }
-    .corner-top-right { top: 10px; right: 10px; border-top: 40px solid #d4af37; border-left: 40px solid transparent; }
-    .corner-bottom-left { bottom: 10px; left: 10px; border-bottom: 40px solid #d4af37; border-right: 40px solid transparent; }
-    .corner-bottom-right { bottom: 10px; right: 10px; border-bottom: 40px solid #d4af37; border-left: 40px solid transparent; }
-
-    .logo-container { text-align: center; margin-bottom: 8mm; }
-    .logo { width: 180px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-    .logo-fallback { display: none; font-size: 32px; color: #b8860b; font-weight: bold; font-family: 'Playfair Display', serif; letter-spacing: 2px; }
-
-    .cert-title { font-size: 40px; color: #b8860b; letter-spacing: 4px; margin: 6px 0 5px; text-transform: uppercase; font-weight: 700; text-align: center; }
-    .sub-title { font-size: 21px; color: #5a4a42; margin-bottom: 18mm; text-align: center; border-bottom: 2px solid #c5a358; display: inline-block; padding-bottom: 4px; margin-left: auto; margin-right: auto; }
-
-    .trainee-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 36px; color: #8b0000; margin: 12px 0 8px; line-height: 1.3; word-break: break-word; text-align: center; }
-
-    .description { font-size: 19px; color: #4a3c31; margin: 8px 0; text-align: center; }
-    .course-name { font-weight: 700; color: #b8860b; font-size: 24px; margin: 10px 0 5px; text-align: center; }
-    .course-sub { font-size: 17px; color: #6b5b4f; font-style: italic; text-align: center; }
-
-    .footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20mm; border-top: 1px solid #d1b784; padding-top: 8mm; position: relative; z-index: 2; }
-    .signature { text-align: left; font-size: 16px; }
-    .sig-line { font-family: 'Great Vibes', cursive; font-size: 34px; color: #3b2f2f; border-bottom: 1px solid #3b2f2f; display: inline-block; padding-bottom: 4px; margin-bottom: 4px; min-width: 170px; }
-    .signature p { margin: 2px 0; color: #4a3c31; }
-
-    .details { text-align: right; font-size: 15px; color: #4a3c31; }
-    .details p { margin: 4px 0; }
-    .qr-code { width: 70px; margin-top: 6px; border: 2px solid #e0c88e; padding: 2px; background: white; display: block; margin-left: auto; }
-
-    /* ====== إصلاح الختم لضمان ظهوره دائماً ====== */
-    .stamp-container {
-      position: absolute;
-      bottom: 25mm;
-      left: 40%;
-      transform: translateX(-50%);
-      z-index: 3;
-      pointer-events: none;
+    /* الإطار الكامل */
+    .frame-outer {
+      position: absolute; top: 6mm; left: 6mm; right: 6mm; bottom: 6mm;
+      border: 2.5px solid #c9a227;
+      box-shadow: inset 0 0 0 1px rgba(201,162,39,.35);
+      pointer-events: none; z-index: 3;
     }
-    
-    .stamp-img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      border-radius: 50%;
-      opacity: 0.9;
-      transform: rotate(-15deg);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      mix-blend-mode: multiply;
+    .frame-mid {
+      position: absolute; top: 9mm; left: 9mm; right: 9mm; bottom: 9mm;
+      border: .8px solid #c9a227; opacity: .75;
+      pointer-events: none; z-index: 3;
     }
-
-    /* الختم الاحتياطي (سيظهر مباشرة في حال فشل تحميل صورة الختم) */
-    .stamp-fallback {
-      display: none; /* يظهر فقط إذا فشلت الصورة */
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      border: 5px solid #b22222;
-      background: rgba(255, 255, 255, 0.4);
-      align-items: center; justify-content: center;
-      color: #b22222; font-weight: bold;
-      transform: rotate(-15deg);
-      margin-top: -100px; /* يوضع فوق مكان الصورة الفاشلة */
+    .frame-inner {
+      position: absolute; top: 11.5mm; left: 11.5mm; right: 11.5mm; bottom: 11.5mm;
+      border: .5px solid rgba(201,162,39,.45);
+      pointer-events: none; z-index: 3;
     }
-    .stamp-fallback-inner { text-align: center; line-height: 1.2; }
-    .stamp-fallback-group { font-size: 14px; }
-    .stamp-fallback-certified { font-size: 12px; margin-top: 4px; }
+    /* زخارف الأركان */
+    .crn {
+      position: absolute; width: 11mm; height: 11mm; z-index: 4; pointer-events: none;
+    }
+    .crn::before, .crn::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      background: #c9a227;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .crn::before { width: 4mm; height: 4mm; }
+    .crn::after { width: 1.8mm; height: 1.8mm; background: #fdf7e9; }
+    .crn.tl { top: 5.2mm; left: 5.2mm; }
+    .crn.tr { top: 5.2mm; right: 5.2mm; }
+    .crn.bl { bottom: 5.2mm; left: 5.2mm; }
+    .crn.br { bottom: 5.2mm; right: 5.2mm; }
+    /* علامة مائية */
+    .wm {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) rotate(-8deg);
+      font-family: 'Cinzel', serif; font-size: 96px; font-weight: 700;
+      color: rgba(184,134,11,.05);
+      letter-spacing: 10px; white-space: nowrap;
+      pointer-events: none; z-index: 0;
+    }
+    /* الميدالية */
+    .medal { position: absolute; top: 17mm; left: 17mm; width: 58px; height: 78px; z-index: 5; }
+    .medal svg { width: 100%; height: 100%; }
+    /* جسم الشهادة */
+    .body {
+      position: relative; z-index: 4;
+      height: 100%;
+      display: grid;
+      grid-template-rows:
+        28mm   /* شعار */
+        24mm   /* العنوان */
+        10mm   /* presented */
+        24mm   /* الاسم */
+        9mm    /* for */
+        15mm   /* الدورة */
+        24mm   /* الوصف */
+        1fr
+        30mm;  /* الفوتر */
+      padding: 16mm 22mm 14mm;
+      text-align: center;
+    }
+    .r-logo { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 1mm; }
+    .logo { width: 120px; max-height: 52px; object-fit: contain; }
+    .logo-fb { display: none; font-family: 'Cinzel', serif; font-size: 17px; color: #8b6914; font-weight: 700; letter-spacing: 2px; }
+    .org { font-family: 'Cinzel', serif; font-size: 11px; color: #7a6a55; letter-spacing: 3px; margin-top: 2mm; text-transform: uppercase; }
+    .r-title { display: flex; align-items: center; justify-content: center; }
+    .ctitle { font-family: 'Great Vibes', cursive; font-size: 52px; color: #b8860b; line-height: 1; font-weight: 400; }
+    .ctitle.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 40px; font-weight: 700; }
+    .r-pres { display: flex; align-items: center; justify-content: center; }
+    .pres { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 4px; color: #6b5a45; text-transform: uppercase; }
+    .pres.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 14px; letter-spacing: 1px; text-transform: none; }
+    .r-name { display: flex; align-items: center; justify-content: center; }
+    .tname {
+      font-family: 'Playfair Display', serif; font-weight: 700;
+      font-size: 52px; color: #1a1410; letter-spacing: 1.5px;
+      line-height: 1.1; padding-bottom: 2mm;
+      border-bottom: 1.2px solid rgba(201,162,39,.55);
+      display: inline-block;
+    }
+    .tname.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 48px; }
+    .r-for { display: flex; align-items: center; justify-content: center; }
+    .for { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 3px; color: #6b5a45; text-transform: uppercase; }
+    .for.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 14px; letter-spacing: .5px; text-transform: none; }
+    .r-course { display: flex; align-items: center; justify-content: center; padding: 0 8mm; }
+    .course { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 24px; color: #b8860b; letter-spacing: .3px; line-height: 1.25; }
+    .course.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 22px; line-height: 1.4; }
+    .r-desc { display: flex; align-items: flex-start; justify-content: center; padding-top: 1.5mm; }
+    .desc { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #4a3c2e; line-height: 1.6; max-width: 92%; }
+    .desc.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 15px; line-height: 1.75; direction: rtl; }
+    .r-foot {
+      display: grid;
+      grid-template-columns: 80px 1fr 1fr 1fr;
+      align-items: center;
+      gap: 4mm;
+      border-top: 1px solid rgba(201,162,39,.5);
+      padding-top: 4mm;
+    }
+    .qr { width: 70px; height: 70px; border: 1.5px solid #c9a227; padding: 2px; background: #fff; }
+    .fi { text-align: center; }
+    .fv { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; color: #1a1410; }
+    .fl { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-style: italic; color: #8a7a65; margin-top: 1px; }
+    .fl.ar { font-family: 'Noto Naskh Arabic', serif; font-style: normal; font-size: 12px; }
+    .fi-sig { text-align: right; display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+    .sn { font-family: 'Great Vibes', cursive; font-size: 28px; color: #1a1410; line-height: 1.05; }
+    .st { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: #6b5a45; }
+    .st.ar { font-family: 'Noto Naskh Arabic', serif; font-size: 12px; }
+    .stamp { width: 68px; height: 68px; object-fit: contain; border-radius: 50%; opacity: .92; mix-blend-mode: multiply; }
+    .stamp-fb {
+      display: none; width: 68px; height: 68px; border-radius: 50%;
+      border: 2.5px solid #8b2020; color: #8b2020; font-size: 9px; font-weight: 700;
+      font-family: 'Cinzel', serif; align-items: center; justify-content: center;
+      text-align: center; line-height: 1.15;
+    }
 
     /* ===== أزرار الطباعة ===== */
     .print-actions {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin: 20px 0 10px;
-      flex-wrap: wrap;
+      display: flex; gap: 15px; justify-content: center;
+      margin: 20px 0 10px; flex-wrap: wrap;
     }
 
-    /* ================================================================ */
-    /* ===== طباعة محسنة للشهادة ===== */
-    /* ================================================================ */
+    /* ===== طباعة ===== */
     @media print {
-      @page { size: A4; margin: 0; }
+      @page { size: A4 landscape; margin: 0; }
       html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background: white;
-        overflow: hidden;
+        margin: 0; padding: 0; background: #fff;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
-      .no-print,
-      #quizArea,
-      #resultArea,
-      .header,
-      .print-actions,
-      .modal,
-      .container,
-      #appContainer {
-        display: none !important;
-      }
+      .no-print, .container, .modal, .header, .print-actions, .lang-label { display: none !important; }
       #certificateArea {
         display: block !important;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: white;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0; padding: 0; background: #fff;
       }
-      .certificate-wrapper {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      .certificate-wrapper { display: block !important; gap: 0 !important; margin: 0; padding: 0; }
+      .cert {
+        width: 297mm; height: 210mm; margin: 0; box-shadow: none;
+        page-break-after: always; break-after: page; page-break-inside: avoid;
       }
-      .certificate {
-        width: 210mm;
-        height: 297mm;
-        margin: 0 auto;
-        padding: 18mm 20mm 30mm;
-        box-sizing: border-box;
-        border: 8px double #d4af37;
-        outline: 4px solid #d4af37;
-        outline-offset: -20px;
-        box-shadow: none;
-        page-break-after: avoid;
-        page-break-inside: avoid;
-        overflow: hidden;
-        background-color: #fffef5;
-        background-image: 
-          linear-gradient(135deg, rgba(255,250,240,0.9) 0%, rgba(253,245,228,0.95) 100%),
-          url("data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='watermark' patternUnits='userSpaceOnUse' width='250' height='250' patternTransform='rotate(45)'%3E%3Ctext x='0' y='80' font-size='28' fill='%23c5a358' fill-opacity='0.12' font-weight='bold' font-family='Georgia, serif'%3EFAROUK GRUP%3C/text%3E%3C/pattern%3E%3C/defs%3E%3Crect width='300' height='300' fill='url(%23watermark)'/%3E%3C/svg%3E");
-        background-repeat: repeat;
-        background-size: auto;
-        direction: ltr;
-      }
+      .cert:last-child { page-break-after: auto; break-after: auto; }
     }
 
     /* ===== استجابة للشاشات الصغيرة ===== */
-    @media (max-width: 700px) {
+    @media (max-width: 1200px) {
       .container { padding: 15px; }
-      .certificate { width: 100%; height: auto; min-height: 297mm; padding: 15mm; }
-      .cert-title { font-size: 28px; }
-      .trainee-name { font-size: 26px; }
+      .cert { width: 100%; height: auto; aspect-ratio: 297/210; }
+      .ctitle { font-size: 4.4vw; }
+      .tname { font-size: 4vw; }
+      .tname.ar { font-size: 3.6vw; }
+      .course { font-size: 2vw; }
+      .wm { font-size: 7vw; }
     }
   </style>
 </head>
 
 <body>
-<!-- ===== الشهادة توضع خارج الحاوية ===== -->
+<!-- ===== الشهادات توضع خارج الحاوية ===== -->
 <div id="certificateArea" class="hidden">
   <div class="certificate-wrapper" id="certificateWrapper">
     <div id="certificateContainer"></div>
@@ -424,13 +346,11 @@
 
 <div class="container" id="appContainer">
 
-  <!-- ===== HEADER ===== -->
   <div class="header no-print">
     <h1><i class="fa-solid fa-graduation-cap"></i> اختبار دورة إدارة المطاعم والقراءات المالية بإحترافية</h1>
     <span class="badge"><i class="fa-regular fa-clock"></i> اختبار التقييم</span>
   </div>
 
-  <!-- ===== 1. منطقة الاختبار ===== -->
   <div id="quizArea">
     <div class="quiz-header">
       <span class="progress-text" id="progressLabel">1 / 30</span>
@@ -449,7 +369,6 @@
       </div>
     </div>
 
-    <!-- نتيجة الاختبار -->
     <div id="resultArea" class="result-box hidden">
       <div class="score" id="scoreDisplay">0%</div>
       <div class="message" id="resultMessage"></div>
@@ -457,7 +376,6 @@
     </div>
   </div>
 
-  <!-- ===== 2. أزرار الشهادة (تظهر بعد النجاح) ===== -->
   <div id="certificateActions" class="hidden no-print">
     <div class="print-actions">
       <button class="btn btn-primary" id="printBtn"><i class="fa-solid fa-print"></i> طباعة / حفظ PDF</button>
@@ -468,102 +386,77 @@
   </div>
 </div>
 
-<!-- ===== 3. نافذة إدخال الاسم (Modal) ===== -->
+<!-- ===== نافذة إدخال الأسماء (Modal) ===== -->
 <div id="nameModal" class="modal no-print hidden">
   <div class="modal-content">
     <h2><i class="fa-regular fa-pen-to-square"></i> أدخل اسمك للشهادة</h2>
-    <p>الاسم سيظهر على الشهادة كما تكتبه (بالإنجليزية).</p>
-    <input type="text" id="traineeNameInput" placeholder="مثال: Ahmed Mohamed" dir="ltr" />
-    <button class="btn btn-success" id="generateCertBtn">توليد الشهادة <i class="fa-solid fa-certificate"></i></button>
+    <p>سيظهر الاسم على الشهادة كما تكتبه، وستُولَّد نسختان (عربي + إنجليزي).</p>
+
+    <label class="name-lbl" for="traineeNameEn">الاسم باللغة الإنجليزية</label>
+    <input type="text" id="traineeNameEn" placeholder="Example: Ahmed Mohamed" dir="ltr" />
+
+    <label class="name-lbl" for="traineeNameAr">الاسم باللغة العربية</label>
+    <input type="text" id="traineeNameAr" placeholder="مثال: أحمد محمد" dir="rtl" />
+
+    <button class="btn btn-success" id="generateCertBtn">
+      توليد الشهادتين <i class="fa-solid fa-certificate"></i>
+    </button>
     <div class="error-msg" id="nameError"></div>
   </div>
 </div>
 
 <script>
-    // ---- كود الحماية ومنع الوصول لأدوات المطور ----
-    document.addEventListener('keydown', function(e) {
-      // منع زر F12
-      if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        alert('تم تعطيل زر F12!');
-        return false;
-      }
-      // منع اختصارات أدوات المطور (Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C)
-      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
-        e.preventDefault();
-        alert('تم تعطيل أدوات المطور!');
-        return false;
-      }
-      // منع عرض مصدر الصفحة (Ctrl+U)
-      if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-        e.preventDefault();
-        alert('تم تعطيل عرض المصدر!');
-        return false;
-      }
-    });
+  // ---- كود الحماية (كما هو) ----
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); alert('تم تعطيل زر F12!'); return false; }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+      e.preventDefault(); alert('تم تعطيل أدوات المطور!'); return false;
+    }
+    if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) { e.preventDefault(); alert('تم تعطيل عرض المصدر!'); return false; }
+  });
+  document.addEventListener('contextmenu', function(e) { e.preventDefault(); alert('النقر بزر الماوس الأيمن معطل!'); return false; });
+  // ---- نهاية كود الحماية ----
 
-    // منع النقر بزر الماوس الأيمن (Context Menu)
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-      alert('النقر بزر الماوس الأيمن معطل!');
-      return false;
-    });
-    // ---- نهاية كود الحماية ----
   // =============================================================
-  // 1. بنك الأسئلة (30 سؤالاً)
+  // 1. بنك الأسئلة (30 سؤالاً) — بدون تغيير
   // =============================================================
   const questions = [
-    // المحور الأول
     { q: 'لماذا يعتبر الاعتماد على الحدس فقط في إدارة المطاعم خطراً؟', options: ['لأن الحدس غير مفيد في اتخاذ أي قرار', 'لأن الحدس يعطي شعوراً بالمشكلة لكنه لا يحدد حجمها أو سببها الحقيقي', 'لأن الحدس يعتمد على الخبرة فقط', 'لأن الحدس يبطئ عملية اتخاذ القرار'], correct: 1 },
     { q: 'ما هي الأطراف الثلاثة الرئيسية التي تقوم عليها إدارة المطاعم حسب الدورة؟', options: ['المالك، الشيف، والزبون', 'الإدارة، الموظف، والزبون', 'المطبخ، الصالة، والمخزن', 'المورد، الموظف، والمدير'], correct: 1 },
-    // المحور الثاني
     { q: 'ما هو الدور الحقيقي لمدير المطعم حسب الدورة؟', options: ['حل جميع المشاكل اليومية بنفسه', 'العمل في المطبخ لتخفيف الضغط عن الشيف', 'التخطيط، التنظيم، والرقابة لضمان سير العمل بنظام', 'مراقبة الموظفين وتسجيل المخالفات'], correct: 2 },
     { q: 'لماذا يعتبر التخطيط والتنظيم أساسيين في المطاعم؟', options: ['لأن المطاعم بيئة متوقعة ولا تحتاج لتخطيط', 'لأن التخطيط يمنع الفوضى ويحول التشغيل من رد فعل إلى نظام مسبق', 'لأن التنظيم يزيد من ساعات العمل', 'لأن التخطيط يقلل من الحاجة للموظفين'], correct: 1 },
     { q: 'ما هي الخطوات الأساسية لاتخاذ قرار إداري تحت الضغط في المطعم؟', options: ['التسرع في الحل لتجنب خسارة الزبون', 'التوقف القصير، تحديد المشكلة بدقة، واختيار أقل قرار ضرراً', 'استشارة جميع الموظفين قبل أي قرار', 'تجاهل المشكلة حتى تهدأ الأوضاع'], correct: 1 },
-    // المحور الثالث
     { q: 'ما هو الهدف الرئيسي من الوصفات القياسية في المطاعم؟', options: ['توحيد طريقة الطبخ فقط', 'ضبط الجودة والتكلفة وضمان ثبات المنتج', 'إرضاء الشيف وإعطائه صلاحية كاملة', 'تسهيل عملية الشراء من الموردين'], correct: 1 },
     { q: 'ما هي إدارة المخزون الصحيحة حسب الدورة؟', options: ['تخزين أكبر كمية ممكنة لتجنب النقص', 'معرفة الكمية المتوفرة، الاستهلاك، ومعدل الهدر لضبط الشراء', 'شراء المواد بأقل سعر بغض النظر عن الكمية', 'ترك مسؤولية المخزون للموردين'], correct: 1 },
     { q: 'ما هو مفهوم تكامل التشغيل بين المطبخ والصالة؟', options: ['أن يكون المطبخ أسرع من الصالة دائماً', 'بناء نظام مشترك يضمن وضوح الطلب، سرعة الخدمة، وتقليل الأخطاء', 'أن تكون الصالة مسؤولة عن جميع الشكاوى', 'فصل العمل بين المطبخ والصالة بشكل كامل'], correct: 1 },
-    // المحور الرابع
     { q: 'ما الفرق بين "العمل داخل المطعم" و"العمل على المطعم"؟', options: ['الأول يعني العمل في المطبخ، والثاني يعني العمل في الإدارة', 'الأول يعني الانخراط في التفاصيل اليومية، والثاني يعني بناء نظام يشتغل بدون تدخل مباشر', 'الأول يعني العمل ساعات أطول، والثاني يعني العمل ساعات أقل', 'الأول يعني تواجد المدير، والثاني يعني غيابه'], correct: 1 },
     { q: 'لماذا تعتبر الرؤية والأهداف مهمة في مشاريع المطاعم؟', options: ['لأنها شعارات تحفيزية للموظفين', 'لأنها مرجع للقرارات وتمنع التخبط وتساعد في تحديد الاتجاه', 'لأنها مطلوبة من قبل المستثمرين فقط', 'لأنها تزيد من المبيعات مباشرة'], correct: 1 },
-    // المحور الخامس
     { q: 'كيف تعرّف الدورة الجودة الحقيقية في المطاعم؟', options: ['تقديم أكل لذيذ من وقت لآخر', 'قدرة المطعم على تقديم نفس المنتج ونفس التجربة في كل وقت', 'الاعتماد على شيف ماهر لضمان الجودة', 'استخدام أغلى المكونات'], correct: 1 },
     { q: 'ما هي مؤشرات قياس الجودة في المطاعم حسب الدورة؟', options: ['عدد الشكاوى فقط', 'ثبات المنتج، نسبة الهدر، سرعة الخدمة، وتكرار الزيارة', 'عدد المتابعين على وسائل التواصل', 'رأي المدير الشخصي'], correct: 1 },
-    // المحور السادس
     { q: 'ما هي رحلة العميل داخل المطعم حسب الدورة؟', options: ['مجرد عملية طلب وتناول الطعام', 'سلسلة من نقاط التماس تبدأ قبل الدخول وتنتهي بعد الخروج', 'تقييم الطعم فقط', 'التفاعل مع الجرسون فقط'], correct: 1 },
     { q: 'كيف يجب التعامل مع الشكاوى حسب الدورة؟', options: ['تجاهلها لتجنب الإحراج', 'تقديم خصم فوري لإسكات العميل', 'الاستماع، الاعتذار، التصرف، والشكر، وتحويلها لفرصة لتحسين التجربة', 'إحالة العميل للمدير مباشرة'], correct: 2 },
-    // المحور السابع
     { q: 'ما هو مبدأ التوظيف الذكي في المطاعم؟', options: ['تعيين أي شخص يسد الفراغ بسرعة', 'التركيز فقط على الخبرة السابقة', 'اختيار الشخص المناسب بناءً على سلوكه تحت الضغط وقابليته للتعلم', 'الاعتماد على المقابلة السريعة فقط'], correct: 2 },
     { q: 'كيف يتم التقييم الفعال للموظفين في المطاعم؟', options: ['بناءً على المزاج الشخصي للمدير', 'باستخدام مؤشرات أداء واضحة ومتابعة مستمرة، مع التركيز على السلوك وليس الشخص', 'مرة واحدة في السنة فقط', 'من خلال استبيانات رضا العملاء فقط'], correct: 1 },
-    // المحور الثامن
     { q: 'ما هي المعادلة الأساسية لحساب المبيعات اليومية؟', options: ['عدد الموظفين × متوسط ساعة العمل', 'عدد الزبائن × متوسط إنفاق الزبون', 'إجمالي المشتريات × هامش الربح', 'عدد الطاولات × عدد الوجبات'], correct: 1 },
     { q: 'ما هو التنبؤ بالمبيعات وأهميته؟', options: ['تخمين عشوائي لحركة المطعم', 'استخدام البيانات السابقة وتحليل الأنماط لتوقع المبيعات واتخاذ قرارات تشغيلية مسبقة', 'تحديد سقف المبيعات القصوى', 'عملية محاسبية بحتة'], correct: 1 },
-    // المحور التاسع
     { q: 'كيف تحسب التكلفة الفعلية للطعام في المطعم؟', options: ['مجموع فواتير الشراء خلال الشهر', '(مخزون أول الفترة + المشتريات - مخزون آخر الفترة)', 'سعر البيع - هامش الربح', 'عدد الأطباق × سعر المكونات الأساسية'], correct: 1 },
     { q: 'كيف تحلل الأصناف لتحديد مصادر الخلل في Food Cost؟', options: ['بمقارنة كل صنف مع متوسط السوق', 'بحساب نسبة تكلفة كل صنف إلى مبيعاته وتحديد الأصناف ذات التكلفة المرتفعة', 'بإلغاء الأصناف الأقل مبيعاً', 'بزيادة سعر جميع الأصناف'], correct: 1 },
-    // المحور العاشر
     { q: 'ما هي طريقة حساب تكلفة الكاسة الواحدة لمشروب؟', options: ['سعر العبوة مقسوم على عدد الكاسات النظرية + تكلفة الإضافات', 'سعر البيع - هامش الربح المطلوب', 'سعر العبوة × عدد الكاسات', 'متوسط أسعار المنافسين'], correct: 0 },
     { q: 'لماذا يعتبر الجرد اليومي مهماً في المشروبات المحضّرة يدوياً؟', options: ['للتأكد من نظافة المعدات', 'لمقارنة الاستهلاك الفعلي بالاستهلاك النظري واكتشاف الفروقات والهدر', 'لحساب الرواتب', 'لتحديد الكميات المطلوبة للشراء الأسبوعي'], correct: 1 },
-    // المحور الحادي عشر
     { q: 'ما هي نقطة إعادة الطلب (Reorder Point)؟', options: ['الوقت الذي ينتهي فيه المخزون بالكامل', 'المستوى الذي عنده يجب طلب المواد الجديدة لتغطية الاستهلاك خلال فترة التوريد', 'الحد الأقصى للمخزون المسموح به', 'الوقت الذي يقدم فيه المورد عرضاً جديداً'], correct: 1 },
     { q: 'ما هو الهدف من تحليل فروقات الجرد؟', options: ['إثبات أن جميع الأرقام دقيقة', 'اكتشاف مصادر الهدر أو السرقة أو سوء الاستخدام قبل أن تتحول لخسارة كبيرة', 'تقليل عدد مرات الجرد', 'إلقاء اللوم على الموظفين'], correct: 1 },
-    // المحور الثاني عشر
     { q: 'ما هو مبدأ "بناء المنيو من المواد الأولية"؟', options: ['اختيار الأصناف الأكثر طلباً في السوق', 'تصميم الأصناف بناءً على مواد أولية محدودة ومشتركة لتقليل الهدر وزيادة السيطرة', 'إضافة أكبر عدد ممكن من الأصناف لإرضاء جميع الأذواق', 'الاعتماد على وصفات الشيف التقليدية'], correct: 1 },
     { q: 'كيف يمكن تقليص المنيو بدون خسارة الزبون؟', options: ['بإلغاء الأصناف الأقل مبيعاً بشكل مفاجئ', 'بتحليل الأصناف من حيث الربحية والتشغيل، وإعادة تصميم أو حذف الأصناف غير الفعالة تدريجياً', 'بتقليل الكميات لجميع الأصناف', 'بزيادة الأسعار للأصناف المتبقية'], correct: 1 },
-    // المحور الثالث عشر
     { q: 'ما هي مؤشرات الأداء الرئيسية (KPIs) التي يجب مراقبتها في المطعم؟', options: ['فقط المبيعات اليومية', 'متوسط المبيعات، متوسط الفاتورة، نسبة الهدر، إنتاجية الفريق، وزمن الخدمة', 'عدد الموظفين والإيجار', 'تقييمات مواقع التواصل فقط'], correct: 1 },
     { q: 'لماذا يجب ربط التقارير المالية بالتقارير التشغيلية؟', options: ['لأن التقارير المالية وحدها لا تفسر أسباب الأرقام، بينما التشغيلية تكشف مصدر الخلل', 'لزيادة عدد التقارير', 'لإرضاء المحاسب', 'للامتثال للمعايير الدولية'], correct: 0 },
-    // المحور الرابع عشر
     { q: 'ما هو الفرق بين الربح المحاسبي والسيولة النقدية في المطعم؟', options: ['الربح المحاسبي هو نفسه السيولة دائماً', 'الربح المحاسبي قد يكون موجوداً على الورق لكن السيولة قد تكون منخفضة بسبب تأخر التحصيل أو التزامات تشغيلية', 'السيولة هي الربح بعد خصم الضرائب', 'الربح المحاسبي لا يشمل التكاليف'], correct: 1 },
     { q: 'كيف تقرأ قائمة الأرباح والخسائر لاتخاذ قرار التوسع أو التثبيت؟', options: ['بالنظر إلى صافي الربح فقط', 'بتحليل الربحية مع الطاقة الإنتاجية ونقطة التعادل، ودراسة قابلية الربح للتكرار عند زيادة الحجم', 'بمقارنة الأرباح مع المنافسين', 'بمراجعة المبيعات فقط'], correct: 1 },
-    // المحور الخامس عشر
     { q: 'لماذا قد تنهار ربحية المطعم عند التوسع رغم نجاحه صغيراً؟', options: ['لأن السوق يتغير دائماً', 'لأن الربحية الأصلية كانت مبنية على جهد فردي وليس على نظام قابل للتكبير', 'لأن العملاء يفضلون المطاعم الصغيرة', 'لأن التكاليف الثابتة تزيد دائماً'], correct: 1 },
     { q: 'ما هي الرقابة الذكية في المطاعم حسب الدورة؟', options: ['مراقبة كل موظف بشكل دائم', 'تشديد العقوبات على الأخطاء', 'استخدام مؤشرات أداء لرصد الانحرافات قبل أن تتحول لخسائر، دون خنق التشغيل', 'إلغاء الصلاحيات عن الفريق'], correct: 2 }
   ];
 
   // =============================================================
-  // 2. منطق الاختبار
+  // 2. منطق الاختبار (بدون تغيير)
   // =============================================================
   let currentIndex = 0;
   let userAnswers = new Array(questions.length).fill(null);
@@ -619,23 +512,14 @@
   }
 
   function goToNext() {
-    if (currentIndex === questions.length - 1) {
-      finishQuiz();
-      return;
-    }
-    if (userAnswers[currentIndex] === null) {
-      alert('الرجاء اختيار إجابة قبل المتابعة.');
-      return;
-    }
+    if (currentIndex === questions.length - 1) { finishQuiz(); return; }
+    if (userAnswers[currentIndex] === null) { alert('الرجاء اختيار إجابة قبل المتابعة.'); return; }
     currentIndex++;
     renderQuestion(currentIndex);
   }
 
   function goToPrev() {
-    if (currentIndex > 0) {
-      currentIndex--;
-      renderQuestion(currentIndex);
-    }
+    if (currentIndex > 0) { currentIndex--; renderQuestion(currentIndex); }
   }
 
   function finishQuiz() {
@@ -647,7 +531,6 @@
     questions.forEach((q, idx) => { if (userAnswers[idx] === q.correct) correct++; });
     const percent = Math.round((correct / questions.length) * 100);
     quizScore = percent;
-
     const passed = percent >= 70;
 
     questionArea.classList.add('hidden');
@@ -664,11 +547,7 @@
       certBtn.innerHTML = '<i class="fa-solid fa-certificate"></i> طلب الشهادة';
       certBtn.onclick = async function() {
         const userEmail = sessionStorage.getItem('portalUserEmail');
-        if (!userEmail) {
-          alert('يرجى تسجيل الدخول من المنصة أولاً.');
-          return;
-        }
-        // التحقق السريع مرة أخرى قبل الإصدار
+        if (!userEmail) { alert('يرجى تسجيل الدخول من المنصة أولاً.'); return; }
         try {
           const checkResp = await fetch(`${API_URL}?action=checkEmail&email=${encodeURIComponent(userEmail)}`);
           const checkData = await checkResp.json();
@@ -678,7 +557,6 @@
             return;
           }
         } catch (e) {}
-        // فتح نافذة الاسم
         document.getElementById('nameModal').classList.remove('hidden');
       };
       resultActions.appendChild(certBtn);
@@ -695,85 +573,137 @@
   nextBtn.addEventListener('click', goToNext);
 
   // =============================================================
-  // 3. دوال الشهادة والحفظ
+  // 3. الشهادات والحفظ
   // =============================================================
   const API_URL = 'https://script.google.com/macros/s/AKfycbzy4m10wkx7IeqX_8XlCfJzTjSNtXhlk-MhvkwXjk14zXFHpJ_nbLyDcXhcqbDXdr98/exec';
 
-  // دالة عرض شهادة سابقة
-  function showPreviousCertificate(cert) {
-    if (!cert || !cert.code) return;
-    generateCertificateOnPage(cert.name, cert.code, cert.date, cert.pdfLink);
-    // إخفاء نافذة الاسم والاختبار
-    document.getElementById('nameModal').classList.add('hidden');
-    document.getElementById('quizArea').classList.add('hidden');
-    document.getElementById('resultArea').classList.add('hidden');
-  }
+  // كود الميدالية (SVG)
+  const MEDAL = `<svg viewBox="0 0 56 76" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 41 L12 76 L23 62 L28 76 L33 62 L44 76 L37 41" fill="#c41e3a"/>
+    <circle cx="28" cy="25" r="23" fill="#d4af37"/><circle cx="28" cy="25" r="19.5" fill="#f0d060"/>
+    <circle cx="28" cy="25" r="16.5" fill="none" stroke="#b8860b" stroke-width="1.3"/>
+    <circle cx="28" cy="25" r="13" fill="none" stroke="#a07818" stroke-width=".7"/>
+    <path d="M15 17 Q10 25 15 33 Q17 27 15 17" fill="#b8860b" opacity=".7"/>
+    <path d="M41 17 Q46 25 41 33 Q39 27 41 17" fill="#b8860b" opacity=".7"/>
+    <polygon points="28,11 29.7,18.2 36.5,18.2 31.2,22.5 33.2,29.8 28,25.5 22.8,29.8 24.8,22.5 19.5,18.2 26.3,18.2" fill="#a07818"/>
+  </svg>`;
 
-  // دالة توليد الشهادة على الصفحة
-  function generateCertificateOnPage(name, certCode, today, pdfLink = '') {
-    const qrData = `https://training.farouk-grup.com/verify?code=${certCode}`;
-    QRCode.toDataURL(qrData, function(err, qrUrl) {
-      if (err) { console.error(err); qrUrl = ''; }
+  // دالة بناء شهادة واحدة (EN أو AR)
+  function buildCert(isAr, name, dateStr, code, qr) {
+    const a = isAr ? ' ar' : '';
+    const title   = isAr ? 'شهادة إتمام' : 'Certificate of Completion';
+    const pres    = isAr ? 'تُقدَّم بكل فخر إلى' : 'PROUDLY PRESENTED TO';
+    const forT    = isAr ? 'لإتمامه بنجاح دورة' : 'FOR SUCCESSFULLY COMPLETING';
+    const course  = isAr
+      ? 'إدارة المطاعم والقراءات المالية بإحترافية'
+      : 'Professional Restaurant Management and Financial Analysis Course';
+    const desc = isAr
+      ? 'مُقدَّمة من مجموعة فاروق ضمن برنامج ProServe للأغذية والمشروبات، تقديراً لإتمام متطلبات الدورة وإظهار الكفاءة في إدارة المطاعم والقراءات المالية بإحترافية.'
+      : 'Presented by Farouk Grup as part of its ProServe Food & Beverage Program, in recognition of completing the course requirements and demonstrating proficiency in professional restaurant management and financial analysis.';
+    const dL = isAr ? 'التاريخ' : 'Date';
+    const cL = isAr ? 'رقم الشهادة' : 'Certificate no.';
+    const sT = isAr ? 'مدير التدريب' : 'Training Director';
 
-      const container = document.getElementById('certificateContainer');
-      container.innerHTML = `
-        <div class="certificate" dir="ltr">
-          <div class="corner corner-top-left"></div>
-          <div class="corner corner-top-right"></div>
-          <div class="corner corner-bottom-left"></div>
-          <div class="corner corner-bottom-right"></div>
-          <div class="logo-container">
-            <img src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" class="logo" alt="Farouk Grup Logo"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div class="logo-fallback">FAROUK GRUP</div>
-          </div>
-          <h1 class="cert-title">Certificate of Training</h1>
-          <div style="text-align:center;"><span class="sub-title">This is to certify that</span></div>
-          <h2 class="trainee-name">${name}</h2>
-          <p class="description">has successfully completed the</p>
-          <p class="course-name">Professional Restaurant Management and Financial Analysis Course</p>
-          <p class="course-sub">Part of ProServe Food & Beverage Program</p>
-          <p class="description" style="margin-top: 6px;">Professional Training</p>
-          
-          <div class="stamp-container">
-            <img src="https://lh3.googleusercontent.com/d/1pLlZmF5a6n3YVWfu4uPP19cgMbR9P_St" class="stamp-img" alt="Stamp"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="stamp-fallback">
-              <div class="stamp-fallback-inner">
-                <div class="stamp-fallback-group">FAROUK GRUP</div>
-                <div class="stamp-fallback-certified">★ CERTIFIED ★</div>
-              </div>
-            </div>
-          </div>
+    return `<div class="cert" dir="${isAr ? 'rtl' : 'ltr'}">
+      <div class="wm">FAROUK GRUP</div>
 
-          <div class="footer">
-            <div class="signature"><div class="sig-line">Farouk Azem</div><p>Training Director</p></div>
-            <div class="details">
-              <p><strong>Date of Issue:</strong> ${today}</p>
-              <p><strong>Certificate Code:</strong> ${certCode}</p>
-              ${qrUrl ? `<img src="${qrUrl}" class="qr-code" alt="QR Verification">` : ''}
-            </div>
+      <div class="frame-outer"></div>
+      <div class="frame-mid"></div>
+      <div class="frame-inner"></div>
+
+      <div class="crn tl"></div>
+      <div class="crn tr"></div>
+      <div class="crn bl"></div>
+      <div class="crn br"></div>
+
+      <div class="medal">${MEDAL}</div>
+
+      <div class="body">
+        <div class="r-logo">
+          <img class="logo" src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" alt="Logo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <div class="logo-fb">FAROUK GRUP</div>
+          <div class="org">Farouk Grup &nbsp;|&nbsp; ProServe Food &amp; Beverage Program</div>
+        </div>
+
+        <div class="r-title"><div class="ctitle${a}">${title}</div></div>
+        <div class="r-pres"><div class="pres${a}">${pres}</div></div>
+        <div class="r-name"><div class="tname${a}">${name}</div></div>
+        <div class="r-for"><div class="for${a}">${forT}</div></div>
+        <div class="r-course"><div class="course${a}">${course}</div></div>
+        <div class="r-desc"><div class="desc${a}">${desc}</div></div>
+
+        <div class="r-foot">
+          <div>${qr ? `<img class="qr" src="${qr}" alt="QR">` : ''}</div>
+          <div class="fi"><div class="fv">${dateStr}</div><div class="fl${a}">${dL}</div></div>
+          <div class="fi"><div class="fv">${code}</div><div class="fl${a}">${cL}</div></div>
+          <div class="fi-sig">
+            <div><div class="sn">Farouk Azem</div><div class="st${a}">${sT}</div></div>
+            <img class="stamp" src="https://lh3.googleusercontent.com/d/1pLlZmF5a6n3YVWfu4uPP19cgMbR9P_St" alt="Stamp"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="stamp-fb">FAROUK<br>GRUP<br>★</div>
           </div>
         </div>
-      `;
+      </div>
+    </div>`;
+  }
+
+  // دالة توليد الشهادتين وعرضهما
+  function generateCertificatesOnPage(nameEn, nameAr, certCode, dateISO) {
+    const qrData = `https://training.farouk-grup.com/verify?code=${certCode}`;
+    QRCode.toDataURL(qrData, { width: 160, margin: 1, color: { dark: '#1a1410', light: '#ffffff' } }, function(err, qr) {
+      if (err) { console.error(err); qr = ''; }
+
+      const d = new Date(dateISO + 'T00:00:00');
+      const dateStr = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      const container = document.getElementById('certificateContainer');
+      container.innerHTML =
+        '<div class="lang-label no-print">ENGLISH VERSION</div>' +
+        buildCert(false, nameEn, dateStr, certCode, qr) +
+        '<div class="lang-label no-print">النسخة العربية</div>' +
+        buildCert(true, nameAr, dateStr, certCode, qr);
 
       document.getElementById('certificateArea').classList.remove('hidden');
       document.getElementById('certificateActions').classList.remove('hidden');
     });
   }
 
+  // عرض شهادة سابقة (يُقسّم الاسم إن كان "EN / AR")
+  function showPreviousCertificate(cert) {
+    if (!cert || !cert.code) return;
+    let nameEn = cert.name || '';
+    let nameAr = cert.name || '';
+    if (nameEn.includes(' / ')) {
+      const parts = nameEn.split(' / ');
+      nameEn = parts[0] || '';
+      nameAr = parts[1] || nameEn;
+    }
+    generateCertificatesOnPage(nameEn, nameAr, cert.code, cert.date);
+    document.getElementById('nameModal').classList.add('hidden');
+    document.getElementById('quizArea').classList.add('hidden');
+    document.getElementById('resultArea').classList.add('hidden');
+  }
+
+  // زر توليد الشهادتين
   document.getElementById('generateCertBtn').addEventListener('click', async function() {
-    const nameInput = document.getElementById('traineeNameInput');
-    const name = nameInput.value.trim();
+    const nameEnInput = document.getElementById('traineeNameEn');
+    const nameArInput = document.getElementById('traineeNameAr');
+    const nameEn = nameEnInput.value.trim();
+    const nameAr = nameArInput.value.trim();
     const errorDiv = document.getElementById('nameError');
     const userEmail = sessionStorage.getItem('portalUserEmail');
 
-    if (!name) {
-      errorDiv.textContent = '❌ الرجاء إدخال الاسم باللغة الإنجليزية.';
+    if (!nameEn || !nameAr) {
+      errorDiv.textContent = '❌ الرجاء إدخال الاسم بالعربية والإنجليزية.';
       return;
     }
-    if (!/^[a-zA-Z\s]+$/.test(name)) {
-      errorDiv.textContent = '❌ الاسم يجب أن يكون بالحروف الإنجليزية فقط.';
+    if (!/^[a-zA-Z\s.'\-]+$/.test(nameEn)) {
+      errorDiv.textContent = '❌ الاسم الإنجليزي يجب أن يكون بحروف إنجليزية فقط.';
+      return;
+    }
+    if (!/^[\u0600-\u06FF\s.'\-]+$/.test(nameAr)) {
+      errorDiv.textContent = '❌ الاسم العربي يجب أن يكون بحروف عربية فقط.';
       return;
     }
     if (!userEmail) {
@@ -782,20 +712,20 @@
     }
     errorDiv.textContent = '';
 
-    const certCode = 'PS-RM-' + new Date().getFullYear() + '-' + crypto.randomUUID().split('-')[0];
-    const today = new Date().toISOString().slice(0,10);
+    const certCode = 'PS-RM-' + new Date().getFullYear() + '-' + crypto.randomUUID().split('-')[0].toUpperCase();
+    const today = new Date().toISOString().slice(0, 10);
+    const combinedName = nameEn + ' / ' + nameAr;
 
     this.disabled = true;
     this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
 
     try {
-      const url = `${API_URL}?action=save&code=${encodeURIComponent(certCode)}&name=${encodeURIComponent(name)}&date=${encodeURIComponent(today)}&score=${encodeURIComponent(quizScore)}&email=${encodeURIComponent(userEmail)}`;
+      const url = `${API_URL}?action=save&code=${encodeURIComponent(certCode)}&name=${encodeURIComponent(combinedName)}&date=${encodeURIComponent(today)}&score=${encodeURIComponent(quizScore)}&email=${encodeURIComponent(userEmail)}`;
       const response = await fetch(url);
       const data = await response.json();
 
       if (data.status === 'saved') {
-        // نجاح – توليد QR وعرض الشهادة
-        generateCertificateOnPage(name, certCode, today, data.pdfLink);
+        generateCertificatesOnPage(nameEn, nameAr, certCode, today);
         document.getElementById('quizArea').classList.add('hidden');
         document.getElementById('resultArea').classList.add('hidden');
         document.getElementById('nameModal').classList.add('hidden');
@@ -809,28 +739,28 @@
       alert('⚠️ حدث خطأ: ' + err.message);
     } finally {
       this.disabled = false;
-      this.innerHTML = 'توليد الشهادة <i class="fa-solid fa-certificate"></i>';
+      this.innerHTML = 'توليد الشهادتين <i class="fa-solid fa-certificate"></i>';
     }
   });
 
-  document.getElementById('traineeNameInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') document.getElementById('generateCertBtn').click();
+  // Enter في أي حقل اسم = توليد
+  ['traineeNameEn', 'traineeNameAr'].forEach(id => {
+    document.getElementById(id).addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') document.getElementById('generateCertBtn').click();
+    });
   });
 
-  // =============================================================
-  // 4. زر الطباعة
-  // =============================================================
+  // زر الطباعة
   document.getElementById('printBtn').addEventListener('click', function() {
     window.print();
   });
 
   // =============================================================
-  // 5. فحص الجلسة والإيميل ومنع التكرار
+  // 5. فحص الجلسة (بدون تغيير)
   // =============================================================
   (function initSession() {
     const userEmail = sessionStorage.getItem('portalUserEmail');
     if (!userEmail) {
-      // لا يوجد جلسة، إخفاء كل شيء وعرض رسالة
       document.getElementById('quizArea').classList.add('hidden');
       const container = document.querySelector('.container');
       if (container) {
@@ -844,12 +774,10 @@
       return;
     }
 
-    // التحقق مما إذا كان هذا الإيميل قد حصل على شهادة سابقة
     fetch(`${API_URL}?action=checkEmail&email=${encodeURIComponent(userEmail)}`)
       .then(res => res.json())
       .then(data => {
         if (data.status === 'existing') {
-          // لديه شهادة سابقة -> منع الاختبار وعرض زر لعرض الشهادة
           document.getElementById('quizArea').classList.add('hidden');
           document.getElementById('certificateActions').classList.remove('hidden');
           const container = document.querySelector('.container');
@@ -868,13 +796,12 @@
             });
           }
         } else {
-          // لم يصدر شهادة بعد، يمكنه إجراء الاختبار
           renderQuestion(0);
         }
       })
       .catch(err => {
         console.error('فشل التحقق:', err);
-        renderQuestion(0); // السماح بالاختبار في حالة الخطأ
+        renderQuestion(0);
       });
   })();
 </script>

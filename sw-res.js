@@ -3,8 +3,8 @@ const CACHE_NAME = 'farouk-res-admin-v1';
 const SHELL = [
   './admin-res.html',
   './manifest-res.webmanifest',
-  './icon-192.png',
-  './icon-512.png'
+  './icon-res-192.png',
+  './icon-res-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -51,8 +51,8 @@ self.addEventListener('message', (event) => {
     event.waitUntil(
       self.registration.showNotification(data.title || 'تذكير — دورة المطاعم', {
         body: data.body || '',
-        icon: './icon-192.png',
-        badge: './icon-192.png',
+        icon: './icon-res-192.png',
+        badge: './icon-res-192.png',
         tag: data.tag || 'res-reminder',
         requireInteraction: true,
         vibrate: [200, 100, 200],
@@ -74,8 +74,8 @@ async function scheduleFutureNotifications(apps) {
       if (isNaN(ts) || ts <= now) continue;
       const opts = {
         body: a.title + (a.time ? ' — الساعة ' + a.time : ''),
-        icon: './icon-192.png',
-        badge: './icon-192.png',
+        icon: './icon-res-192.png',
+        badge: './icon-res-192.png',
         tag: 'app-' + a.id,
         requireInteraction: true,
         data: { url: './admin-res.html', appId: a.id }

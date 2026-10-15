@@ -10,8 +10,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="دورة المطاعم">
     <title>لوحة تحكم دورة إدارة المطاعم | FAROUK GRUP</title>
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa">
-    <link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="icon" type="image/png" href="./logo-res.png">
+    <link rel="apple-touch-icon" href="./icon-res-192.png">
     <link rel="manifest" href="manifest-res.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -616,7 +616,7 @@
 <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
         <div class="logo-container">
-            <img id="loginLogo" src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" alt="شعار">
+            <img id="loginLogo" src="./logo-res.png" alt="شعار">
         </div>
         <h2>الدخول للمصرح لهم</h2>
         <p class="sub-title" id="loginSubTitle">لوحة تحكم دورة إدارة المطاعم</p>
@@ -642,7 +642,7 @@
     <div class="mobile-topbar" id="mobileTopbar">
         <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة"><i class="fas fa-bars"></i></button>
         <div class="mobile-brand">
-            <img id="mobileLogo" src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" alt="شعار">
+            <img id="mobileLogo" src="./logo-res.png" alt="شعار">
             <span id="mobileBrandTitle">دورة إدارة المطاعم</span>
         </div>
     </div>
@@ -652,7 +652,7 @@
         <div class="sidebar" id="sidebar">
             <button class="sidebar-toggle" id="sidebarToggle" title="طي/توسيع القائمة"><i class="fas fa-bars"></i></button>
             <div class="sidebar-logo">
-                <img id="sidebarLogo" src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" alt="شعار">
+                <img id="sidebarLogo" src="./logo-res.png" alt="شعار">
                 <h2 id="sidebarTitle">دورة إدارة المطاعم</h2>
                 <p id="sidebarSub">مجموعة فاروق</p>
             </div>
@@ -877,7 +877,7 @@
 
 <!-- شريط تثبيت PWA -->
 <div class="pwa-install-bar" id="pwaInstallBar">
-    <img src="./icon-192.png" alt="شعار">
+    <img src="./icon-res-192.png" alt="شعار">
     <div class="pwa-text">
         <strong>ثبّت لوحة دورة المطاعم</strong>
         <span>أضفها للشاشة الرئيسية للوصول السريع</span>
@@ -1952,7 +1952,7 @@
     window.saveSettings = saveSettings;
 
     function applySettings() {
-        const logo = localStorage.getItem('logoUrl') || 'https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa';
+        const logo = localStorage.getItem('logoUrl') || './logo-res.png';
         const title = localStorage.getItem('appTitle') || 'دورة إدارة المطاعم';
         const sub = localStorage.getItem('appSubtitle') || 'مجموعة فاروق';
         const color = localStorage.getItem('primaryColor') || '#b8860b';
@@ -2241,12 +2241,12 @@
     function showSWNotification(title, body, tag) {
         if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
         if (!('serviceWorker' in navigator)) {
-            try { new Notification(title, { body, icon: './icon-192.png', requireInteraction: true }); } catch(e) {}
+            try { new Notification(title, { body, icon: './icon-res-192.png', requireInteraction: true }); } catch(e) {}
             return;
         }
         navigator.serviceWorker.ready.then((reg) => {
             if (reg.active) reg.active.postMessage({ type: 'SHOW_NOTIFICATION', title, body, tag: tag || 'res-reminder' });
-            else try { new Notification(title, { body, icon: './icon-192.png', requireInteraction: true }); } catch(e) {}
+            else try { new Notification(title, { body, icon: './icon-res-192.png', requireInteraction: true }); } catch(e) {}
         }).catch(() => {});
     }
 

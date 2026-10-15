@@ -2,9 +2,17 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0e16">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="دورة المطاعم">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="دورة المطاعم">
     <title>لوحة تحكم دورة إدارة المطاعم | FAROUK GRUP</title>
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="manifest" href="manifest-res.webmanifest">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -494,40 +502,108 @@
             background: rgba(184,134,11,0.2); border-color: var(--gold); color: var(--gold-light);
         }
 
+        .sync-status {
+            font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 5px;
+        }
+        .sync-status.synced { color: #2ecc71; }
+        .sync-status.syncing { color: #f39c12; }
+        .sync-status.error { color: #e74c3c; }
+        .mobile-topbar {
+            display: none; align-items: center; gap: 10px;
+            background: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+            border-bottom: 2px solid var(--gold); padding: 10px 12px;
+            position: sticky; top: 0; z-index: 200;
+        }
+        .mobile-topbar .hamburger-btn {
+            background: rgba(184,134,11,0.15); border: 1px solid var(--gold); color: var(--gold-light);
+            width: 42px; height: 42px; border-radius: 10px; cursor: pointer;
+            font-size: 1.2rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .mobile-topbar .mobile-brand { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+        .mobile-topbar .mobile-brand img {
+            width: 36px; height: 36px; border-radius: 6px; border: 1px solid var(--gold);
+            background: #fff; object-fit: contain; flex-shrink: 0;
+        }
+        .mobile-topbar .mobile-brand span {
+            font-weight: 900; color: var(--gold); font-size: 0.92rem;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .sidebar-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+            z-index: 250; backdrop-filter: blur(2px);
+        }
+        .sidebar-overlay.show { display: block; }
+        .pwa-install-bar {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 35000;
+            background: linear-gradient(135deg, #161616, #0d0d0d); border-top: 2px solid var(--gold);
+            padding: 12px 16px; align-items: center; gap: 12px; flex-wrap: wrap;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.5);
+        }
+        .pwa-install-bar.show { display: flex; }
+        .pwa-install-bar img { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--gold); background: #fff; }
+        .pwa-install-bar .pwa-text { flex: 1; font-size: 0.88rem; }
+        .pwa-install-bar .pwa-text strong { color: var(--gold-light); display: block; }
+        .pwa-install-bar button {
+            padding: 8px 16px; border-radius: 20px; border: none; font-family: 'Tajawal', sans-serif;
+            font-weight: 700; cursor: pointer; font-size: 0.88rem;
+        }
+        .pwa-install-bar .pwa-install-btn { background: var(--gold); color: #111; }
+        .pwa-install-bar .pwa-dismiss-btn { background: transparent; border: 1px solid #555; color: #aaa; }
+
         @media (max-width: 900px) {
             .charts-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
+            .mobile-topbar { display: flex; }
             .dashboard-container { flex-direction: column; }
             .sidebar {
-                width: 100%; height: auto; position: relative;
-                flex-direction: row; flex-wrap: wrap; padding: 12px;
-                border-left: none; border-bottom: 2px solid var(--gold);
+                position: fixed; top: 0; right: 0; bottom: 0; width: min(300px, 85vw);
+                height: 100vh; height: 100dvh; z-index: 300;
+                transform: translateX(105%); transition: transform 0.28s ease;
+                border-left: 2px solid var(--gold); border-bottom: none;
+                flex-direction: column; flex-wrap: nowrap; padding: 16px 12px;
+                overflow-y: auto; -webkit-overflow-scrolling: touch;
+                box-shadow: -8px 0 30px rgba(0,0,0,0.5);
             }
-            .sidebar-logo { width: 100%; }
-            .sidebar.collapsed { width: 100%; }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-toggle { display: none; }
+            .sidebar.collapsed { width: min(300px, 85vw); }
             .sidebar.collapsed .sidebar-logo h2,
             .sidebar.collapsed .sidebar-logo p,
             .sidebar.collapsed .sidebar-btn span,
             .sidebar.collapsed .sidebar-section-title { display: block; }
             .sidebar.collapsed .sidebar-btn { justify-content: flex-start; padding: 10px 12px; }
-            .sidebar.collapsed .sidebar-logo img { width: 52px; height: 52px; }
-            .sidebar-toggle { display: none; }
-            .main-content { padding: 12px; }
-            .content-header { flex-direction: column; align-items: stretch; gap: 8px; }
-            .cards-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .stat-card { padding: 12px; }
-            .stat-number { font-size: 1.45rem; }
+            .sidebar.collapsed .sidebar-logo img { width: 64px; height: 64px; }
+            .sidebar-logo { text-align: center; margin-bottom: 12px; width: 100%; }
+            .sidebar-logo img { width: 64px; height: 64px; }
+            .sidebar-btn { padding: 11px 12px; font-size: 0.9rem; }
+            .sidebar-footer { margin-top: auto; }
+            .main-content { padding: 10px; padding-bottom: 70px; width: 100%; }
+            .content-header { flex-direction: column; align-items: stretch; gap: 8px; padding: 10px 12px; }
+            .cards-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .stat-card { padding: 12px 10px; }
+            .stat-number { font-size: 1.4rem; }
+            .stat-card h4 { font-size: 0.72rem; }
             .chart-wrapper { height: 210px; padding: 10px; }
             .tools-grid { grid-template-columns: 1fr; }
             .table-header { flex-direction: column; align-items: stretch; }
             .search-box { min-width: auto; width: 100%; }
+            .filter-chips { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+            .filter-chip { flex-shrink: 0; }
+            table { min-width: 700px; font-size: 0.82rem; }
+            .login-card { padding: 1.4rem; }
+            body.menu-open { overflow: hidden; }
+            .toast-container { bottom: 70px; left: 10px; right: 10px; }
         }
         @media (max-width: 480px) {
-            .cards-grid { grid-template-columns: 1fr; }
-            .stat-number { font-size: 1.35rem; }
+            .cards-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .stat-number { font-size: 1.25rem; }
             .chart-wrapper { height: 190px; }
             .login-card { padding: 1.4rem; }
+        }
+        @supports (padding: env(safe-area-inset-bottom)) {
+            .main-content { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+            .pwa-install-bar { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
         }
     </style>
 </head>
@@ -563,6 +639,14 @@
 
 <!-- ========== لوحة التحكم ========== -->
 <div id="dashboard">
+    <div class="mobile-topbar" id="mobileTopbar">
+        <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="القائمة"><i class="fas fa-bars"></i></button>
+        <div class="mobile-brand">
+            <img id="mobileLogo" src="https://lh3.googleusercontent.com/d/1e6u-DPTinDJl_Q9wW3QvGgzFbXO_2sXa" alt="شعار">
+            <span id="mobileBrandTitle">دورة إدارة المطاعم</span>
+        </div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="dashboard-container">
 
         <div class="sidebar" id="sidebar">
@@ -612,6 +696,10 @@
                     <span class="user-badge" id="userBadge"><i class="fas fa-user-shield"></i> <span id="currentUserName">--</span></span>
                     <button class="sound-toggle on" id="soundToggle" onclick="toggleSound()" title="تشغيل/إيقاف الصوت">
                         <i class="fas fa-volume-up"></i> <span>صوت</span>
+                    </button>
+                    <span class="sync-status" id="syncStatus" title="مزامنة المهام والملاحظات"><i class="fas fa-cloud"></i> محلي</span>
+                    <button class="refresh-btn" id="syncPersonalBtn" onclick="manualPersonalSync()" title="مزامنة المهام والملاحظات والمواعيد">
+                        <i class="fas fa-cloud-upload-alt"></i> مزامنة
                     </button>
                     <span class="last-update" id="lastUpdateLabel">آخر تحديث: --</span>
                     <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()"><i class="fas fa-sync-alt"></i> تحديث</button>
@@ -787,6 +875,17 @@
     </div>
 </div>
 
+<!-- شريط تثبيت PWA -->
+<div class="pwa-install-bar" id="pwaInstallBar">
+    <img src="./icon-192.png" alt="شعار">
+    <div class="pwa-text">
+        <strong>ثبّت لوحة دورة المطاعم</strong>
+        <span>أضفها للشاشة الرئيسية للوصول السريع</span>
+    </div>
+    <button class="pwa-install-btn" id="pwaInstallBtn"><i class="fas fa-download"></i> تثبيت</button>
+    <button class="pwa-dismiss-btn" id="pwaDismissBtn">لاحقاً</button>
+</div>
+
 <div class="toast-container" id="toastBox"></div>
 
 <script>
@@ -943,9 +1042,7 @@
                 markAppNotified(a.id);
                 playBeep('urgent');
                 showToast('⏰ موعد الآن: ' + a.title + (a.time ? ' — ' + a.time : ''), 'fa-bell', 'danger');
-                if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-                    try { new Notification('موعد الآن — دورة المطاعم', { body: a.title + ' الساعة ' + a.time, requireInteraction: true }); } catch(e) {}
-                }
+                showSWNotification('موعد الآن — دورة المطاعم', a.title + (a.time ? ' الساعة ' + a.time : ''), 'app-now-' + a.id);
                 alertDismissed = false;
                 const bar = document.getElementById('alertsBar');
                 document.getElementById('alertsText').innerHTML = '⏰ <strong>موعد الآن:</strong> ' + escapeHtml(a.title) + ' — ' + a.time;
@@ -1825,9 +1922,6 @@
     }
     window.toggleSection = toggleSection;
 
-    document.getElementById('sidebarToggle').addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-    });
 
     function openSettingsModal() {
         document.getElementById('settingsLogoUrl').value = localStorage.getItem('logoUrl') || '';
@@ -1870,12 +1964,300 @@
         document.getElementById('loginSubTitle').textContent = 'لوحة تحكم ' + title;
         document.title = title + ' | FAROUK GRUP';
         document.documentElement.style.setProperty('--gold', color);
+        const mobLogo = document.getElementById('mobileLogo');
+        const mobTitle = document.getElementById('mobileBrandTitle');
+        if (mobLogo) mobLogo.src = logo;
+        if (mobTitle) mobTitle.textContent = title;
+    }
+
+    // ===== مزامنة شخصية (نطاق restaurant — منفصل عن اللوحة الرئيسية) =====
+    const PERSONAL_SCOPE = 'restaurant';
+    const PERSONAL_DATA_KEY = 'farouk_res_personal_v1';
+    let personalDataDirty = false;
+    let lastPersonalSync = null;
+    let deletedTodoIds = [];
+    let deletedAppIds = [];
+
+    function nowTs() { return Date.now(); }
+    function toNumTs(v) { const n = Number(v); return isNaN(n) ? 0 : n; }
+
+    function setSyncUI(state, msg) {
+        const el = document.getElementById('syncStatus');
+        if (!el) return;
+        el.className = 'sync-status ' + state;
+        if (state === 'synced') el.innerHTML = '<i class="fas fa-cloud"></i> ' + (msg || 'مزامن');
+        else if (state === 'syncing') el.innerHTML = '<i class="fas fa-sync fa-spin"></i> ' + (msg || 'جاري المزامنة...');
+        else if (state === 'error') el.innerHTML = '<i class="fas fa-cloud-slash"></i> ' + (msg || 'محلي فقط');
+        else el.innerHTML = '<i class="fas fa-cloud"></i> ' + (msg || 'محلي');
+    }
+
+    function loadDeletedIds() {
+        try { deletedTodoIds = JSON.parse(localStorage.getItem('resDeletedTodos') || '[]'); } catch(e) { deletedTodoIds = []; }
+        try { deletedAppIds = JSON.parse(localStorage.getItem('resDeletedApps') || '[]'); } catch(e) { deletedAppIds = []; }
+        if (!Array.isArray(deletedTodoIds)) deletedTodoIds = [];
+        if (!Array.isArray(deletedAppIds)) deletedAppIds = [];
+    }
+    function saveDeletedIds() {
+        localStorage.setItem('resDeletedTodos', JSON.stringify(deletedTodoIds));
+        localStorage.setItem('resDeletedApps', JSON.stringify(deletedAppIds));
+    }
+    function markDeleted(list, id) {
+        const ts = nowTs();
+        const rest = list.filter(x => x.id !== id);
+        rest.push({ id, deletedAt: ts });
+        return rest.slice(-200);
+    }
+
+    function getLocalPersonalData() {
+        const notes = document.getElementById('notesArea')?.value ?? (localStorage.getItem('resAdminNotes') || '');
+        return {
+            notes,
+            notesUpdatedAt: toNumTs(localStorage.getItem(PERSONAL_DATA_KEY + '_notes_ts') || 0),
+            todos: (() => { try { return JSON.parse(localStorage.getItem('resAdminTodos') || '[]'); } catch(e) { return []; } })(),
+            appointments: (() => { try { return JSON.parse(localStorage.getItem('resAdminApps') || '[]'); } catch(e) { return []; } })(),
+            deletedTodos: deletedTodoIds,
+            deletedAppointments: deletedAppIds,
+            updatedAt: toNumTs(localStorage.getItem(PERSONAL_DATA_KEY + '_ts') || 0)
+        };
+    }
+
+    function mergeItemLists(localList, serverList, deletedLocal, deletedServer) {
+        const map = new Map();
+        const touch = (item) => {
+            if (!item || !item.id) return;
+            const prev = map.get(item.id);
+            const ts = toNumTs(item.updatedAt || item.created || 0);
+            if (!prev || toNumTs(prev.updatedAt || prev.created || 0) < ts) {
+                map.set(item.id, { ...item, updatedAt: ts || nowTs() });
+            }
+        };
+        (serverList || []).forEach(touch);
+        (localList || []).forEach(touch);
+        const delMap = new Map();
+        const touchDel = (d) => {
+            if (!d || !d.id) return;
+            const ts = toNumTs(d.deletedAt);
+            const prev = delMap.get(d.id);
+            if (!prev || toNumTs(prev.deletedAt) < ts) delMap.set(d.id, { id: d.id, deletedAt: ts });
+        };
+        (deletedServer || []).forEach(touchDel);
+        (deletedLocal || []).forEach(touchDel);
+        const merged = [];
+        map.forEach((item, id) => {
+            const del = delMap.get(id);
+            if (del && toNumTs(del.deletedAt) >= toNumTs(item.updatedAt || 0)) return;
+            merged.push(item);
+        });
+        return { items: merged, deleted: Array.from(delMap.values()).slice(-200) };
+    }
+
+    function mergePersonalData(local, server) {
+        const localNotesTs = toNumTs(local.notesUpdatedAt || local.updatedAt);
+        const serverNotesTs = toNumTs(server.notesUpdatedAt || server.updatedAt);
+        const notes = localNotesTs >= serverNotesTs ? (local.notes || '') : (server.notes || '');
+        const notesUpdatedAt = Math.max(localNotesTs, serverNotesTs);
+        const todosMerged = mergeItemLists(local.todos || [], server.todos || [], local.deletedTodos || [], server.deletedTodos || []);
+        const appsMerged = mergeItemLists(local.appointments || [], server.appointments || [], local.deletedAppointments || [], server.deletedAppointments || []);
+        return {
+            notes, notesUpdatedAt,
+            todos: todosMerged.items,
+            appointments: appsMerged.items,
+            deletedTodos: todosMerged.deleted,
+            deletedAppointments: appsMerged.deleted,
+            updatedAt: Math.max(toNumTs(local.updatedAt), toNumTs(server.updatedAt), notesUpdatedAt, nowTs())
+        };
+    }
+
+    function applyPersonalData(data, source) {
+        if (!data) return;
+        if (typeof data.notes === 'string') {
+            localStorage.setItem('resAdminNotes', data.notes);
+            const area = document.getElementById('notesArea');
+            if (area) area.value = data.notes;
+        }
+        if (data.notesUpdatedAt != null) localStorage.setItem(PERSONAL_DATA_KEY + '_notes_ts', String(toNumTs(data.notesUpdatedAt)));
+        if (Array.isArray(data.todos)) {
+            todos = data.todos;
+            localStorage.setItem('resAdminTodos', JSON.stringify(todos));
+            renderTodos();
+        }
+        if (Array.isArray(data.appointments)) {
+            appointments = data.appointments;
+            localStorage.setItem('resAdminApps', JSON.stringify(appointments));
+            renderAppointments();
+        }
+        if (Array.isArray(data.deletedTodos)) deletedTodoIds = data.deletedTodos;
+        if (Array.isArray(data.deletedAppointments)) deletedAppIds = data.deletedAppointments;
+        saveDeletedIds();
+        localStorage.setItem(PERSONAL_DATA_KEY + '_ts', String(toNumTs(data.updatedAt) || nowTs()));
+        lastPersonalSync = Date.now();
+        setSyncUI('synced', source === 'merged' ? 'مدموج ✓' : 'مزامن ✓');
+        checkAllAlerts(window.allUsersData);
+        pushAppointmentsToSW();
+    }
+
+    async function fetchPersonalDataFromServer() {
+        const token = localStorage.getItem('userToken');
+        if (!token) { setSyncUI('error', 'محلي'); return null; }
+        setSyncUI('syncing');
+        loadDeletedIds();
+        try {
+            const body = new URLSearchParams();
+            body.append('action', 'getPersonalData');
+            body.append('token', token);
+            body.append('scope', PERSONAL_SCOPE);
+            const res = await fetch(LOGIN_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: body.toString(),
+                redirect: 'follow'
+            });
+            const raw = await res.text();
+            let result;
+            try { result = JSON.parse(raw); } catch(e) { throw new Error('invalid json'); }
+            if (result.status === 'success' && result.data) {
+                const local = getLocalPersonalData();
+                const merged = mergePersonalData(local, result.data);
+                applyPersonalData(merged, 'merged');
+                const serverTs = toNumTs(result.data.updatedAt);
+                const needPush = personalDataDirty || toNumTs(merged.updatedAt) > serverTs ||
+                    (merged.todos.length !== (result.data.todos || []).length) ||
+                    (merged.appointments.length !== (result.data.appointments || []).length);
+                if (needPush) {
+                    personalDataDirty = false;
+                    await pushPersonalDataToServer();
+                } else {
+                    personalDataDirty = false;
+                    setSyncUI('synced', 'مزامن ✓');
+                }
+                return merged;
+            }
+            setSyncUI('error', 'محلي (API)');
+            return null;
+        } catch(e) {
+            console.warn('Personal sync fetch failed:', e.message);
+            setSyncUI('error', 'محلي');
+            return null;
+        }
+    }
+
+    async function pushPersonalDataToServer() {
+        const token = localStorage.getItem('userToken');
+        if (!token) return false;
+        loadDeletedIds();
+        const notes = document.getElementById('notesArea')?.value || localStorage.getItem('resAdminNotes') || '';
+        const payload = {
+            notes,
+            notesUpdatedAt: toNumTs(localStorage.getItem(PERSONAL_DATA_KEY + '_notes_ts') || 0) || nowTs(),
+            todos, appointments,
+            deletedTodos: deletedTodoIds,
+            deletedAppointments: deletedAppIds,
+            updatedAt: nowTs()
+        };
+        localStorage.setItem(PERSONAL_DATA_KEY + '_ts', String(payload.updatedAt));
+        localStorage.setItem('resAdminNotes', notes);
+        localStorage.setItem('resAdminTodos', JSON.stringify(todos));
+        localStorage.setItem('resAdminApps', JSON.stringify(appointments));
+        saveDeletedIds();
+        setSyncUI('syncing');
+        try {
+            const body = new URLSearchParams();
+            body.append('action', 'savePersonalData');
+            body.append('token', token);
+            body.append('scope', PERSONAL_SCOPE);
+            body.append('data', JSON.stringify(payload));
+            const res = await fetch(LOGIN_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: body.toString(),
+                redirect: 'follow'
+            });
+            const raw = await res.text();
+            let result;
+            try { result = JSON.parse(raw); } catch(e) { throw new Error('invalid'); }
+            if (result.status === 'success') {
+                setSyncUI('synced', 'مزامن ✓');
+                lastPersonalSync = Date.now();
+                personalDataDirty = false;
+                return true;
+            }
+            setSyncUI('error', 'محلي');
+            return false;
+        } catch(e) {
+            console.warn('Personal sync push failed:', e.message);
+            setSyncUI('error', 'محلي');
+            return false;
+        }
+    }
+
+    function schedulePersonalSync() {
+        personalDataDirty = true;
+        localStorage.setItem(PERSONAL_DATA_KEY + '_ts', String(nowTs()));
+    }
+
+    window.manualPersonalSync = async function() {
+        setSyncUI('syncing', 'جاري المزامنة...');
+        if (personalDataDirty) await pushPersonalDataToServer();
+        await fetchPersonalDataFromServer();
+        showToast('تمت المزامنة ✓', 'fa-cloud');
+    };
+
+    function syncOnClose() {
+        if (!localStorage.getItem('userToken') || !personalDataDirty) return;
+        const notes = document.getElementById('notesArea')?.value || localStorage.getItem('resAdminNotes') || '';
+        const payload = {
+            notes,
+            notesUpdatedAt: toNumTs(localStorage.getItem(PERSONAL_DATA_KEY + '_notes_ts') || 0) || nowTs(),
+            todos, appointments,
+            deletedTodos: deletedTodoIds,
+            deletedAppointments: deletedAppIds,
+            updatedAt: nowTs()
+        };
+        localStorage.setItem(PERSONAL_DATA_KEY + '_ts', String(payload.updatedAt));
+        localStorage.setItem('resAdminNotes', notes);
+        localStorage.setItem('resAdminTodos', JSON.stringify(todos));
+        localStorage.setItem('resAdminApps', JSON.stringify(appointments));
+        saveDeletedIds();
+        try {
+            const body = new URLSearchParams();
+            body.append('action', 'savePersonalData');
+            body.append('token', localStorage.getItem('userToken'));
+            body.append('scope', PERSONAL_SCOPE);
+            body.append('data', JSON.stringify(payload));
+            const blob = new Blob([body.toString()], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
+            if (navigator.sendBeacon) navigator.sendBeacon(LOGIN_URL, blob);
+            else fetch(LOGIN_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body: body.toString(), keepalive: true }).catch(() => {});
+            personalDataDirty = false;
+        } catch(e) {}
+    }
+
+    function pushAppointmentsToSW() {
+        if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return;
+        try {
+            navigator.serviceWorker.controller.postMessage({ type: 'SCHEDULE_APPS', appointments: appointments || [] });
+        } catch(e) {}
+    }
+
+    function showSWNotification(title, body, tag) {
+        if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+        if (!('serviceWorker' in navigator)) {
+            try { new Notification(title, { body, icon: './icon-192.png', requireInteraction: true }); } catch(e) {}
+            return;
+        }
+        navigator.serviceWorker.ready.then((reg) => {
+            if (reg.active) reg.active.postMessage({ type: 'SHOW_NOTIFICATION', title, body, tag: tag || 'res-reminder' });
+            else try { new Notification(title, { body, icon: './icon-192.png', requireInteraction: true }); } catch(e) {}
+        }).catch(() => {});
     }
 
     // ===== ملاحظات =====
     function saveNotes() {
         localStorage.setItem('resAdminNotes', document.getElementById('notesArea').value);
+        const ts = Date.now();
+        localStorage.setItem(PERSONAL_DATA_KEY + '_ts', String(ts));
+        localStorage.setItem(PERSONAL_DATA_KEY + '_notes_ts', String(ts));
         showToast('تم حفظ الملاحظات', 'fa-check');
+        schedulePersonalSync();
     }
     window.saveNotes = saveNotes;
     function exportNotes() {
@@ -1890,12 +2272,15 @@
     // ===== مهام =====
     function loadTodos() {
         try { todos = JSON.parse(localStorage.getItem('resAdminTodos') || '[]'); } catch(e) { todos = []; }
+        loadDeletedIds();
         renderTodos();
     }
     function persistTodos() {
         localStorage.setItem('resAdminTodos', JSON.stringify(todos));
+        localStorage.setItem(PERSONAL_DATA_KEY + '_ts', String(Date.now()));
         renderTodos();
         checkAllAlerts(window.allUsersData);
+        schedulePersonalSync();
     }
     function renderTodos() {
         const list = document.getElementById('todoList');
@@ -1943,14 +2328,15 @@
         if (!text) { showToast('أدخل نص المهمة','fa-times'); return; }
         const due = document.getElementById('todoDue').value || null;
         const priority = document.getElementById('todoPriority').value;
+        const ts = Date.now();
         if (editingTodoId) {
             const t = todos.find(x => x.id === editingTodoId);
-            if (t) { t.text = text; t.due = due; t.priority = priority; }
+            if (t) { t.text = text; t.due = due; t.priority = priority; t.updatedAt = ts; }
             editingTodoId = null;
             document.getElementById('todoSubmitBtn').innerHTML = '<i class="fas fa-plus"></i> إضافة مهمة';
             showToast('تم التعديل','fa-check');
         } else {
-            todos.push({ id: 't'+Date.now(), text, due, priority, completed: false });
+            todos.push({ id: 't'+ts, text, due, priority, completed: false, updatedAt: ts });
             showToast('تمت الإضافة','fa-check');
             playBeep('info');
         }
@@ -1971,11 +2357,13 @@
     };
     window.toggleTodo = function(id) {
         const t = todos.find(x => x.id === id);
-        if (t) { t.completed = !t.completed; persistTodos(); }
+        if (t) { t.completed = !t.completed; t.updatedAt = Date.now(); persistTodos(); }
     };
     window.deleteTodo = function(id) {
         if (!confirm('حذف المهمة؟')) return;
         todos = todos.filter(t => t.id !== id);
+        deletedTodoIds = markDeleted(deletedTodoIds, id);
+        saveDeletedIds();
         if (editingTodoId === id) {
             editingTodoId = null;
             document.getElementById('todoSubmitBtn').innerHTML = '<i class="fas fa-plus"></i> إضافة مهمة';
@@ -1990,8 +2378,11 @@
     }
     function persistAppointments() {
         localStorage.setItem('resAdminApps', JSON.stringify(appointments));
+        localStorage.setItem(PERSONAL_DATA_KEY + '_ts', String(Date.now()));
         renderAppointments();
         checkAllAlerts(window.allUsersData);
+        schedulePersonalSync();
+        pushAppointmentsToSW();
     }
     function renderAppointments() {
         const list = document.getElementById('appointmentsList');
@@ -2031,9 +2422,10 @@
         const time = document.getElementById('appTime').value || null;
         const desc = document.getElementById('appDesc').value.trim();
         if (!title || !date) { showToast('أدخل العنوان والتاريخ','fa-times'); return; }
+        const ts = Date.now();
         if (editingAppId) {
             const a = appointments.find(x => x.id === editingAppId);
-            if (a) { a.title = title; a.date = date; a.time = time; a.desc = desc; }
+            if (a) { a.title = title; a.date = date; a.time = time; a.desc = desc; a.updatedAt = ts; }
             notifiedApps.delete(editingAppId);
             try { localStorage.setItem('notifiedAppsRes', JSON.stringify([...notifiedApps])); } catch(e) {}
             editingAppId = null;
@@ -2041,7 +2433,7 @@
             showToast('تم التعديل','fa-check');
             setTimeout(() => checkAppointmentTimes(), 500);
         } else {
-            appointments.push({ id: 'a'+Date.now(), title, date, time, desc });
+            appointments.push({ id: 'a'+ts, title, date, time, desc, updatedAt: ts });
             showToast('تم إضافة الموعد','fa-check');
             playBeep('info');
             setTimeout(() => checkAppointmentTimes(), 500);
@@ -2066,6 +2458,8 @@
     window.deleteAppointment = function(id) {
         if (!confirm('حذف الموعد؟')) return;
         appointments = appointments.filter(a => a.id !== id);
+        deletedAppIds = markDeleted(deletedAppIds, id);
+        saveDeletedIds();
         if (editingAppId === id) {
             editingAppId = null;
             document.getElementById('appSubmitBtn').innerHTML = '<i class="fas fa-calendar-plus"></i> إضافة موعد';
@@ -2084,12 +2478,63 @@
         if (notes) document.getElementById('notesArea').value = notes;
         loadTodos();
         loadAppointments();
+        fetchPersonalDataFromServer();
         if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
             Notification.requestPermission().catch(() => {});
         }
         setInterval(() => checkAllAlerts(window.allUsersData), 60000);
         setInterval(() => checkAppointmentTimes(), 30000);
         setTimeout(() => checkAppointmentTimes(), 2000);
+        pushAppointmentsToSW();
+    }
+
+    // ===== هامبرغر + PWA =====
+    function openMobileMenu() {
+        document.getElementById('sidebar')?.classList.add('open');
+        document.getElementById('sidebarOverlay')?.classList.add('show');
+        document.body.classList.add('menu-open');
+    }
+    function closeMobileMenu() {
+        document.getElementById('sidebar')?.classList.remove('open');
+        document.getElementById('sidebarOverlay')?.classList.remove('show');
+        document.body.classList.remove('menu-open');
+    }
+    function toggleMobileMenu() {
+        if (document.getElementById('sidebar')?.classList.contains('open')) closeMobileMenu();
+        else openMobileMenu();
+    }
+
+    let deferredInstallPrompt = null;
+    function initPWA() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw-res.js').then(() => {}).catch((e) => console.warn('SW', e));
+        }
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            if (!localStorage.getItem('pwaDismissedRes')) {
+                document.getElementById('pwaInstallBar')?.classList.add('show');
+            }
+        });
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('pwaInstallBar')?.classList.remove('show');
+            deferredInstallPrompt = null;
+            showToast('تم تثبيت التطبيق ✓', 'fa-check');
+        });
+        document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
+            if (!deferredInstallPrompt) {
+                showToast('استخدم قائمة المتصفح: إضافة إلى الشاشة الرئيسية', 'fa-info');
+                return;
+            }
+            deferredInstallPrompt.prompt();
+            await deferredInstallPrompt.userChoice;
+            deferredInstallPrompt = null;
+            document.getElementById('pwaInstallBar')?.classList.remove('show');
+        });
+        document.getElementById('pwaDismissBtn')?.addEventListener('click', () => {
+            document.getElementById('pwaInstallBar')?.classList.remove('show');
+            localStorage.setItem('pwaDismissedRes', '1');
+        });
     }
 
     // =================================================================
@@ -2107,18 +2552,36 @@
         showLoginScreen();
     });
 
+    document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+        if (window.innerWidth > 768) document.getElementById('sidebar').classList.toggle('collapsed');
+        else toggleMobileMenu();
+    });
+    document.getElementById('hamburgerBtn')?.addEventListener('click', toggleMobileMenu);
+    document.getElementById('sidebarOverlay')?.addEventListener('click', closeMobileMenu);
+    document.getElementById('sidebar')?.addEventListener('click', (e) => {
+        if (e.target.closest('.sidebar-btn') && window.innerWidth <= 768) setTimeout(closeMobileMenu, 150);
+    });
+
     document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible' &&
-            document.getElementById('dashboard').style.display === 'block' &&
-            isSessionExpired()) {
-            forceLogout('انتهت الجلسة أثناء غيابك.');
+        if (document.visibilityState === 'hidden') {
+            syncOnClose();
+        } else if (document.visibilityState === 'visible') {
+            if (document.getElementById('dashboard').style.display === 'block' && isSessionExpired()) {
+                forceLogout('انتهت الجلسة أثناء غيابك.');
+            } else if (document.getElementById('dashboard').style.display === 'block') {
+                fetchPersonalDataFromServer();
+                checkAppointmentTimes();
+            }
         }
     });
+    window.addEventListener('pagehide', () => { syncOnClose(); });
+    window.addEventListener('beforeunload', () => { syncOnClose(); });
 
     window.addEventListener('load', () => {
         initialSessionCheck();
         updateDateTime();
         setInterval(updateDateTime, 1000);
+        initPWA();
     });
 </script>
 </body>
